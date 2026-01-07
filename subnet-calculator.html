@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subnet Calculator</title>
+    <title>IPv4 Subnet Calculator</title>
     <script src="navigation.js"></script>
     <style>
         * {
@@ -407,6 +407,40 @@
         .section-header h2 {
             margin-bottom: 0;
         }
+
+        /* Protocol Toggle Styles */
+        .protocol-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .protocol-toggle-container h1 {
+            margin-bottom: 0;
+        }
+
+        .protocol-toggle-link {
+            background: rgba(79, 195, 247, 0.15);
+            border: 2px solid rgba(79, 195, 247, 0.4);
+            color: #4fc3f7;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .protocol-toggle-link:hover {
+            background: rgba(79, 195, 247, 0.25);
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
+            transform: translateX(3px);
+        }
     </style>
 </head>
 <body>
@@ -417,7 +451,10 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <div class="container">
-        <h1>Subnet Calculator</h1>
+        <div class="protocol-toggle-container">
+            <h1>IPv4 Subnet Calculator</h1>
+            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link">Switch to IPv6 →</a>
+        </div>
 
         <div class="calculator">
             <div class="input-group">
