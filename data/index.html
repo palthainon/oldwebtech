@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
+    <meta name="keywords" content="base64 encoder, hash generator, MD5, SHA256, URL encoder, hex converter, data tools">
+    <meta name="author" content="OldWeb.tech">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/data/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Data Tools - OldWeb.tech">
+    <meta property="og:description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/data/">
+    <meta property="og:site_name" content="OldWeb.tech">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Data Tools - OldWeb.tech">
+    <meta name="twitter:description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <title>Data Tools - OldWeb.tech</title>
+    <script src="../navigation.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .tool-card h2 {
+            color: #4fc3f7;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-card p {
+            color: #90caf9;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            color: #4fc3f7;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .tool-link:hover {
+            color: #2196f3;
+        }
+
+        .tool-link::after {
+            content: ' →';
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tool-card {
+                padding: 25px;
+            }
+
+            .tool-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Data Tools",
+      "description": "Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.",
+      "url": "https://oldweb.tech/data/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="ascii-logo">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="container">
+        <h1>Data Tools</h1>
+        <p class="subtitle">Encoding, hashing, and data format conversion utilities</p>
+
+        <div class="tools-grid">
+            <a href="base64-hash.html" class="tool-card">
+                <h2>Base64 & Hash Tools</h2>
+                <p>Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
+                <span class="tool-link">Open Tools</span>
+            </a>
+        </div>
+
+        <footer>
+            Data Tools - Works offline, no installation required
+        </footer>
+    </div>
+</body>
+</html>

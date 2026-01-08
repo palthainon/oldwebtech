@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta name="description" content="Fast, simple, offline-ready utilities organized into Network Tools, System Tools, and Data Tools. For network engineers and system administrators.">
     <meta name="keywords" content="network tools, subnet calculator, CIDR converter, sysadmin utilities, network utilities, IPv4 calculator, IPv6 calculator, regex tester, password generator, free tools">
     <meta name="author" content="OldWeb.tech">
     <meta name="robots" content="index, follow">
@@ -133,6 +133,15 @@
             content: ' →';
         }
 
+        .tool-card .tool-list {
+            color: rgba(144, 202, 249, 0.7);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         footer {
             text-align: center;
             margin-top: 50px;
@@ -207,74 +216,25 @@
         <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
 
         <div class="tools-grid">
-            <a href="nettools/subnet-calculator.html" class="tool-card">
-                <h2>Subnet Calculator</h2>
-                <p>Calculate IPv4 and IPV6 network addresses, broadcast addresses, host ranges, and subnet details from IP/CIDR notation. Includes binary representation and subnet list visualization.</p>
-                <span class="tool-link">Open Calculator</span>
-            </a>
-            <a href="nettools/subnet-planner.html" class="tool-card">
-                <h2>Subnet Planner</h2>
-                <p>Plan and visualize subnetting schemes for IPv4 networks. Design hierarchical subnets, calculate required subnet sizes, and generate subnet lists with detailed information.</p>
-                <span class="tool-link">Open Planner</span>
-            </a>
-            <a href="nettools/cidr-converter.html" class="tool-card">
-                <h2>CIDR Notation Converter</h2>
-                <p>Convert CIDR notation to IP ranges, detect overlaps between multiple networks, and convert IP ranges back to CIDR notation. Supports standard CIDR, subnet mask, and Cisco wildcard formats. Essential for firewall rules and ACL planning.</p>
-                <span class="tool-link">Open Converter</span>
+            <a href="nettools/index.html" class="tool-card">
+                <h2>Network Tools</h2>
+                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
+                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
+                <span class="tool-link">Explore Network Tools</span>
             </a>
 
-            <a href="nettools/bit-calculator.html" class="tool-card">
-                <h2>Bit Calculator</h2>
-                <p>Convert between bits, bytes, and larger units (KB, MB, GB, TB, etc.) with support for both legacy and IEEE notation. Perfect for network bandwidth and storage calculations.</p>
-                <span class="tool-link">Open Calculator</span>
+            <a href="system/index.html" class="tool-card">
+                <h2>System Tools</h2>
+                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
+                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
+                <span class="tool-link">Explore System Tools</span>
             </a>
 
-            <a href="nettools/data-rate-calculator.html" class="tool-card">
-                <h2>Data Transfer Calculator</h2>
-                <p>Calculate how long it takes to transfer data based on file size and transfer rate. Supports various units and displays results in seconds, minutes, hours, days, and weeks.</p>
-                <span class="tool-link">Open Calculator</span>
-            </a>
-
-            <a href="system/regex-tester.html" class="tool-card">
-                <h2>Regex Tester</h2>
-                <p>Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
-                <span class="tool-link">Open Tester</span>
-            </a>
-
-            <a href="system/timestamp-converter.html" class="tool-card">
-                <h2>Log Timestamp Converter</h2>
-                <p>Parse and convert log timestamps in batch mode. Auto-detects ISO8601, RFC3339, syslog, Windows Event Log, Apache/Nginx, and Unix formats. Convert to multiple timezones with CSV export.</p>
-                <span class="tool-link">Open Converter</span>
-            </a>
-
-            <a href="system/disk-tools.html" class="tool-card">
-                <h2>DISK Tools</h2>
-                <p>Comprehensive storage and RAID calculator. Calculate RAID capacity and rebuild times, convert disk space units, analyze disk usage percentages, and estimate IOPS performance for various disk types and RAID configurations.</p>
-                <span class="tool-link">Open Tools</span>
-            </a>
-
-            <a href="system/password-generator.html" class="tool-card">
-                <h2>Password Generator</h2>
-                <p>Generate secure random passwords with configurable length and complexity. Supports multiple policies (Active Directory, Linux PAM, custom), XKCD-style passphrases, and batch generation. Uses Web Crypto API for secure randomness.</p>
-                <span class="tool-link">Open Generator</span>
-            </a>
-
-            <a href="system/cron-builder.html" class="tool-card">
-                <h2>Cron Builder</h2>
-                <p>Build cron expressions visually or parse existing ones. Human-readable explanations, next 10 execution times, and common preset library. Essential for scheduling tasks on Linux systems.</p>
-                <span class="tool-link">Open Builder</span>
-            </a>
-
-            <a href="system/chmod-calculator.html" class="tool-card">
-                <h2>Chmod Calculator</h2>
-                <p>Visual permission calculator with checkboxes for owner/group/other. Bidirectional conversion between octal (755) and symbolic (-rwxr-xr-x) notation. Includes umask calculator and special permission bits.</p>
-                <span class="tool-link">Open Calculator</span>
-            </a>
-
-            <a href="data/base64-hash.html" class="tool-card">
-                <h2>Base64 & Hash Tools</h2>
-                <p>Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
-                <span class="tool-link">Open Tools</span>
+            <a href="data/index.html" class="tool-card">
+                <h2>Data Tools</h2>
+                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
+                <div class="tool-list">Base64 & Hash Tools</div>
+                <span class="tool-link">Explore Data Tools</span>
             </a>
         </div>
 
