@@ -476,6 +476,63 @@
             display: block;
         }
 
+        .savings-section {
+            display: none;
+            background: rgba(102, 187, 106, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .savings-section.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .savings-section h2 {
+            color: #66bb6a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .savings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .savings-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #66bb6a;
+        }
+
+        .savings-item.highlight {
+            background: rgba(102, 187, 106, 0.15);
+        }
+
+        .savings-item .label {
+            color: #a5d6a7;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .savings-item .value {
+            font-size: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .savings-item .value.positive {
+            color: #66bb6a;
+        }
+
         .quick-presets {
             margin-top: 20px;
             padding-top: 20px;
@@ -575,12 +632,33 @@
                 display: none !important;
             }
 
-            .results, .schedule-section {
+            .results, .schedule-section, .savings-section {
                 display: block !important;
                 background: #fff;
                 border: 1px solid #ccc;
                 box-shadow: none;
                 backdrop-filter: none;
+            }
+
+            .savings-section h2 {
+                color: #2e7d32;
+            }
+
+            .savings-item {
+                background: #f5f5f5;
+                border-left-color: #4caf50;
+            }
+
+            .savings-item .label {
+                color: #666;
+            }
+
+            .savings-item .value {
+                color: #000;
+            }
+
+            .savings-item .value.positive {
+                color: #2e7d32;
             }
 
             .results h2, .section-header h2 {
@@ -693,6 +771,14 @@
                         <input type="month" id="start-date" aria-describedby="start-date-help">
                         <span id="start-date-help" class="sr-only">Optional: Enter the loan start date to show payment dates in the schedule</span>
                     </div>
+                    <div class="input-field">
+                        <label for="extra-payment">Extra Monthly Payment (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="extra-payment" placeholder="0" aria-describedby="extra-payment-help" inputmode="decimal">
+                        </div>
+                        <span id="extra-payment-help" class="sr-only">Optional: Enter additional monthly payment to pay off loan faster</span>
+                    </div>
                 </div>
 
                 <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule">Calculate</button>
@@ -718,6 +804,13 @@
             </div>
             <div class="breakdown" id="breakdown">
                 <!-- Breakdown bar will be inserted here -->
+            </div>
+        </div>
+
+        <div class="savings-section" id="savings-section" role="region" aria-live="polite" aria-label="Early payoff savings">
+            <h2>Early Payoff Savings</h2>
+            <div class="savings-grid" id="savingsGrid">
+                <!-- Savings will be inserted here -->
             </div>
         </div>
 
@@ -803,13 +896,16 @@
             const termInput = document.getElementById('term');
             const termUnit = document.getElementById('term-unit').value;
             const startDateInput = document.getElementById('start-date');
+            const extraPaymentInput = document.getElementById('extra-payment');
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
             const scheduleSection = document.getElementById('schedule-section');
+            const savingsSection = document.getElementById('savings-section');
 
             // Clear previous state
             resultsDiv.classList.remove('show');
             scheduleSection.classList.remove('show');
+            savingsSection.classList.remove('show');
             errorDiv.classList.remove('show');
             errorDiv.textContent = '';
             A11yUtils.clearError(principalInput);
@@ -849,44 +945,66 @@
                 return;
             }
 
+            // Get extra payment (default to 0)
+            const extraPayment = parseNumber(extraPaymentInput.value) || 0;
+
             // Calculate months
             const totalPayments = termUnit === 'years' ? termValue * 12 : termValue;
             const monthlyRate = annualRate / 100 / 12;
 
-            // Calculate monthly payment
-            const monthlyPayment = calculateMonthlyPayment(principal, monthlyRate, totalPayments);
-            const totalPaid = monthlyPayment * totalPayments;
-            const totalInterest = totalPaid - principal;
+            // Calculate monthly payment (base payment without extra)
+            const baseMonthlyPayment = calculateMonthlyPayment(principal, monthlyRate, totalPayments);
+            const totalMonthlyPayment = baseMonthlyPayment + extraPayment;
 
-            // Generate schedule
+            // Calculate original totals (without extra payments)
+            const originalTotalPaid = baseMonthlyPayment * totalPayments;
+            const originalTotalInterest = originalTotalPaid - principal;
+
+            // Generate schedule with extra payments
             scheduleData = [];
             let balance = principal;
             let startDate = startDateInput.value ? new Date(startDateInput.value + '-01') : null;
+            let actualPayments = 0;
+            let actualTotalInterest = 0;
 
-            for (let i = 1; i <= totalPayments; i++) {
+            while (balance > 0.01 && actualPayments < totalPayments * 2) { // Safety limit
+                actualPayments++;
                 const interestPayment = balance * monthlyRate;
-                const principalPayment = monthlyPayment - interestPayment;
+                actualTotalInterest += interestPayment;
+
+                // Calculate principal portion
+                let principalPayment = totalMonthlyPayment - interestPayment;
+                let payment = totalMonthlyPayment;
+
+                // Final payment adjustment
+                if (principalPayment >= balance) {
+                    principalPayment = balance;
+                    payment = principalPayment + interestPayment;
+                }
+
                 balance -= principalPayment;
 
                 let paymentDate = '';
                 if (startDate) {
                     const date = new Date(startDate);
-                    date.setMonth(date.getMonth() + i);
+                    date.setMonth(date.getMonth() + actualPayments);
                     paymentDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
                 }
 
                 scheduleData.push({
-                    number: i,
+                    number: actualPayments,
                     date: paymentDate,
-                    payment: monthlyPayment,
+                    payment: payment,
                     principal: principalPayment,
                     interest: interestPayment,
                     balance: Math.max(0, balance)
                 });
             }
 
+            const actualTotalPaid = scheduleData.reduce((sum, row) => sum + row.payment, 0);
+
             // Display summary
-            displaySummary(monthlyPayment, principal, totalInterest, totalPaid, totalPayments, annualRate);
+            displaySummary(totalMonthlyPayment, principal, actualTotalInterest, actualTotalPaid, actualPayments, annualRate, extraPayment > 0);
 
             // Display schedule
             displaySchedule();
@@ -895,11 +1013,59 @@
             resultsDiv.classList.add('show');
             scheduleSection.classList.add('show');
 
-            // Announce to screen readers
-            A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(monthlyPayment)}, Total interest ${formatCurrency(totalInterest)}`, 'polite');
+            // Show savings section if extra payment is provided
+            if (extraPayment > 0) {
+                const interestSaved = originalTotalInterest - actualTotalInterest;
+                const paymentsSaved = totalPayments - actualPayments;
+                const yearsSaved = Math.floor(paymentsSaved / 12);
+                const monthsSaved = paymentsSaved % 12;
+
+                displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, baseMonthlyPayment);
+                savingsSection.classList.add('show');
+
+                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(totalMonthlyPayment)}, Interest saved ${formatCurrency(interestSaved)}, Payoff ${yearsSaved} years ${monthsSaved} months sooner`, 'polite');
+            } else {
+                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(baseMonthlyPayment)}, Total interest ${formatCurrency(originalTotalInterest)}`, 'polite');
+            }
         }
 
-        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, totalPayments, rate) {
+        function displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, basePayment) {
+            const savingsGrid = document.getElementById('savingsGrid');
+
+            let timeString = '';
+            if (yearsSaved > 0) {
+                timeString = `${yearsSaved} yr${yearsSaved !== 1 ? 's' : ''} ${monthsSaved} mo`;
+            } else {
+                timeString = `${monthsSaved} month${monthsSaved !== 1 ? 's' : ''}`;
+            }
+
+            const paymentIncrease = ((extraPayment / basePayment) * 100).toFixed(1);
+
+            savingsGrid.innerHTML = `
+                <div class="savings-item highlight">
+                    <div class="label">Interest Saved</div>
+                    <div class="value positive">${formatCurrency(interestSaved)}</div>
+                </div>
+                <div class="savings-item highlight">
+                    <div class="label">Time Saved</div>
+                    <div class="value positive">${timeString}</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">Payments Eliminated</div>
+                    <div class="value">${paymentsSaved}</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">Extra Payment</div>
+                    <div class="value">${formatCurrency(extraPayment)}/mo</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">Payment Increase</div>
+                    <div class="value">+${paymentIncrease}%</div>
+                </div>
+            `;
+        }
+
+        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, totalPayments, rate, hasExtraPayment = false) {
             const summaryGrid = document.getElementById('summaryGrid');
             const breakdown = document.getElementById('breakdown');
 
@@ -1046,8 +1212,18 @@
             }
         });
 
+        // Format extra payment input with commas
+        document.getElementById('extra-payment').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
         // Allow Enter key to calculate
-        document.querySelectorAll('#principal, #rate, #term').forEach(input => {
+        document.querySelectorAll('#principal, #rate, #term, #extra-payment').forEach(input => {
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
