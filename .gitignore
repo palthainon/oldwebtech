@@ -2,3 +2,5 @@
 # They stay on disk; git just stops carrying them between clones.
 tickets/
 .site-dist/
+# Local research copies of third-party certification source PDFs.
+mycode_plans/research/certifications/**/*.pdf
