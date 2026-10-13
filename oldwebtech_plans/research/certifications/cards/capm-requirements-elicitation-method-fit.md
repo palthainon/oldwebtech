@@ -33,12 +33,12 @@ reviewed_on:
 ```yaml
 evidence:
   - claim: the CAPM objective asks candidates to match gathering tools and techniques to a scenario and identify an appropriate approach
-    source: mycode_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
+    source: oldwebtech_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
     locator: PDF page 11, printed page 10, Domain 4 Tasks 1 and 3
     source_version: PMI CAPM Examination Content Outline, 2023
     checked_on: 2026-10-12
   - claim: interviews are described as a more formal elicitation method and discussion groups as a more informal method
-    source: mycode_plans/research/certifications/capm/linker-brown-requirements-engineering-2021.pdf
+    source: oldwebtech_plans/research/certifications/capm/linker-brown-requirements-engineering-2021.pdf
     locator: PDF page 24, printed page 16, chapter 4 Methods of elicitation
     source_version: Linker and Brown, first edition, 2021, CC BY-SA 4.0
     checked_on: 2026-10-12

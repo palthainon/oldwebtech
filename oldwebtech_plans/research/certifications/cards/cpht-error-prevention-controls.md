@@ -33,12 +33,12 @@ reviewed_on:
 ```yaml
 evidence:
   - claim: high-alert and look-alike/sound-alike medications are explicit PTCE tested knowledge areas
-    source: mycode_plans/research/certifications/cph-t/ptcb-cpht-knowledge-reference-2026.pdf
+    source: oldwebtech_plans/research/certifications/cph-t/ptcb-cpht-knowledge-reference-2026.pdf
     locator: PDF page 4, printed page 4, Patient Safety and Quality Assurance, item 3.1
     source_version: PTCB CPhT Knowledge Reference 2026
     checked_on: 2026-10-12
   - claim: error-prevention examples include correct-patient matching, Tall Man lettering, separating inventory, barcode use, and limiting error-prone abbreviations
-    source: mycode_plans/research/certifications/cph-t/ptcb-cpht-knowledge-reference-2026.pdf
+    source: oldwebtech_plans/research/certifications/cph-t/ptcb-cpht-knowledge-reference-2026.pdf
     locator: PDF page 4, printed page 4, Patient Safety and Quality Assurance, item 3.2
     source_version: PTCB CPhT Knowledge Reference 2026
     checked_on: 2026-10-12

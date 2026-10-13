@@ -163,9 +163,9 @@ Total: 21 rewrites (one file appears twice in count above — measurement-conver
 - 5 category `index.html` files — added intro + outro sections.
 - 21 tool HTML files — meta-description rewrites.
 - `sitemap.xml` — bumped 41 `<lastmod>` entries to 2026-05-13.
-- `mycode_plans/plans/seo-roadmap.md` (new)
-- `mycode_plans/plans/seo-phase-2-depth.md` (this file, new)
-- `mycode_plans/plans/seo-phase-3-engagement.md` (new, outline only)
+- `oldwebtech_plans/plans/seo-roadmap.md` (new)
+- `oldwebtech_plans/plans/seo-phase-2-depth.md` (this file, new)
+- `oldwebtech_plans/plans/seo-phase-3-engagement.md` (new, outline only)
 
 ## Static verification (passed)
 

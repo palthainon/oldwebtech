@@ -33,17 +33,17 @@ reviewed_on:
 ```yaml
 evidence:
   - claim: the CAPM requirements-gathering objective includes explaining a traceability matrix or product backlog
-    source: mycode_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
+    source: oldwebtech_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
     locator: PDF page 11, printed page 10, Domain 4 Task 3
     source_version: PMI CAPM Examination Content Outline, 2023
     checked_on: 2026-10-12
   - claim: product delivery validation uses the traceability matrix or backlog to determine readiness
-    source: mycode_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
+    source: oldwebtech_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
     locator: PDF page 11, printed page 10, Domain 4 Task 6
     source_version: PMI CAPM Examination Content Outline, 2023
     checked_on: 2026-10-12
   - claim: acceptance is a distinct requirements-engineering activity and requirements are validated before acceptance
-    source: mycode_plans/research/certifications/capm/linker-brown-requirements-engineering-2021.pdf
+    source: oldwebtech_plans/research/certifications/capm/linker-brown-requirements-engineering-2021.pdf
     locator: PDF page 13, printed page 5, sections 2.6 Validation and 2.9 Acceptance
     source_version: Linker and Brown, first edition, 2021, CC BY-SA 4.0
     checked_on: 2026-10-12

@@ -29,7 +29,7 @@ reviewed_on: 2026-10-12
 ```yaml
 evidence:
   - claim: "Govern establishes and monitors risk strategy, expectations, and policy and informs prioritization of the other functions."
-    source: "mycode_plans/research/certifications/cissp/nist-csf-2.0.pdf"
+    source: "oldwebtech_plans/research/certifications/cissp/nist-csf-2.0.pdf"
     locator: "NIST CSWP 29, PDF page 8, Govern function description"
     source_version: "CSF 2.0 (2024-02-26)"
     checked_on: 2026-10-12

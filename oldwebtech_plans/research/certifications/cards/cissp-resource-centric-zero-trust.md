@@ -29,12 +29,12 @@ reviewed_on: 2026-10-12
 ```yaml
 evidence:
   - claim: "Zero trust performs subject and device authentication and authorization before establishing a session to an enterprise resource."
-    source: "mycode_plans/research/certifications/cissp/nist-sp-800-207.pdf"
+    source: "oldwebtech_plans/research/certifications/cissp/nist-sp-800-207.pdf"
     locator: "NIST SP 800-207, Abstract, PDF page 4 (Roman page ii)"
     source_version: "Final, August 2020"
     checked_on: 2026-10-12
   - claim: "Network location and asset ownership alone do not create implicit trust, and the model focuses protection on resources."
-    source: "mycode_plans/research/certifications/cissp/nist-sp-800-207.pdf"
+    source: "oldwebtech_plans/research/certifications/cissp/nist-sp-800-207.pdf"
     locator: "NIST SP 800-207, Abstract, PDF page 4 (Roman page ii)"
     source_version: "Final, August 2020"
     checked_on: 2026-10-12
