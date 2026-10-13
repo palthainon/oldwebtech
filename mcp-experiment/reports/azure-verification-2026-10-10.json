@@ -7,7 +7,7 @@
   },
   "servingRevision": "oldweb-mcp--rcb647b3a4524",
   "rollbackRevision": "oldweb-mcp--r84a66c9dd9b8",
-  "productionWorkflow": "https://github.com/palthainon/mycode/actions/runs/38070833673",
+  "productionWorkflow": "https://github.com/palthainon/oldwebtech/actions/runs/38070833673",
   "imageSourceCommit": "cb647b3a4524a6f2db75b43bdc633ec58d7af70e",
   "resourceLimits": {
     "vCPU": 0.25,

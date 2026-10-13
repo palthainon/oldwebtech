@@ -30,7 +30,7 @@ Evidence: [local benchmarks](bulk-2026-10-10/summary.json), [Linux CI benchmarks
 
 ## Azure release and privacy verification
 
-[Manual OIDC workflow](https://github.com/palthainon/mycode/actions/runs/38073640936) completed successfully. Source/image build commit: `c1a8c726d5176c226baac06732ba7e7f04843d62`; job image: `oldweb-bulk@sha256:d3ab3d753ac276b70da60ae113e26922197c0d261e778a8368188770b8d5b590`. Initial workflow acknowledged start; Azure execution `oldweb-mcp-bulk-hz8ubqv` was then independently verified **Succeeded**, from 17:57:08 to 17:57:40 UTC. Subsequent workflow code waits explicitly for completion.
+[Manual OIDC workflow](https://github.com/palthainon/oldwebtech/actions/runs/38073640936) completed successfully. Source/image build commit: `c1a8c726d5176c226baac06732ba7e7f04843d62`; job image: `oldweb-bulk@sha256:d3ab3d753ac276b70da60ae113e26922197c0d261e778a8368188770b8d5b590`. Initial workflow acknowledged start; Azure execution `oldweb-mcp-bulk-hz8ubqv` was then independently verified **Succeeded**, from 17:57:08 to 17:57:40 UTC. Subsequent workflow code waits explicitly for completion.
 
 The cloud run reported 99,000 parsed/1,000 unparsed logs, 100,001 logical records including the final blank, 10,000 CIDRs and exactly 24,995,000 overlaps. It reported `privateFieldsExcluded=true` and `modelUsed=false`. Searching 288 rows across console/system/application telemetry in the checked 30-minute window found zero occurrences of the three seeded sensitive strings. This is a seeded leakage check, not a general anonymization guarantee or proof against every encoding/category.
 
