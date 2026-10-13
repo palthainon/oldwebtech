@@ -46,4 +46,4 @@ evidence:
     checked_on: YYYY-MM-DD
 ```
 
-Keep downloaded PDFs in `mycode_plans/research/certifications/<exam>/`. They are local research copies, excluded from Git and the public site. Do not turn exam dumps, commercial practice questions, or restricted textbook prose into cards or questions.
+Keep downloaded PDFs in `oldwebtech_plans/research/certifications/<exam>/`. They are local research copies, excluded from Git and the public site. Do not turn exam dumps, commercial practice questions, or restricted textbook prose into cards or questions.

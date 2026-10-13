@@ -414,20 +414,29 @@
         ];
         const SHINS = [' ||', ' ||', ' ||', ' ||', '_||_'];
         const CHAIR_X = 37;
-        const BEARD_RIGHT = [
-            '}}}}}',
+        // A long beard that starts under the eyes reads as "wizard" at a glance
+        const BEARD_RIGHT = [       // drawn at x42
+            '}}}}',
+            '}}}}}}}',
             '}}}}}}',
             ' }}}}}',
-            '  }}}',
-            '   }'
+            '  }}}}',
+            '   }}',
+            '    }'
         ];
-        const BEARD_LEFT = [
-            ' {{{{{',
+        const BEARD_LEFT = [        // drawn at x40
+            '  {{{{',
+            '{{{{{{{',
             '{{{{{{',
-            '{{{{{',
-            ' {{{',
-            '  {'
+            ' {{{{',
+            '  {{{',
+            '   {{',
+            '    {'
         ];
+
+        // Staff leaning behind the chair, topped with a pulsing orb
+        const STAFF_X = 36, ORB_Y = 3;
+        const ORB_GLYPHS = ['(@)', '(O)', '(@)', '(o)'];
         const PHONES_FRONT = { x: 40, y: 5 };   // headphone cup, facing the desk
         const PHONES_BACK = { x: 47, y: 5 };    // headphone cup, turned to the racks
 
@@ -564,7 +573,7 @@
 
             // Beard hangs in front of the robe
             if (turned) draw(40, 6, BEARD_LEFT, 'c-beard');
-            else draw(43, 6, BEARD_RIGHT, 'c-beard');
+            else draw(42, 6, BEARD_RIGHT, 'c-beard');
 
             // Sipping: the hand comes up in front of the beard to hold the mug
             if (a === 'sip') {
@@ -574,12 +583,17 @@
 
             // Head in profile: toward the desk while working, toward the racks when he turns
             const eye = state.blink > 0 ? '-' : 'o';
+            // A brow over the eye and a nose over the beard give him a face, not a beak
             if (turned) {
-                draw(40, 5, [`<  ${eye}  )`], 'c-skin');
+                draw(40, 5, [`/  ${eye}- )`], 'c-skin');
+                put(40, 6, ',', 'c-skin');
+                put(46, 6, ')', 'c-skin');
                 put(PHONES_BACK.x, PHONES_BACK.y, '@', 'c-hi');
             } else {
                 put(PHONES_FRONT.x, PHONES_FRONT.y, '@', 'c-hi');
-                draw(41, 5, [`(   ${eye} >`], 'c-skin');
+                draw(41, 5, [`(  -${eye}  \\`], 'c-skin');
+                put(41, 6, '(', 'c-skin');
+                if (a !== 'sip') put(47, 6, ',', 'c-skin');   // the sipping hand takes the nose's place
             }
 
             draw(HAT_X, 0, HAT, 'c-hat');
@@ -594,9 +608,22 @@
             const amber = leds.some(l => l.on && l.cls === 'c-amber');
             const text = amber ? "amber? ...it's fine" : 'all green. nice.';
             draw(2, 0, [`( ${text} )`.replace(/ /g, '`')], 'c-fg');
-            put(29, 1, 'o', 'c-dim');
-            put(33, 2, 'o', 'c-dim');
-            put(36, 3, '.', 'c-dim');
+            put(27, 1, 'o', 'c-dim');
+            put(30, 2, 'o', 'c-dim');
+            put(32, 3, '.', 'c-dim');
+        }
+
+        // Staff behind the chair; the orb pulses faster while the radio is on
+        function drawStaff() {
+            for (let y = ORB_Y + 2; y < FLOOR_Y; y++) put(STAFF_X, y, '|', 'c-wood');
+            draw(STAFF_X - 1, ORB_Y + 1, ['\\|/'], 'c-wood');
+            const pace = music.on ? 3 : 6;
+            draw(STAFF_X - 1, ORB_Y, [ORB_GLYPHS[Math.floor(state.t / pace) % ORB_GLYPHS.length]], 'c-blue');
+            const spark = Math.floor(state.t / pace) % 4;
+            if (spark === 0) put(STAFF_X - 2, ORB_Y, '.', 'c-blue');
+            if (spark === 1) put(STAFF_X, ORB_Y - 1, '*', 'c-blue');
+            if (spark === 2) put(STAFF_X + 2, ORB_Y, '.', 'c-blue');
+            if (music.on && spark === 3) put(STAFF_X + 1, ORB_Y - 1, '*', 'c-blue');
         }
 
         // ---------- Simulation ----------
@@ -657,6 +684,7 @@
             clear();
             drawRoom();
             drawCat();
+            drawStaff();    // before the wizard, so his reaching arm passes in front of it
             drawWizard();
             drawMug();      // after the wizard, so a raised mug sits in front of him
             drawThought();

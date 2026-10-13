@@ -1,6 +1,6 @@
 # First-wave IT certification source acquisition
 
-Checked **2026-10-12**. This register covers the eight proposed first-wave IT banks. Every saved PDF came from its publisher or issuing body, passed a `%PDF` header check, and was opened by `pdfinfo` to confirm its page count. PDFs are under `mycode_plans/research/certifications/<slug>/` and ignored by Git; the website's published `certs/` directory was not changed.
+Checked **2026-10-12**. This register covers the eight proposed first-wave IT banks. Every saved PDF came from its publisher or issuing body, passed a `%PDF` header check, and was opened by `pdfinfo` to confirm its page count. PDFs are under `oldwebtech_plans/research/certifications/<slug>/` and ignored by Git; the website's published `certs/` directory was not changed.
 
 | Certification | Current objective authority | PDF status and detailed record | Main authoring caution |
 | --- | --- | --- | --- |

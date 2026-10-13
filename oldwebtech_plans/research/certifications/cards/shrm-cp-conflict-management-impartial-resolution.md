@@ -33,12 +33,12 @@ reviewed_on:
 ```yaml
 evidence:
   - claim: conflict management centers on common interests and includes several possible resolution strategies
-    source: mycode_plans/research/certifications/shrm-cp/shrm-bask-2026.pdf
+    source: oldwebtech_plans/research/certifications/shrm-cp/shrm-bask-2026.pdf
     locator: PDF page 28, printed page 28, Relationship Management key concepts
     source_version: SHRM BASK 2026
     checked_on: 2026-10-12
   - claim: HR professionals should resolve or mediate respectfully and impartially, identify underlying causes, and refer conflicts upward when warranted
-    source: mycode_plans/research/certifications/shrm-cp/shrm-bask-2026.pdf
+    source: oldwebtech_plans/research/certifications/shrm-cp/shrm-bask-2026.pdf
     locator: PDF page 33, printed page 33, Relationship Management, Conflict Management, proficiency indicators for all HR professionals
     source_version: SHRM BASK 2026
     checked_on: 2026-10-12

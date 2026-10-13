@@ -1,6 +1,6 @@
 # First-wave other-industry certification source inventory
 
-Reviewed 2026-10-12. Scope: PMP, CAPM, SHRM-CP, and PTCB Certified Pharmacy Technician (CPhT/PTCE). This inventory records exam blueprints and reference material for authoring **original** behavior cards and practice questions. The local PDFs are research copies, not site assets or question banks. Paths below are relative to `mycode_plans/research/certifications/` unless stated otherwise.
+Reviewed 2026-10-12. Scope: PMP, CAPM, SHRM-CP, and PTCB Certified Pharmacy Technician (CPhT/PTCE). This inventory records exam blueprints and reference material for authoring **original** behavior cards and practice questions. The local PDFs are research copies, not site assets or question banks. Paths below are relative to `oldwebtech_plans/research/certifications/` unless stated otherwise.
 
 ## Status at a glance
 

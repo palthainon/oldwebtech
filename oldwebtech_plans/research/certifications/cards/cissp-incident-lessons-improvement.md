@@ -29,12 +29,12 @@ reviewed_on: 2026-10-12
 ```yaml
 evidence:
   - claim: "Lessons-learned meetings near the end of recovery review what happened, actions taken, their effectiveness, and input from involved parties."
-    source: "mycode_plans/research/certifications/cissp/nist-sp-800-61r3.pdf"
+    source: "oldwebtech_plans/research/certifications/cissp/nist-sp-800-61r3.pdf"
     locator: "NIST SP 800-61 Rev. 3, Section 3.1 Preparation and Lessons Learned, ID.IM-03 notes, PDF pages 27–28 (printed pages 19–20)"
     source_version: "Rev. 3, April 2025"
     checked_on: 2026-10-12
   - claim: "The review can identify and prioritize improvements to incident response and cybersecurity risk management."
-    source: "mycode_plans/research/certifications/cissp/nist-sp-800-61r3.pdf"
+    source: "oldwebtech_plans/research/certifications/cissp/nist-sp-800-61r3.pdf"
     locator: "NIST SP 800-61 Rev. 3, Section 3.1 Preparation and Lessons Learned, ID.IM-03 notes, PDF page 27 (printed page 19)"
     source_version: "Rev. 3, April 2025"
     checked_on: 2026-10-12
