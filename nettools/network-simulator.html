@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build and explore a small network topology in your browser.">
+  <title>Network Simulator - OldWeb.tech</title>
+  <link rel="stylesheet" href="../a11y.css">
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="network-simulator.css">
+  <script src="../a11y-utils.js" defer></script>
+  <script src="../navigationv2.js" defer></script>
+  <script src="network-topology.js" defer></script>
+  <script src="network-document.js" defer></script>
+  <script src="network-simulation.js" defer></script>
+  <script src="network-trace.js" defer></script>
+  <script src="network-labs.js" defer></script>
+  <script src="network-history.js" defer></script>
+  <script src="network-simulator.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content">
+    <div class="page-head">
+      <h1>Network Simulator</h1>
+      <p class="lede">Build a topology, send a ping, and step through the ARP and ICMP events that carry it.</p>
+    </div>
+    <section class="box" aria-labelledby="workspace-title">
+      <div class="box-head"><h2 id="workspace-title">Topology workspace</h2></div>
+      <div class="box-body simulator-layout">
+        <aside class="sim-panel" aria-label="Device palette">
+          <h3>Add a device</h3>
+          <p>Choose a device to place it on the canvas.</p>
+          <div class="palette">
+            <button type="button" data-add="pc">+ PC</button>
+            <button type="button" data-add="switch">+ Switch</button>
+            <button type="button" data-add="router">+ Router</button>
+          </div>
+          <button type="button" id="reset-topology">Reset sample</button>
+          <button type="button" id="load-routed-sample">Load routed example</button>
+          <div class="history-controls" aria-label="Topology history">
+            <button type="button" id="undo-topology" disabled>Undo</button>
+            <button type="button" id="redo-topology" disabled>Redo</button>
+          </div>
+          <button type="button" id="export-topology">Export JSON</button>
+          <button type="button" id="import-topology">Import JSON</button>
+          <input id="topology-file" type="file" accept=".json,application/json" hidden>
+          <p class="sim-note">Drag a device to move it. Select one and use arrow keys for precise movement. Delete removes the selected device.</p>
+          <p class="sim-note">To add a cable, select a device, choose Connect, then select a second device.</p>
+        </aside>
+        <div class="sim-canvas-wrap">
+          <div class="sim-canvas-heading"><h3>Logical topology</h3><span id="device-count"></span></div>
+          <div id="sim-canvas" class="sim-canvas" role="group" aria-label="Network topology canvas"></div>
+          <p id="sim-status" class="sim-status" role="status" aria-live="polite"></p>
+        </div>
+        <aside class="sim-panel" aria-label="Device details">
+          <h3>Selection</h3>
+          <div id="device-details"><p>Select a device to inspect or move it.</p></div>
+          <label for="connect-port">Source port</label>
+          <select id="connect-port" disabled></select>
+          <button type="button" id="connect-device" disabled>Connect selected</button>
+          <button type="button" id="cancel-connect" hidden>Cancel connection</button>
+          <button type="button" id="remove-device" disabled>Remove selected</button>
+        </aside>
+      </div>
+    </section>
+    <section class="box sim-lab" aria-labelledby="lab-title">
+      <div class="box-head"><h2 id="lab-title">Guided lab: first ping</h2></div>
+      <div class="box-body">
+        <p id="lab-description">Connect two PCs through a switch and find out why the first ping starts with ARP.</p>
+        <button type="button" id="start-lab">Start first-ping lab</button>
+        <button type="button" id="start-routed-lab">Start routed lab</button>
+        <ol id="lab-steps" class="lab-steps"></ol>
+        <p id="lab-hint" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+    <section class="box sim-trace" aria-labelledby="trace-title">
+      <div class="box-head"><h2 id="trace-title">Packet trace</h2></div>
+      <div class="box-body">
+        <p>Send one IPv4 ping between two PCs. Trace ARP, ICMP, switch forwarding, and a router when the PCs are on different subnets.</p>
+        <form id="ping-form" class="ping-form">
+          <label>From PC <select id="ping-source" required></select></label>
+          <label>To PC <select id="ping-target" required></select></label>
+          <button type="submit">Run ping</button>
+        </form>
+        <p id="ping-result" role="status" aria-live="polite">Connect the PCs through a switch, then run a ping.</p>
+        <div class="trace-controls" aria-label="Packet trace controls">
+          <button type="button" id="trace-first" disabled>First</button>
+          <button type="button" id="trace-prev" disabled>Previous</button>
+          <button type="button" id="trace-next" disabled>Next</button>
+          <button type="button" id="trace-last" disabled>Last</button>
+          <button type="button" id="trace-play" disabled>Play</button>
+          <label>Speed <select id="trace-speed">
+            <option value="1200">Slow</option>
+            <option value="650" selected>Normal</option>
+            <option value="250">Fast</option>
+          </select></label>
+          <span id="trace-progress" role="status" aria-live="polite">No trace yet</span>
+        </div>
+        <ol id="ping-events" class="ping-events" aria-label="Packet events"></ol>
+        <div id="packet-detail" class="packet-detail" aria-label="Current packet details"></div>
+      </div>
+    </section>
+    <p><a href="index.html">← Network Tools</a></p>
+  </main>
+  <footer class="statusbar" role="contentinfo"><span>[oldweb] network › simulator │ local prototype</span><span><a href="/privacy.html">privacy</a></span></footer>
+</body>
+</html>
