@@ -4,7 +4,7 @@
   "description": "Public DNS, HTTPS and deployment checks, plus offline email header and delivery-log tracing.",
   "version": "1.1.0",
   "repository": {
-    "url": "https://github.com/palthainon/mycode",
+    "url": "https://github.com/palthainon/oldwebtech",
     "source": "github",
     "subfolder": "mcp-experiment"
   },

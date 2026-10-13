@@ -202,6 +202,34 @@
             letter-spacing: 0;
         }
 
+        .feedback-form {
+            display: grid;
+            gap: 14px;
+            max-width: 700px;
+        }
+        .feedback-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .feedback-form textarea {
+            width: 100%;
+            min-height: 130px;
+            resize: vertical;
+        }
+        .feedback-form input[type="email"] {
+            width: 100%;
+        }
+        .feedback-form .feedback-trap {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .feedback-status {
+            min-height: 1.6em;
+        }
+
         /* Quick access settings modal */
         .quick-access-modal {
             position: fixed;
@@ -582,11 +610,34 @@
                 </div>
             </section>
         </div>
+
+        <section class="box" id="feedback" aria-labelledby="feedback-heading">
+            <div class="box-head"><h2 id="feedback-heading">feedback</h2></div>
+            <div class="box-body">
+                <p>Found a bug or have an idea? Send a note. Your email is optional if you want a reply.</p>
+                <form id="feedback-form" class="feedback-form">
+                    <div>
+                        <label for="feedback-message">Message</label>
+                        <textarea id="feedback-message" name="message" required maxlength="4000" placeholder="What should we know?"></textarea>
+                    </div>
+                    <div>
+                        <label for="feedback-email">Your email (optional)</label>
+                        <input id="feedback-email" name="replyEmail" type="email" autocomplete="email" maxlength="254" placeholder="Only for a reply">
+                    </div>
+                    <div class="feedback-trap" aria-hidden="true">
+                        <label for="feedback-website">Website</label>
+                        <input id="feedback-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                    </div>
+                    <div><button class="btn primary" type="submit">Send feedback</button></div>
+                    <p id="feedback-status" class="feedback-status" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer class="statusbar" role="contentinfo">
         <span>[oldweb] works offline │ no cookies │ no accounts │ <a href="/mcp.html">MCP tools for agents</a> │ anonymous page stats (<a href="/privacy.html">privacy</a>) │ hosted on Microsoft Azure Static Web Apps</span>
-        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="#feedback">feedback</a> │ / search · t theme</span>
     </footer>
 
     <!-- Quick Access Settings Modal -->
@@ -624,6 +675,36 @@
     </div>
 
     <script>
+        (function() {
+            const form = document.getElementById('feedback-form');
+            const status = document.getElementById('feedback-status');
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                if (!form.reportValidity()) return;
+                const button = form.querySelector('button[type="submit"]');
+                button.disabled = true;
+                status.textContent = 'Sending…';
+                try {
+                    const response = await fetch('/api/feedback', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: form.elements.message.value,
+                            replyEmail: form.elements.replyEmail.value,
+                            website: form.elements.website.value
+                        })
+                    });
+                    if (!response.ok) throw new Error('Feedback delivery failed');
+                    form.reset();
+                    status.textContent = 'Thanks — your feedback was sent.';
+                } catch (_) {
+                    status.textContent = 'Could not send your feedback. Please try again later.';
+                } finally {
+                    button.disabled = false;
+                }
+            });
+        })();
+
         // Initialize accessibility - handle skip link
         document.querySelector('.skip-link').addEventListener('click', function(e) {
             e.preventDefault();

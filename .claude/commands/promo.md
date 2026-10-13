@@ -17,7 +17,7 @@ Generate engaging, informal forum posts to promote oldweb.tech tools. Posts shou
 
 ## Post Structure Pattern
 
-Based on successful posts in `/mnt/github/mycode/promos/`:
+Based on successful posts in `/mnt/github/oldwebtech/promos/`:
 
 1. **Hook** (1-2 sentences): State the problem/use case
 2. **Solution intro** (1 sentence): Introduce the site/tools
@@ -39,7 +39,7 @@ $ARGUMENTS
 
 ## Tool Categories Reference
 
-Read from `/mnt/github/mycode/` to find available tools:
+Read from `/mnt/github/oldwebtech/` to find available tools:
 
 ### Network Tools
 - Subnet calculators (IPv4/IPv6)
@@ -73,12 +73,12 @@ Generate TWO versions:
 ### 1. Markdown version (`{category}-forum-post.md`)
 - Use `www.oldweb.tech/{category}` for links (without https://)
 - Include line breaks for readability
-- Save to `/mnt/github/mycode/promos/`
+- Save to `/mnt/github/oldwebtech/promos/`
 
 ### 2. Plain text version (`{category}-forum-post.txt`)
 - Use `https://www.oldweb.tech/{category}` for links
 - Optimized for copying into forums/social media
-- Save to `/mnt/github/mycode/promos/`
+- Save to `/mnt/github/oldwebtech/promos/`
 
 ## Example Patterns from Existing Posts
 
@@ -115,7 +115,7 @@ Generate TWO versions:
 
 ## Process
 
-1. **Read the category**: Check `/mnt/github/mycode/{category}/` for available tools
+1. **Read the category**: Check `/mnt/github/oldwebtech/{category}/` for available tools
 2. **Identify 2-3 hero tools**: Main features to highlight
 3. **Find the pain point**: What problem does this category solve?
 4. **Draft the post**: Follow pattern, keep it under 150 words

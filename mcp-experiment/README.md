@@ -94,7 +94,7 @@ The cost guard's first posted month-to-date amount was $0.00, subject to reporti
 
 Baseline started **2026-10-09 17:19:14 UTC**. The application deadline is **2027-02-15 17:19:14 UTC**; the six-hour guard also disables ingress after the deadline. Official Registry publication completed October 10 at the user's request; remaining free-directory submissions are scheduled for October 16 at 15:00 America/New_York, with actual listing dates recorded separately. Weekly usage reviews remain Fridays at 09:00 America/New_York. The final pilot review is scheduled for February 15, 2027 at 15:00 America/New_York.
 
-Production workflow evidence: https://github.com/palthainon/mycode/actions/runs/37964839710 ; first cost-guard run: https://github.com/palthainon/mycode/actions/runs/37963952062 . The baseline configuration passed candidate and custom-domain smoke tests before launch was recorded.
+Production workflow evidence: https://github.com/palthainon/oldwebtech/actions/runs/37964839710 ; first cost-guard run: https://github.com/palthainon/oldwebtech/actions/runs/37963952062 . The baseline configuration passed candidate and custom-domain smoke tests before launch was recorded.
 
 Record budgets: parse_logs defaults to 20 returned records; clients can request recordLimit 0–200. Counts always cover all submitted lines. The direct parser helper keeps its legacy default of 200 for browser/fixture compatibility.
 

@@ -6,7 +6,7 @@
         "name": "io.github.palthainon/oldweb-diagnostics",
         "description": "Public DNS, HTTPS and deployment checks, plus offline email header and delivery-log tracing.",
         "repository": {
-          "url": "https://github.com/palthainon/mycode",
+          "url": "https://github.com/palthainon/oldwebtech",
           "source": "github",
           "subfolder": "mcp-experiment"
         },
@@ -35,7 +35,7 @@
         "name": "io.github.palthainon/oldweb-logs",
         "description": "Offline log parsing, CI failures, HTTP capture analysis and bounded JSON configuration validation.",
         "repository": {
-          "url": "https://github.com/palthainon/mycode",
+          "url": "https://github.com/palthainon/oldwebtech",
           "source": "github",
           "subfolder": "mcp-experiment"
         },
@@ -64,7 +64,7 @@
         "name": "io.github.palthainon/oldweb-network",
         "description": "Inspect IPv4/IPv6 subnets, allocate labeled prefixes and detect overlaps with exact address counts.",
         "repository": {
-          "url": "https://github.com/palthainon/mycode",
+          "url": "https://github.com/palthainon/oldwebtech",
           "source": "github",
           "subfolder": "mcp-experiment"
         },

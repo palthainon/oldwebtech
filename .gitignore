@@ -3,4 +3,4 @@
 tickets/
 .site-dist/
 # Local research copies of third-party certification source PDFs.
-mycode_plans/research/certifications/**/*.pdf
+oldwebtech_plans/research/certifications/**/*.pdf
