@@ -156,3 +156,11 @@
 - `node --test nettools/network-*.test.js` passed (26 tests), including the new duplicate-source case and existing local/routed duplicate-destination cases. `node --check nettools/network-simulation.js` passed.
 - Browser success/failure, layout, and keyboard checks remain unverified. The earlier browser policy prohibited alternate routes to the local page, and no allowed HTTP(S) preview URL is available.
 - Next: validate both duplicate-address and normal ping workflows in an allowed browser preview, then fix observed usability issues and add the site entry point.
+
+## 2026-10-14 — local browser validation
+
+- Opened the merged simulator in the in-app browser through an approved loopback HTTP preview of this worktree. An uncabled PC 1 to PC 2 ping showed `PC 1 has no cable` and a single ARP Drop event.
+- Connected PC 1 and PC 2 to Switch 1 using the canvas controls. The guided lab marked both cable steps complete; a ping succeeded and exposed a 12-event ARP/ICMP trace. Next showed the switch Flood event and its learned MAC table. Pressing Enter on the earlier event button returned the trace to event 1 and kept focus on that event.
+- Added PC 3 with the same IPv4 address as PC 1. The next ping showed `Duplicate IPv4 address 192.168.1.10 on PC 1` and a single IP Drop. The lab correctly stopped showing completion. Visual inspection found the success and failure feedback readable at the default desktop viewport; browser console error list was empty.
+- The earlier local preview attempts timed out because the sandboxed server could not accept loopback connections. An approved server outside the sandbox made the preview reachable. Mobile layout and the routed lab were not checked in this pass.
+- Next: validate the routed lab and a narrow/mobile viewport, then address observed usability issues before adding the Network Tools entry point.
