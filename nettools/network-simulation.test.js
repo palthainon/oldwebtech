@@ -120,7 +120,7 @@ test('duplicate destination IPv4 drops before local or routed traffic', () => {
     config: {interfaces: {eth0: {ip: '192.168.1.20', prefix: 24}}, gateway: ''}});
   const localResult = ping(local, 'a', 'b');
   assert.equal(localResult.ok, false);
-  assert.match(localResult.reason, /Duplicate destination IPv4/);
+  assert.match(localResult.reason, /Duplicate IPv4 address 192\.168\.1\.20/);
   assert.deepEqual(localResult.events.map(event => event.action), ['Drop']);
 
   const routed = routedNetwork();
@@ -128,8 +128,18 @@ test('duplicate destination IPv4 drops before local or routed traffic', () => {
     config: {interfaces: {eth0: {ip: '192.168.2.20', prefix: 24}}, gateway: '192.168.2.1'}});
   const routedResult = ping(routed, 'a', 'b');
   assert.equal(routedResult.ok, false);
-  assert.match(routedResult.reason, /Duplicate destination IPv4/);
+  assert.match(routedResult.reason, /Duplicate IPv4 address 192\.168\.2\.20/);
   assert.deepEqual(routedResult.events.map(event => event.action), ['Drop']);
+});
+
+test('duplicate source IPv4 stops a ping before ARP or ICMP', () => {
+  const document = network();
+  document.devices.push({id: 'c', type: 'pc', name: 'PC C', x: 50, y: 80,
+    config: {interfaces: {eth0: {ip: '192.168.1.10', prefix: 24}}, gateway: ''}});
+  const result = ping(document, 'a', 'b');
+  assert.equal(result.ok, false);
+  assert.match(result.reason, /Duplicate IPv4 address 192\.168\.1\.10 on PC A/);
+  assert.deepEqual(result.events.map(event => event.action), ['Drop']);
 });
 
 test('broad destination mask blocks routed echo reply at the target', () => {

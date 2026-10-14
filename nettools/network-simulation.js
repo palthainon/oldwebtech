@@ -129,8 +129,10 @@
     const src = source.config?.interfaces?.eth0;
     const dst = target.config?.interfaces?.eth0;
     if (!src?.ip || !dst?.ip) return finish(false, 'Both PCs need IPv4 addresses.');
-    if (devices.some(device => device !== target && device.type === 'pc' && device.config?.interfaces?.eth0?.ip === dst.ip)) {
-      const reason = `Duplicate destination IPv4 address ${dst.ip}. Give each PC a unique address.`;
+    const duplicate = [source, target].find(pc => devices.some(device => device !== pc && device.type === 'pc' && device.config?.interfaces?.eth0?.ip === pc.config.interfaces.eth0.ip));
+    if (duplicate) {
+      const address = duplicate.config.interfaces.eth0.ip;
+      const reason = `Duplicate IPv4 address ${address} on ${duplicate.name}. Give each PC a unique address.`;
       events.push({number: 1, protocol: 'IP', deviceId: source.id, device: source.name, action: 'Drop', detail: reason,
         ingressPort: '', egressPorts: [], packet: {sourceIp: src.ip, destinationIp: dst.ip, sourceMac: '', destinationMac: ''}});
       return finish(false, reason);
