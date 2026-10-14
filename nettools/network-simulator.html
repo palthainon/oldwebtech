@@ -7,7 +7,7 @@
   <title>Network Simulator - OldWeb.tech</title>
   <link rel="stylesheet" href="../a11y.css">
   <link rel="stylesheet" href="../theme.css">
-  <link rel="stylesheet" href="network-simulator.css">
+  <link rel="stylesheet" href="network-simulator.css?v=mobile-scroll">
   <script src="../a11y-utils.js" defer></script>
   <script src="../navigationv2.js" defer></script>
   <script src="network-topology.js" defer></script>
@@ -50,7 +50,10 @@
         </aside>
         <div class="sim-canvas-wrap">
           <div class="sim-canvas-heading"><h3>Logical topology</h3><span id="device-count"></span></div>
-          <div id="sim-canvas" class="sim-canvas" role="group" aria-label="Network topology canvas"></div>
+          <div class="sim-canvas-scroll" role="region" aria-label="Scrollable network topology" tabindex="0">
+            <div id="sim-canvas" class="sim-canvas" role="group" aria-label="Network topology canvas"></div>
+          </div>
+          <p class="sim-scroll-hint">Scroll sideways to see the full topology.</p>
           <p id="sim-status" class="sim-status" role="status" aria-live="polite"></p>
         </div>
         <aside class="sim-panel" aria-label="Device details">
