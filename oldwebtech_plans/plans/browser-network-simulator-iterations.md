@@ -164,3 +164,10 @@
 - Added PC 3 with the same IPv4 address as PC 1. The next ping showed `Duplicate IPv4 address 192.168.1.10 on PC 1` and a single IP Drop. The lab correctly stopped showing completion. Visual inspection found the success and failure feedback readable at the default desktop viewport; browser console error list was empty.
 - The earlier local preview attempts timed out because the sandboxed server could not accept loopback connections. An approved server outside the sandbox made the preview reachable. Mobile layout and the routed lab were not checked in this pass.
 - Next: validate the routed lab and a narrow/mobile viewport, then address observed usability issues before adding the Network Tools entry point.
+
+## 2026-10-14 — mobile topology spacing
+
+- The routed lab showed the missing return gateway message and a 20-event trace. After PC 2 received gateway `192.168.2.1`, the ping succeeded with a 26-event trace and the lab completed.
+- At a 390 px viewport, the routed topology compressed five device buttons into a 295 px canvas. Added a focusable horizontal scroll area with a 620 px mobile canvas and a scroll hint. The buttons now have separate positions; the page has no horizontal overflow. Arrow Right moved the focused scroll area. The mobile routed success and missing-gateway paths still worked; browser console errors were empty.
+- `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check`: passed.
+- Next: add the simulator entry point to Network Tools after checking its index layout and navigation in the browser.
