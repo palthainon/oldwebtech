@@ -149,3 +149,10 @@
 - `node --test nettools/network-*.test.js` passed (25 tests), including first-ping and routed mode detection. JavaScript syntax checks passed.
 - Browser reload/import/Undo workflows, visual usability, and accessibility remain unverified. The prior browser security policy rejected the local file and expressly prohibited alternate routes; no permitted HTTP(S) preview is available. An HTTP(S) preview URL has been requested from the user.
 - Next: validate lab mode persistence and event navigation in an allowed browser preview, then fix observed issues and add the site entry point.
+
+## 2026-10-13 — duplicate source IPv4 detection
+
+- A ping now checks both endpoint addresses for duplicates among PCs. A duplicate source address produces a step-visible IP Drop before ARP or ICMP, preventing a false success.
+- `node --test nettools/network-*.test.js` passed (26 tests), including the new duplicate-source case and existing local/routed duplicate-destination cases. `node --check nettools/network-simulation.js` passed.
+- Browser success/failure, layout, and keyboard checks remain unverified. The earlier browser policy prohibited alternate routes to the local page, and no allowed HTTP(S) preview URL is available.
+- Next: validate both duplicate-address and normal ping workflows in an allowed browser preview, then fix observed usability issues and add the site entry point.
