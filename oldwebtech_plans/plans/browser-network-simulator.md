@@ -36,9 +36,16 @@ A learner places two PCs and one switch on a canvas, connects ports, assigns IPv
 | 6 | Guided labs, polish, accessibility, integration into Network Tools | Complete a lab by browser only; desktop/mobile and keyboard checks |
 | 7 | Cloud save/load and share links | Save and reopen a design; shared link loads the intended snapshot; malformed and unauthorized requests fail cleanly |
 
-## Hourly iteration loop
+## Daily improvement loop
 
-For each run: inspect the current plan, code, and `oldwebtech_plans/plans/browser-network-simulator-iterations.md`. Choose one bounded improvement to simulation realism, capability, or usability. Implement it, run focused engine checks, open the site in a browser, exercise one relevant success and failure path, inspect console/errors, layout, and keyboard operation, and fix regressions. Record what changed, what the browser actually showed, any remaining limitation, and the next priority in the iteration log. Prioritize correctness of packet behavior and clear feedback over adding a large device catalog. Do not claim browser validation from tests alone. Keep work incremental and preserve unrelated local changes.
+1. Read this plan, the simulator code, and `oldwebtech_plans/plans/browser-network-simulator-iterations.md`. Check the Git status. Keep unrelated changes intact.
+2. Start with the next priority in the iteration log. Reproduce one user problem or identify one missing acceptance check. State the expected result before editing.
+3. Make one bounded change in a worktree when possible. Prefer packet correctness and clear feedback before new device types.
+4. Run focused tests for the changed behavior. Run the existing simulator test suite. Fix regressions before continuing.
+5. If an allowed HTTP(S) preview is available, test one success path and one failure path in a browser. Check the relevant layout, keyboard control, and browser errors. Record what the browser showed. Do not treat unit tests as browser evidence.
+6. Record the change, test commands and results, browser findings or access limit, remaining risk, and one next priority in the iteration log. Keep the change local. Do not deploy or publish.
+
+Stop after one verified improvement. If a required file is missing, report the missing file before recreating it. If tests fail and the failure cannot be fixed in this run, record the failure and leave the work for review.
 
 ## Scope boundaries
 
