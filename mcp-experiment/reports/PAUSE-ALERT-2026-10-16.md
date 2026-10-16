@@ -13,3 +13,5 @@ Validation:
 - A real pause and recovery notification were not tested. The live query ran with the operator identity. Automatic evaluation with the alert identity was not independently verified.
 
 The deployment adds one alert rule, one action group, one identity, and two scoped reader assignments. It does not change tools, the runtime image, the $20 pause threshold, or the rule to pause when spend cannot be verified. The synthetic worker remains absent.
+
+The user then requested a limit of two pause emails per day. Azure readback confirmed 12-hour action suppression, stateless operation, and unchanged five-minute checks. This prevents automatic recovery emails from adding notifications. The configured recipient remained unchanged. No additional test email was sent. The 12-hour interval has not elapsed under an actual pause test. See the [Azure rule parameter reference](https://learn.microsoft.com/en-us/azure/templates/microsoft.insights/2023-12-01/scheduledqueryrules) for `muteActionsDuration`.
