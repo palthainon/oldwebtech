@@ -124,6 +124,7 @@
     //   pinned:  surface first in empty-query search overlay under "Popular tools"
     //   related: 3 tool IDs cross-linked at the bottom of the tool page
     const toolRegistry = [
+        { id: 'network-simulator', name: 'Network Simulator', file: 'nettools/network-simulator.html', category: 'network', keywords: ['simulator', 'topology', 'ping', 'arp', 'icmp', 'router', 'switch', 'guided lab'], related: ['subnet', 'planner', 'cidr'] },
         // Network
         { id: 'subnet',          name: 'Subnet Calculator (IPv4)',      file: 'nettools/subnet-calculator.html',       category: 'network',      keywords: ['ip', 'ipv4', 'subnet', 'cidr', 'mask', 'netmask', 'broadcast'], pinned: true,  related: ['subnet-ipv6', 'cidr', 'planner'] },
         { id: 'subnet-ipv6',     name: 'Subnet Calculator (IPv6)',      file: 'nettools/subnet-calculator-ipv6.html',  category: 'network',      keywords: ['ipv6', 'subnet', 'prefix', 'cidr'],                              related: ['subnet', 'planner-ipv6', 'cidr'] },

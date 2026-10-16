@@ -185,3 +185,10 @@
 - Enter on the Network Simulator card opened the simulator. The uncabled sample showed `PC 1 has no cable` and one Drop event. The routed example succeeded with 26 events. The Network Tools return link opened the index. The desktop card text and Open control fit the existing grid. Browser console errors were empty.
 - The card code is unchanged from the run with 26 passing simulator tests. This browser check resolves the previous navigation limitation.
 - Next: add the simulator to global search and verify search results and keyboard navigation.
+
+## 2026-10-16 — global search registration
+
+- Added Network Simulator to the shared tool registry with topology, ping, ARP, ICMP, router, switch, and guided lab keywords. The registry also supplies its breadcrumb and related tools.
+- `node --check navigationv2.js` passed. `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check` passed.
+- Browser checks on the local Node preview passed: `/` opened search and focused its input; `simulator` returned the simulator; `ping` included it. Arrow Down and Arrow Up changed selection. Enter on the simulator result opened the correct page from the games category. An unmatched query showed a no-match message; Enter did not navigate. Escape closed search. Browser console errors were empty.
+- Next: improve search ranking so an exact keyword such as `ping` ranks above a substring in `Typing Game`. The current search shows the simulator second for `ping`.
