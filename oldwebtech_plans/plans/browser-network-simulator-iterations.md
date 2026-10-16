@@ -171,3 +171,10 @@
 - At a 390 px viewport, the routed topology compressed five device buttons into a 295 px canvas. Added a focusable horizontal scroll area with a 620 px mobile canvas and a scroll hint. The buttons now have separate positions; the page has no horizontal overflow. Arrow Right moved the focused scroll area. The mobile routed success and missing-gateway paths still worked; browser console errors were empty.
 - `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check`: passed.
 - Next: add the simulator entry point to Network Tools after checking its index layout and navigation in the browser.
+
+## 2026-10-16 — Network Tools entry point
+
+- Added a Network Simulator card to `nettools/index.html` so users can find the simulator from its category page.
+- `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check`: passed after line ending cleanup.
+- The browser index exposed the card with its description and correct simulator link. Keyboard activation reached `ERR_EMPTY_RESPONSE`; the browser policy then rejected the generated error page. Full navigation, return navigation, visual layout, and simulator success and failure checks remain unverified for this run.
+- Next: restore a working preview and check the new card, return link, and simulator success and failure paths before adding the simulator to global search.
