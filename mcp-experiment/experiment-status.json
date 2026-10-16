@@ -70,7 +70,9 @@
     "phaseConfigurationVerifiedAt": "2026-10-10T17:39:00.069301+00:00",
     "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion.",
     "extensionVerifiedAt": "2026-10-10T18:19:59.256825+00:00",
-    "extensionSmokeReport": "reports/extension-smoke-2026-10-10.json"
+    "extensionSmokeReport": "reports/extension-smoke-2026-10-10.json",
+    "restorationVerifiedAt": "2026-10-16T13:44:34.588Z",
+    "restorationSmokeReport": "reports/restored-smoke-2026-10-16.json"
   },
   "schedules": {
     "directoryPublication": "publish-oldweb-mcp-directory-listings",
@@ -121,13 +123,22 @@
       "budgetUsdMonthlyUnchanged": 25,
       "pauseUsdMonthlyUnchanged": 20,
       "report": "reports/PILOT-EXTENSION-2026-10-10.md"
+    },
+    {
+      "at": "2026-10-16T13:44:34.588Z",
+      "reason": "User authorized public restoration and billing retry repair with the $20 monthly pause threshold unchanged",
+      "publicSmokePassed": 13,
+      "reportedMonthToDateUsd": 1.09,
+      "bulkWorkerRecreated": false,
+      "experimentEndUnchanged": "2027-02-15T17:19:14Z",
+      "report": "reports/BILLING-RESTORE-2026-10-16.md"
     }
   ],
   "baselineActualSeconds": 87217.537144,
   "baselineInterpretation": "Site-linked baseline lasted about 24 hours 14 minutes; user advanced official Registry publication. Not seven days and not a controlled spontaneous-discovery study.",
   "phaseTransitionNote": "Requests served by the previous revision after first publication and before configuration promotion can retain a baseline tag. Reviews must classify this transition window using the recorded first-listing timestamp, not the tag alone.",
   "bulkPrototype": {
-    "status": "deployed-synthetic-only",
+    "status": "removed-by-cost-guard",
     "jobName": "oldweb-mcp-bulk",
     "verifiedExecution": "oldweb-mcp-bulk-hz8ubqv",
     "executionStatus": "Succeeded",
@@ -139,12 +150,23 @@
     "publicToolsChanged": false,
     "shutdownRemovesJob": true,
     "dayQuota": 4,
-    "monthQuota": 120
+    "monthQuota": 120,
+    "removedAt": "2026-10-12T06:07:23.8045608Z",
+    "removalReason": "Spend verification exhausted after HTTP 429 responses. Public access restored separately on October 16. The synthetic worker remains absent."
   },
   "originalExperimentEnd": "2026-11-15T17:19:14Z",
   "telemetryArchive": {
     "retentionDays": 60,
     "weeklyAggregateDirectory": "reports/weekly/",
     "callerMetrics": "Window-scoped estimates; do not sum weekly groups into unique lifetime callers. Flag missing historical evidence."
-  }
+  },
+  "observationGaps": [
+    {
+      "start": "2026-10-12T06:07:05.6828134Z",
+      "recoveryVerifiedAt": "2026-10-16T13:44:34.588Z",
+      "recoveryTimePrecision": "Upper bound from successful public smoke tests. Not an exact restoration timestamp.",
+      "reason": "Cost verification exhausted. User authorized public restoration on October 16.",
+      "report": "reports/BILLING-RESTORE-2026-10-16.md"
+    }
+  ]
 }

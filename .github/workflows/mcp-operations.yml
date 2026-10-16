@@ -18,6 +18,7 @@ jobs:
   guard:
     if: vars.MCP_AZURE_CLIENT_ID != ''
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     environment: mcp-production
     steps:
       - uses: actions/checkout@v4
