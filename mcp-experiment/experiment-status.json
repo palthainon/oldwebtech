@@ -92,7 +92,9 @@
       "intervalMinutes": 5,
       "notification": "email to authenticated Azure account",
       "deployedOn": "2026-10-16",
-      "report": "reports/PAUSE-ALERT-2026-10-16.md"
+      "report": "reports/PAUSE-ALERT-2026-10-16.md",
+      "notificationMuteHours": 12,
+      "automaticRecoveryEmails": false
     }
   },
   "schedules": {

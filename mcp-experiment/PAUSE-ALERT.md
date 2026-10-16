@@ -4,7 +4,7 @@
 
 `oldwebmcp-pause-notifications`, the email action group, sends alerts to the email address from the operator's authenticated Azure account. The address is a secure deployment parameter. Do not commit the address or a parameter file.
 
-The alert is stateful. It sends one notification per incident. Azure resolves the alert after its healthy evaluation period. A later pause can trigger a new alert. Resource Graph updates, rule processing, and email delivery can add delay. The rule checks ingress configuration. It does not check tool results or certificate validity. A query failure can prevent notification.
+The alert is stateless. After a pause notification, Azure suppresses actions for 12 hours. A continued pause can send another notification after that period. This limits pause emails to one per 12 hours, rather than fixed times of day. The rule does not send recovery emails. Resource Graph updates, rule processing, and email delivery can add delay. The rule checks ingress configuration. It does not check tool results or certificate validity. A query failure can prevent notification.
 
 ## Response
 
