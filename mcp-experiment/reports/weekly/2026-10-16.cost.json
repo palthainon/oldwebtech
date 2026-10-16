@@ -1,0 +1,170 @@
+{
+  "cost": {
+    "columns": [
+      {
+        "name": "PreTaxCost",
+        "type": "Number"
+      },
+      {
+        "name": "UsageDate",
+        "type": "Number"
+      },
+      {
+        "name": "ServiceName",
+        "type": "String"
+      },
+      {
+        "name": "Currency",
+        "type": "String"
+      }
+    ],
+    "rows": [
+      [
+        0.0528770074,
+        20261009,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261009,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        1.548e-06,
+        20261009,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.0,
+        20261010,
+        "Bandwidth",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261010,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261010,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        5.652e-06,
+        20261010,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261011,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261011,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261012,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261012,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261013,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261013,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261014,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261014,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261015,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261015,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.0416503332,
+        20261016,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261016,
+        "Log Analytics",
+        "USD"
+      ]
+    ]
+  },
+  "attempts": 2,
+  "status": "verified",
+  "guardRuns": [
+    {
+      "run": "38894318389",
+      "readSucceeded": true,
+      "billing429": true,
+      "verificationExhausted": false,
+      "shutdownMessage": false,
+      "deadlineMessage": false,
+      "jobRemoved": false
+    },
+    {
+      "run": "38210870973",
+      "readSucceeded": true,
+      "billing429": true,
+      "verificationExhausted": true,
+      "shutdownMessage": true,
+      "deadlineMessage": false,
+      "jobRemoved": true
+    }
+  ],
+  "queryDefinition": {
+    "type": "ActualCost",
+    "timeframe": "Custom",
+    "from": "2026-10-01T00:00:00Z",
+    "to": "2026-10-16T12:55:37Z",
+    "granularity": "Daily",
+    "aggregation": "Sum of PreTaxCost",
+    "grouping": "ServiceName",
+    "scope": "rg-oldweb-mcp-experiment"
+  }
+}
