@@ -178,3 +178,10 @@
 - `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check`: passed after line ending cleanup.
 - The browser index exposed the card with its description and correct simulator link. Keyboard activation reached `ERR_EMPTY_RESPONSE`; the browser policy then rejected the generated error page. Full navigation, return navigation, visual layout, and simulator success and failure checks remain unverified for this run.
 - Next: restore a working preview and check the new card, return link, and simulator success and failure paths before adding the simulator to global search.
+
+## 2026-10-16 — entry point browser validation
+
+- Replaced the failed preview with a Node HTTP server on `127.0.0.1:8766`. Port 8765 was occupied. The new preview served the index, simulator, and assets successfully without a browser policy change.
+- Enter on the Network Simulator card opened the simulator. The uncabled sample showed `PC 1 has no cable` and one Drop event. The routed example succeeded with 26 events. The Network Tools return link opened the index. The desktop card text and Open control fit the existing grid. Browser console errors were empty.
+- The card code is unchanged from the run with 26 passing simulator tests. This browser check resolves the previous navigation limitation.
+- Next: add the simulator to global search and verify search results and keyboard navigation.
