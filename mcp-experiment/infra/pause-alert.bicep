@@ -64,8 +64,8 @@ resource pauseAlert 'Microsoft.Insights/scheduledQueryRules@2023-12-01' = {
     description: 'Public ingress for all three OldWeb MCP servers is disabled or the app is not visible. Check the cost guard before restoring access. The monthly pause threshold is $20. This alert does not restore access.'
     enabled: enabled
     severity: 1
-    evaluationFrequency: 'PT5M'
-    windowSize: 'PT5M'
+    evaluationFrequency: 'PT1H'
+    windowSize: 'PT1H'
     scopes: [workspace.id]
     autoMitigate: false
     muteActionsDuration: 'PT12H'

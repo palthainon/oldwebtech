@@ -1,6 +1,6 @@
 # Public access alert
 
-`oldwebmcp-public-access-paused`, the public access alert rule, checks Azure Resource Graph every five minutes. It sends email when the app has no public ingress or the app is not visible. The check does not depend on cost guard telemetry.
+`oldwebmcp-public-access-paused`, the public access alert rule, checks Azure Resource Graph once per hour. It sends email when the app has no public ingress or the app is not visible. The check does not depend on cost guard telemetry. Detection can take up to one hour before processing and delivery delays.
 
 `oldwebmcp-pause-notifications`, the email action group, sends alerts to the email address from the operator's authenticated Azure account. The address is a secure deployment parameter. Do not commit the address or a parameter file.
 
@@ -25,6 +25,6 @@ az deployment group create --resource-group rg-oldweb-mcp-experiment --template-
 
 `oldwebmcp-pause-monitor`, the alert query identity, has Reader access to the app. It has Log Analytics Reader access to the workspace. It has no write access.
 
-The East US 2 five-minute log alert rate was $1.50 per month on October 16, 2026. Notification charges can also apply. Include these charges in the $25 target. See the [Azure Monitor prices](https://azure.microsoft.com/en-us/pricing/details/monitor/). Delete the alert rule at final pilot retirement to stop its fixed charge.
+The rule now uses an hourly check. The previous $1.50 monthly estimate applied to five-minute checks. The hourly rate has not been verified. Notification charges can also apply. Include these charges in the $25 target. See the [Azure Monitor prices](https://azure.microsoft.com/en-us/pricing/details/monitor/). Delete the alert rule at final pilot retirement to stop its fixed charge.
 
 See the [deployment verification report](reports/PAUSE-ALERT-2026-10-16.md).
