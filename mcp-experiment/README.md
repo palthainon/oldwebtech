@@ -38,6 +38,8 @@ The billing check makes at most six attempts within a 15-minute query deadline. 
 
 ## Runtime configuration
 
+The [public access alert](PAUSE-ALERT.md) sends email when Azure reports paused ingress. It operates independently of the cost guard.
+
 | Setting | Purpose |
 |---|---|
 | `HMAC_SECRET` | Random experiment-specific caller fingerprint secret, stored as a Container App secret |

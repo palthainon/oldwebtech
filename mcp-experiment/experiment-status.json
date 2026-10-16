@@ -19,7 +19,7 @@
       "version": "1.1.0",
       "status": "active",
       "publishedAt": "2026-10-10T17:32:51.537144Z",
-      "verifiedAt": "2026-10-10T17:34:46.8844628+00:00",
+      "verifiedAt": "2026-10-10T13:34:46.8844628-04:00",
       "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-diagnostics/versions/1.1.0",
       "endpoint": "https://mcp.oldweb.tech/diagnostics/mcp",
       "evidence": "reports/registry-publication-2026-10-10.json"
@@ -31,7 +31,7 @@
       "version": "1.1.0",
       "status": "active",
       "publishedAt": "2026-10-10T17:32:51.834208Z",
-      "verifiedAt": "2026-10-10T17:34:46.8940931+00:00",
+      "verifiedAt": "2026-10-10T13:34:46.8940931-04:00",
       "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-logs/versions/1.1.0",
       "endpoint": "https://mcp.oldweb.tech/logs/mcp",
       "evidence": "reports/registry-publication-2026-10-10.json"
@@ -43,7 +43,7 @@
       "version": "1.1.0",
       "status": "active",
       "publishedAt": "2026-10-10T17:32:52.215343Z",
-      "verifiedAt": "2026-10-10T17:34:46.8942236+00:00",
+      "verifiedAt": "2026-10-10T13:34:46.8942236-04:00",
       "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-network/versions/1.1.0",
       "endpoint": "https://mcp.oldweb.tech/network/mcp",
       "evidence": "reports/registry-publication-2026-10-10.json"
@@ -67,14 +67,14 @@
     "rollbackRevision": "oldweb-mcp--rollbackextended20261010",
     "allToolsSmokePassed": 13,
     "latestDeploymentWorkflow": "https://github.com/palthainon/oldwebtech/actions/runs/38070833673",
-    "phaseConfigurationVerifiedAt": "2026-10-10T17:39:00.069301+00:00",
+    "phaseConfigurationVerifiedAt": "2026-10-10T13:39:00.069301-04:00",
     "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion.",
-    "extensionVerifiedAt": "2026-10-10T18:19:59.256825+00:00",
+    "extensionVerifiedAt": "2026-10-10T14:19:59.256825-04:00",
     "extensionSmokeReport": "reports/extension-smoke-2026-10-10.json",
     "restorationVerifiedAt": "2026-10-16T13:44:34.588Z",
     "restorationSmokeReport": "reports/restored-smoke-2026-10-16.json",
     "billingRepair": {
-      "verifiedAt": "2026-10-16T13:47:26.674135+00:00",
+      "verifiedAt": "2026-10-16T09:47:26.674135-04:00",
       "sourceCommit": "a367586a72479bfc25a70cc84c15eb9069cd7d1f",
       "productionGuard": "https://github.com/palthainon/oldwebtech/actions/runs/38910385547",
       "ci": "https://github.com/palthainon/oldwebtech/actions/runs/38910379994",
@@ -85,6 +85,14 @@
       "unknownSpendPauses": true,
       "reportedMonthToDateUsd": 1.09,
       "report": "reports/BILLING-RESTORE-2026-10-16.md"
+    },
+    "pauseAlert": {
+      "rule": "oldwebmcp-public-access-paused",
+      "enabled": true,
+      "intervalMinutes": 5,
+      "notification": "email to authenticated Azure account",
+      "deployedOn": "2026-10-16",
+      "report": "reports/PAUSE-ALERT-2026-10-16.md"
     }
   },
   "schedules": {
@@ -114,7 +122,7 @@
       "emailDateRegressionFixed": true
     },
     {
-      "at": "2026-10-10T17:34:46.8954533+00:00",
+      "at": "2026-10-10T13:34:46.8954533-04:00",
       "reason": "User authorized immediate official Registry publication, advancing the scheduled October 16 listing date",
       "firstListingAt": "2026-10-10T17:32:51.537144Z",
       "originalScheduledListing": "2026-10-16T15:00:00 America/New_York",
@@ -129,7 +137,7 @@
       "experimentEndUnchanged": "2026-11-15T17:19:14Z"
     },
     {
-      "at": "2026-10-10T18:18:31.083043+00:00",
+      "at": "2026-10-10T14:18:31.083043-04:00",
       "reason": "User explicitly authorized three calendar months of continued operation beyond November 15",
       "previousExperimentEnd": "2026-11-15T17:19:14Z",
       "experimentEnd": "2027-02-15T17:19:14Z",
