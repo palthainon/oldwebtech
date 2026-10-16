@@ -67,7 +67,8 @@ resource pauseAlert 'Microsoft.Insights/scheduledQueryRules@2023-12-01' = {
     evaluationFrequency: 'PT5M'
     windowSize: 'PT5M'
     scopes: [workspace.id]
-    autoMitigate: true
+    autoMitigate: false
+    muteActionsDuration: 'PT12H'
     criteria: {
       allOf: [
         {
