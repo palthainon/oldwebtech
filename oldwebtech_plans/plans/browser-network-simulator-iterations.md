@@ -192,3 +192,10 @@
 - `node --check navigationv2.js` passed. `node --test nettools/network-*.test.js`: 26 passed, 0 failed. `git diff --check` passed.
 - Browser checks on the local Node preview passed: `/` opened search and focused its input; `simulator` returned the simulator; `ping` included it. Arrow Down and Arrow Up changed selection. Enter on the simulator result opened the correct page from the games category. An unmatched query showed a no-match message; Enter did not navigate. Escape closed search. Browser console errors were empty.
 - Next: improve search ranking so an exact keyword such as `ping` ranks above a substring in `Typing Game`. The current search shows the simulator second for `ping`.
+
+## 2026-10-16 — exact keyword search ranking
+
+- Exact keyword matches now rank above name substrings and below name prefixes. This places Network Simulator before Typing Game for `ping` without changing name-prefix priority.
+- Browser checks passed on the local preview: `ping` and ` PING ` selected Network Simulator first; Enter opened it. `subnet` still ranked the subnet calculators first. An unmatched query showed no results and Enter did not navigate. Escape closed search. No browser console errors appeared.
+- `node --check navigationv2.js`, all 26 simulator tests, and `git diff --check` passed.
+- Next: validate topology export, import, and reload through the browser before starting cloud persistence work.

@@ -1231,9 +1231,11 @@
             results = toolRegistry
                 .map(t => {
                     const nameLower = t.name.toLowerCase();
+                    const exactKeywordHit = (t.keywords || []).some(k => k.toLowerCase() === q);
                     const keywordHit = (t.keywords || []).some(k => k.toLowerCase().includes(q));
                     let score = -1;
                     if (nameLower.startsWith(q))      score = 100;
+                    else if (exactKeywordHit)        score = 80;
                     else if (nameLower.includes(q))   score = 60;
                     else if (keywordHit)              score = 30;
                     return { tool: t, score };
