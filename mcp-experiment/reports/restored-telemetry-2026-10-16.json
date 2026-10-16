@@ -1,0 +1,44 @@
+{
+  "queries": {
+    "privacy": "union isfuzzy=true AppEvents,ContainerAppConsoleLogs_CL,ContainerAppSystemLogs_CL | where TimeGenerated>=datetime(2026-10-16T13:35:00Z) | extend row=tostring(pack_all()) | summarize checkedRows=count(),sentinelLeaks=countif(row contains 'OLDWEB_ADMIN_PRIVACY_SENTINEL_20261010' or row contains 'OLDWEB_ADMIN_SECRET_SENTINEL_20261010')",
+    "internalTools": "AppEvents | where Name=='mcp_activity' and TimeGenerated>=datetime(2026-10-16T13:35:00Z) and tostring(Properties.internal)=='true' and tostring(Properties.method)=='tools/call' | summarize calls=count() by service=tostring(Properties.service),outcome=tostring(Properties.outcome)",
+    "cost": "AppEvents | where Name=='mcp_cost' and TimeGenerated>=datetime(2026-10-16T13:35:00Z) | project TimeGenerated,reportedCostUsd=todouble(Measurements.reportedCostUsd)"
+  },
+  "results": {
+    "privacy": [
+      {
+        "TableName": "PrimaryResult",
+        "checkedRows": "78",
+        "sentinelLeaks": "0"
+      }
+    ],
+    "internalTools": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "3",
+        "outcome": "tool_success",
+        "service": "network"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "5",
+        "outcome": "tool_success",
+        "service": "logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "5",
+        "outcome": "tool_success",
+        "service": "diagnostics"
+      }
+    ],
+    "cost": [
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T13:39:13.8228652Z",
+        "reportedCostUsd": "1.0941425374"
+      }
+    ]
+  },
+  "errors": []
+}
