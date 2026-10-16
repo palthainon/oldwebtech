@@ -72,7 +72,20 @@
     "extensionVerifiedAt": "2026-10-10T18:19:59.256825+00:00",
     "extensionSmokeReport": "reports/extension-smoke-2026-10-10.json",
     "restorationVerifiedAt": "2026-10-16T13:44:34.588Z",
-    "restorationSmokeReport": "reports/restored-smoke-2026-10-16.json"
+    "restorationSmokeReport": "reports/restored-smoke-2026-10-16.json",
+    "billingRepair": {
+      "verifiedAt": "2026-10-16T13:47:26.674135+00:00",
+      "sourceCommit": "a367586a72479bfc25a70cc84c15eb9069cd7d1f",
+      "productionGuard": "https://github.com/palthainon/oldwebtech/actions/runs/38910385547",
+      "ci": "https://github.com/palthainon/oldwebtech/actions/runs/38910379994",
+      "result": "success",
+      "maxAttempts": 6,
+      "queryDeadlineSeconds": 900,
+      "pauseThresholdUsdMonthly": 20,
+      "unknownSpendPauses": true,
+      "reportedMonthToDateUsd": 1.09,
+      "report": "reports/BILLING-RESTORE-2026-10-16.md"
+    }
   },
   "schedules": {
     "directoryPublication": "publish-oldweb-mcp-directory-listings",
