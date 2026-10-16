@@ -22,7 +22,7 @@ The local regression suite passes 35 test groups. The parser suite passes 116 ch
 
 The first local protocol run encountered a sandbox network denial. The complete regression suite then passed with localhost access. No product change was needed for the sandbox failure.
 
-All 13 public tools pass initialization, discovery, and successful calls through the custom domain. The tests use the private internal-test marker. The existing managed certificate is bound again. The existing revision serves all traffic. The app still uses zero minimum replicas and one maximum replica. The final deadline remains February 15, 2027. The live GitHub workflow result will be recorded after completion. The immutable app image remains unchanged. The bulk worker remains absent after the earlier shutdown. This request restores the public servers and does not start a synthetic worker.
+All 13 public tools pass initialization, discovery, and successful calls through the custom domain. The tests use the private internal-test marker. The existing managed certificate is bound again. The existing revision serves all traffic. The app still uses zero minimum replicas and one maximum replica. The final deadline remains February 15, 2027. The [production billing workflow](https://github.com/palthainon/oldwebtech/actions/runs/38910385547) succeeds with the GitHub identity. It reports $1.09. The [GitHub test workflow](https://github.com/palthainon/oldwebtech/actions/runs/38910379994) also succeeds. It includes the regression suite, the 300 SDK cases, the billing shutdown tests, the worker completion tests, and all three infrastructure compilations. Both workflows run the repair commit `a367586a72479bfc25a70cc84c15eb9069cd7d1f`. The immutable app image remains unchanged. The bulk worker remains absent after the earlier shutdown. This request restores the public servers and does not start a synthetic worker.
 
 ## Sources
 
@@ -31,3 +31,5 @@ All 13 public tools pass initialization, discovery, and successful calls through
 - [Failed check](https://github.com/palthainon/oldwebtech/actions/runs/38210870973) records the four failed attempts and the shutdown.
 
 Public validation: [live tool results](restored-smoke-2026-10-16.json). Deterministic validation: [300-case results](deterministic-2026-10-16T13-40-51-460Z.json).
+
+The [telemetry check](restored-telemetry-2026-10-16.json) confirms 13 successful internal tool calls. It finds zero matches for the selected private test strings across 78 application and platform rows. This seeded check does not establish complete private-data detection. The restoration interval is recorded as an observation gap in the experiment state. Its recovery timestamp is the successful test time, which gives an upper bound.
