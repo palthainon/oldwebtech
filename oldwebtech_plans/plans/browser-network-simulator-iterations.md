@@ -199,3 +199,10 @@
 - Browser checks passed on the local preview: `ping` and ` PING ` selected Network Simulator first; Enter opened it. `subnet` still ranked the subnet calculators first. An unmatched query showed no results and Enter did not navigate. Escape closed search. No browser console errors appeared.
 - `node --check navigationv2.js`, all 26 simulator tests, and `git diff --check` passed.
 - Next: validate topology export, import, and reload through the browser before starting cloud persistence work.
+
+## 2026-10-18 — topology file and reload validation
+
+- Exported the routed example through the browser to `oldweb-network-topology.json`. The file contained schema version 1 and configured device data. After Reset sample showed three devices, importing the export restored five devices, four cables, and the routed lab instructions.
+- Reload preserved the imported topology and lab mode. A routed ping then succeeded with 26 events. Importing malformed JSON showed `Import failed: Topology file is not valid JSON.` The existing topology and successful trace remained intact. An unreadable temporary file also produced a read error without replacing the topology.
+- `node --test nettools/network-*.test.js`: 26 passed, 0 failed. Browser console errors were empty during the file checks. No simulator code fix was required.
+- Next: review the cloud persistence plan and define one local save/load API slice before implementation. Keep deployment and publication outside the loop.
