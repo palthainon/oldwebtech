@@ -1,0 +1,101 @@
+(function (root) {
+  root.NetworkConnectionUI = {attach};
+  function attach(canvas, {getDevice, getFreePorts, connect, arm, announce}) {
+    const menu = document.createElement('div');
+    menu.className = 'sim-connection-menu';
+    menu.setAttribute('role', 'dialog');
+    menu.setAttribute('aria-label', 'Connect a device');
+    menu.hidden = true;
+    document.body.append(menu);
+    let sourceId = null, gesture = null, preview = null, suppressClick = false;
+    function clearGesture() {
+      if (gesture?.button.hasPointerCapture(gesture.pointerId)) gesture.button.releasePointerCapture(gesture.pointerId);
+      gesture = null;
+      preview?.remove(); preview = null;
+      canvas.classList.remove('sim-connecting');
+    }
+    function close(focus = false) {
+      clearGesture(); menu.hidden = true;
+      if (focus) [...canvas.querySelectorAll('.sim-device')].find(node => node.dataset.id === sourceId)?.focus();
+    }
+    function show(target, x, y) {
+      close(); sourceId = target.dataset.id;
+      const device = getDevice(sourceId);
+      if (!device) return;
+      menu.replaceChildren();
+      const title = document.createElement('strong'); title.textContent = 'Connect from ' + device.name; menu.append(title);
+      const help = document.createElement('p'); help.textContent = 'Drag a port onto another device. Or select a port, then select the destination. The destination uses its first free port.'; menu.append(help);
+      const ports = getFreePorts(device);
+      if (!ports.length) { const message = document.createElement('p'); message.textContent = 'No free ports. Disconnect a cable first.'; menu.append(message); }
+      for (const port of ports) {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'connection-port'; button.textContent = port;
+        button.setAttribute('aria-label', 'Connect from ' + device.name + ' ' + port);
+        button.addEventListener('pointerdown', event => {
+          if (event.button !== 0) return;
+          gesture = {button, pointerId:event.pointerId, port, x:event.clientX, y:event.clientY, moved:false};
+          button.setPointerCapture(event.pointerId);
+        });
+        button.addEventListener('click', () => {
+          if (suppressClick) { suppressClick = false; return; }
+          close(); arm(sourceId, port);
+        });
+        menu.append(button);
+      }
+      const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = 'Cancel';
+      cancel.addEventListener('click', () => close(true)); menu.append(cancel);
+      menu.hidden = false;
+      menu.style.left = Math.max(8, Math.min(x, window.innerWidth - menu.offsetWidth - 8)) + 'px';
+      menu.style.top = Math.max(8, Math.min(y, window.innerHeight - menu.offsetHeight - 8)) + 'px';
+      menu.querySelector('button').focus();
+    }
+    canvas.addEventListener('contextmenu', event => {
+      const target = event.target.closest('.sim-device');
+      if (!target) return;
+      event.preventDefault(); show(target, event.clientX, event.clientY);
+    });
+    canvas.addEventListener('keydown', event => {
+      if (event.key !== 'ContextMenu' && !(event.shiftKey && event.key === 'F10')) return;
+      const target = event.target.closest('.sim-device');
+      if (!target) return;
+      event.preventDefault(); const rect = target.getBoundingClientRect(); show(target, rect.right, rect.top);
+    });
+    document.addEventListener('pointermove', event => {
+      if (!gesture || gesture.pointerId !== event.pointerId) return;
+      if (!gesture.moved && Math.hypot(event.clientX-gesture.x,event.clientY-gesture.y) < 5) return;
+      gesture.moved = true;
+      event.preventDefault(); canvas.classList.add('sim-connecting');
+      if (!preview) {
+        preview = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        preview.classList.add('sim-connection-preview'); preview.setAttribute('aria-hidden','true');
+        preview.append(document.createElementNS('http://www.w3.org/2000/svg','line')); canvas.append(preview);
+      }
+      const node = [...canvas.querySelectorAll('.sim-device')].find(item => item.dataset.id === sourceId);
+      if (!node) { close(); return; }
+      const rect = canvas.getBoundingClientRect(), origin = node.getBoundingClientRect(), line = preview.firstChild;
+      line.setAttribute('x1',origin.left+origin.width/2-rect.left);
+      line.setAttribute('y1',origin.top+origin.height/2-rect.top);
+      line.setAttribute('x2',event.clientX-rect.left); line.setAttribute('y2',event.clientY-rect.top);
+    }, {passive:false});
+    document.addEventListener('pointerup', event => {
+      if (!gesture || gesture.pointerId !== event.pointerId) return;
+      const {port,moved} = gesture;
+      if (!moved) { clearGesture(); return; }
+      const target = document.elementFromPoint(event.clientX,event.clientY)?.closest('.sim-device');
+      suppressClick = true;
+      // Keep the flag for the click generated by pointerup only.
+      setTimeout(() => { suppressClick = false; }, 0);
+      close();
+      if (target && canvas.contains(target)) connect(sourceId, target.dataset.id, port);
+      else { announce('Connection cancelled. Drop onto a device to add a cable.'); }
+    });
+    document.addEventListener('pointercancel', () => { if (gesture) { close(true); announce('Connection cancelled.'); } });
+    document.addEventListener('pointerdown', event => {
+      if (!menu.hidden && !menu.contains(event.target) && !gesture) close();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !menu.hidden) { event.preventDefault(); close(true); announce('Connection cancelled.'); }
+    });
+    window.addEventListener('resize', () => close());
+  }
+})(typeof globalThis !== 'undefined' ? globalThis : this);

@@ -7,22 +7,27 @@
   <title>Network Simulator - OldWeb.tech</title>
   <link rel="stylesheet" href="../a11y.css">
   <link rel="stylesheet" href="../theme.css">
-  <link rel="stylesheet" href="network-simulator.css?v=mobile-scroll">
+  <link rel="stylesheet" href="network-simulator.css?v=20261019">
   <script src="../a11y-utils.js" defer></script>
   <script src="../navigationv2.js" defer></script>
-  <script src="network-topology.js" defer></script>
-  <script src="network-document.js" defer></script>
-  <script src="network-simulation.js" defer></script>
-  <script src="network-trace.js" defer></script>
-  <script src="network-labs.js" defer></script>
-  <script src="network-history.js" defer></script>
-  <script src="network-simulator.js" defer></script>
+  <script src="network-topology.js?v=20261019" defer></script>
+  <script src="network-document.js?v=20261019" defer></script>
+  <script src="network-rip.js?v=20261019" defer></script>
+  <script src="network-simulation.js?v=20261019" defer></script>
+  <script src="network-traceroute.js?v=20261019" defer></script>
+  <script src="network-trace.js?v=20261019" defer></script>
+  <script src="network-labs.js?v=20261019" defer></script>
+  <script src="network-history.js?v=20261019" defer></script>
+  <script src="network-connection-ui.js?v=20261019" defer></script>
+  <script src="network-simulator.js?v=20261019" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
     <div class="page-head">
       <h1>Network Simulator</h1>
+      <button type="button" id="expand-workspace" aria-pressed="false">Expand workspace</button>
+      <a href="#diagnostics-tab" id="open-diagnostics">Test a ping</a>
       <p class="lede">Build a topology, send a ping, and step through the ARP and ICMP events that carry it.</p>
     </div>
     <section class="box" aria-labelledby="workspace-title">
@@ -38,6 +43,7 @@
           </div>
           <button type="button" id="reset-topology">Reset sample</button>
           <button type="button" id="load-routed-sample">Load routed example</button>
+          <button type="button" id="load-rip-sample">Load RIP example</button>
           <div class="history-controls" aria-label="Topology history">
             <button type="button" id="undo-topology" disabled>Undo</button>
             <button type="button" id="redo-topology" disabled>Redo</button>
@@ -46,7 +52,7 @@
           <button type="button" id="import-topology">Import JSON</button>
           <input id="topology-file" type="file" accept=".json,application/json" hidden>
           <p class="sim-note">Drag a device to move it. Select one and use arrow keys for precise movement. Delete removes the selected device.</p>
-          <p class="sim-note">To add a cable, select a device, choose Connect, then select a second device.</p>
+          <p class="sim-note">Right-click a device, then drag a free port onto another device. You can also select a device, choose Connect, then select a second device.</p>
         </aside>
         <div class="sim-canvas-wrap">
           <div class="sim-canvas-heading"><h3>Logical topology</h3><span id="device-count"></span></div>
@@ -55,38 +61,32 @@
           </div>
           <p class="sim-scroll-hint">Scroll sideways to see the full topology.</p>
           <p id="sim-status" class="sim-status" role="status" aria-live="polite"></p>
+          <section class="sim-console" aria-labelledby="console-title">
+            <h3 id="console-title">Console output</h3>
+            <p id="animation-status" role="status">Run ping or traceroute to see packets move across the map.</p>
+            <pre id="console-output" tabindex="0" aria-label="Diagnostic console output">Ready.</pre>
+          </section>
         </div>
-        <aside class="sim-panel" aria-label="Device details">
-          <h3>Selection</h3>
-          <div id="device-details"><p>Select a device to inspect or move it.</p></div>
-          <label for="connect-port">Source port</label>
-          <select id="connect-port" disabled></select>
-          <button type="button" id="connect-device" disabled>Connect selected</button>
-          <button type="button" id="cancel-connect" hidden>Cancel connection</button>
-          <button type="button" id="remove-device" disabled>Remove selected</button>
-        </aside>
-      </div>
-    </section>
-    <section class="box sim-lab" aria-labelledby="lab-title">
-      <div class="box-head"><h2 id="lab-title">Guided lab: first ping</h2></div>
+        <div class="sim-right-panel">
+          <div class="sim-tabs" role="tablist" aria-label="Workspace tools">
+            <button type="button" role="tab" id="edit-tab" aria-controls="edit-panel" aria-selected="true">Edit</button>
+            <button type="button" role="tab" id="diagnostics-tab" aria-controls="diagnostics-panel" aria-selected="false" tabindex="-1">Ping and trace</button>
+          </div>
+    <section class="sim-panel sim-trace sim-tab-panel" id="diagnostics-panel" role="tabpanel" aria-labelledby="diagnostics-tab" hidden>
+      <div class="box-head"><h3 id="trace-title">Ping and packet trace</h3></div>
       <div class="box-body">
-        <p id="lab-description">Connect two PCs through a switch and find out why the first ping starts with ARP.</p>
-        <button type="button" id="start-lab">Start first-ping lab</button>
-        <button type="button" id="start-routed-lab">Start routed lab</button>
-        <ol id="lab-steps" class="lab-steps"></ol>
-        <p id="lab-hint" role="status" aria-live="polite"></p>
-      </div>
-    </section>
-    <section class="box sim-trace" aria-labelledby="trace-title">
-      <div class="box-head"><h2 id="trace-title">Packet trace</h2></div>
-      <div class="box-body">
-        <p>Send one IPv4 ping between two PCs. Trace ARP, ICMP, switch forwarding, and a router when the PCs are on different subnets.</p>
         <form id="ping-form" class="ping-form">
           <label>From PC <select id="ping-source" required></select></label>
           <label>To PC <select id="ping-target" required></select></label>
+          <label class="animate-option"><input id="animate-packets" type="checkbox" checked> Animate packets</label>
           <button type="submit">Run ping</button>
+          <button type="button" id="run-traceroute">Run traceroute</button>
         </form>
         <p id="ping-result" role="status" aria-live="polite">Connect the PCs through a switch, then run a ping.</p>
+        <div class="trace-disclosure">
+          <h4>Playback and packet details</h4>
+          <p>Traceroute uses the verified simulated ping path with one probe per hop. A failed ping stops the probes. Return paths are symmetric. Timings are not measured.</p>
+          <p>The RIP example shows route learning and forwarding without ARP or MAC learning details.</p>
         <div class="trace-controls" aria-label="Packet trace controls">
           <button type="button" id="trace-first" disabled>First</button>
           <button type="button" id="trace-prev" disabled>Previous</button>
@@ -102,6 +102,29 @@
         </div>
         <ol id="ping-events" class="ping-events" aria-label="Packet events"></ol>
         <div id="packet-detail" class="packet-detail" aria-label="Current packet details"></div>
+        </div>
+      </div>
+    </section>
+        <aside class="sim-panel sim-tab-panel" id="edit-panel" role="tabpanel" aria-labelledby="edit-tab">
+          <h3>Selection</h3>
+          <div id="device-details"><p>Select a device to inspect or move it.</p></div>
+          <label for="connect-port">Source port</label>
+          <select id="connect-port" disabled></select>
+          <button type="button" id="connect-device" disabled>Connect selected</button>
+          <button type="button" id="cancel-connect" hidden>Cancel connection</button>
+          <button type="button" id="remove-device" disabled>Remove selected</button>
+        </aside>
+        </div>
+      </div>
+    </section>
+    <section class="box sim-lab" aria-labelledby="lab-title">
+      <div class="box-head"><h2 id="lab-title">Guided lab: first ping</h2></div>
+      <div class="box-body">
+        <p id="lab-description">Connect two PCs through a switch and find out why the first ping starts with ARP.</p>
+        <button type="button" id="start-lab">Start first-ping lab</button>
+        <button type="button" id="start-routed-lab">Start routed lab</button>
+        <ol id="lab-steps" class="lab-steps"></ol>
+        <p id="lab-hint" role="status" aria-live="polite"></p>
       </div>
     </section>
     <p><a href="index.html">← Network Tools</a></p>
