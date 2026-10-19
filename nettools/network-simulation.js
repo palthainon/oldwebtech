@@ -1,8 +1,8 @@
 (function (root, factory) {
-  const api = factory(root.NetworkDocument || require('./network-document.js'));
+  const api = factory(root.NetworkDocument || require('./network-document.js'), root.NetworkRip || require('./network-rip.js'));
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.NetworkSimulation = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (documentModel) {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (documentModel, rip) {
   const BROADCAST = 'ff:ff:ff:ff:ff:ff';
   const mac = index => `02:00:00:${[index >> 16, index >> 8, index].map(value => (value & 255).toString(16).padStart(2, '0')).join(':')}`;
   const ipNumber = ip => ip.split('.').reduce((value, octet) => ((value << 8) | Number(octet)) >>> 0, 0);
@@ -37,7 +37,10 @@
         }
       }
     }
-    if (!candidates.length) return drop(source, `No configured router connects gateway ${source.config.gateway} to ${dst.ip}.`);
+    if (!candidates.length) {
+      if (devices.some(device => device.config?.rip?.enabled)) return rip.ping(document, source, target);
+      return drop(source, `No configured router connects gateway ${source.config.gateway} to ${dst.ip}.`);
+    }
     const adjacency = new Map(devices.map(device => [device.id, []]));
     for (const link of document.links) {
       adjacency.get(link.a.deviceId).push({id: link.b.deviceId, local: link.a.port, remote: link.b.port});

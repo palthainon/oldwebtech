@@ -28,6 +28,10 @@
       const error = interfaceError(iface.ip || '', iface.prefix ?? '');
       if (error) return `${port}: ${error}`;
     }
+    if (device.type === 'router' && config.rip !== undefined) {
+      const rip = config.rip;
+      if (!rip || typeof rip.enabled !== 'boolean' || !Array.isArray(rip.ports) || rip.ports.some(port => !topology.portsByType.router.includes(port)) || new Set(rip.ports).size !== rip.ports.length) return 'Invalid RIP interface settings.';
+    }
     if (device.type === 'pc' && config.gateway && !ipv4(config.gateway)) return 'Enter a valid default gateway.';
     return null;
   }
@@ -75,6 +79,7 @@
           interfaces[port] = {ip: iface.ip || '', prefix: iface.prefix ?? ''};
         }
         clean.config = {interfaces};
+        if (device.type === 'router' && device.config?.rip) clean.config.rip = {enabled: device.config.rip.enabled, ports: [...device.config.rip.ports]};
         if (device.type === 'pc') clean.config.gateway = device.config?.gateway || '';
       }
       return clean;

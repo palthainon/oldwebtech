@@ -1,5 +1,44 @@
 (() => {
   const canvas = document.getElementById('sim-canvas');
+  const toolTabs = [...document.querySelectorAll('.sim-tabs [role="tab"]')];
+  function selectToolTab(tab, focus = false) {
+    for (const item of toolTabs) {
+      const active = item === tab;
+      item.setAttribute('aria-selected', String(active));
+      item.tabIndex = active ? 0 : -1;
+      document.getElementById(item.getAttribute('aria-controls')).hidden = !active;
+    }
+    if (focus) tab.focus();
+  }
+  toolTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectToolTab(tab));
+    tab.addEventListener('keydown', event => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      let next;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') next = toolTabs[1 - index];
+      if (event.key === 'Home') next = toolTabs[0];
+      if (event.key === 'End') next = toolTabs.at(-1);
+      if (next) { event.preventDefault(); selectToolTab(next, true); }
+    });
+  });
+  document.getElementById('open-diagnostics').addEventListener('click', event => {
+    event.preventDefault(); selectToolTab(toolTabs[1], true);
+  });
+  const expandButton = document.getElementById('expand-workspace');
+  function expandWorkspace(expanded) {
+    document.getElementById('main-content').classList.toggle('sim-expanded', expanded);
+    document.body.classList.toggle('sim-expanded-open', expanded);
+    expandButton.setAttribute('aria-pressed', String(expanded));
+    expandButton.textContent = expanded ? 'Exit expanded view (Esc)' : 'Expand workspace';
+    updateWires();
+  }
+  expandButton.addEventListener('click', () => expandWorkspace(expandButton.getAttribute('aria-pressed') !== 'true'));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && expandButton.getAttribute('aria-pressed') === 'true') {
+      expandWorkspace(false); expandButton.focus();
+    }
+  });
+  new ResizeObserver(updateWires).observe(canvas);
   const details = document.getElementById('device-details');
   const removeButton = document.getElementById('remove-device');
   const connectButton = document.getElementById('connect-device');
@@ -29,10 +68,22 @@
   };
   const playButton = document.getElementById('trace-play');
   const speedSelect = document.getElementById('trace-speed');
+  let consoleCommand = 'Ready.';
+  let consoleResult = '';
+  let animatedEvent = null;
+  const consoleOutput = document.getElementById('console-output');
+  const animationStatus = document.getElementById('animation-status');
+  const animatePackets = document.getElementById('animate-packets');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reducedMotion.matches) animatePackets.checked = false;
   let trace = NetworkTrace.create([]);
   let player = NetworkTrace.createPlayer(trace, renderTrace);
   const labels = {pc: 'PC', switch: 'Switch', router: 'Router'};
-  const glyphs = {pc: '▣', switch: '▥', router: '◉'};
+  const glyphs = {
+    pc: ['M8 4h48v30H8z', 'M27 34v9h10v-9 M19 44h26 M13 9h38v20H13z'],
+    switch: ['M4 14h56v30H4z', 'M10 24h8v8h-8z M22 24h8v8h-8z M34 24h8v8h-8z M46 24h8v8h-8z M10 38h4 M22 38h4'],
+    router: ['M5 16a27 11 0 0 1 54 0v19a27 11 0 0 1-54 0z', 'M5 16a27 11 0 0 0 54 0 M20 12h24 m-4-4 4 4-4 4 M44 20H20 m4-4-4 4 4 4']
+  };
   const draftKey = 'owt_network_simulator_draft_v1';
   const sample = () => [
     {id: 'pc-1', type: 'pc', name: 'PC 1', x: 10, y: 38, config: {interfaces: {eth0: {ip: '192.168.1.10', prefix: 24}}, gateway: ''}},
@@ -70,6 +121,16 @@
     });
   }
   function renderLab() {
+    if (devices.filter(device => device.type === 'router').length > 1 && devices.some(device => device.config?.rip)) {
+      labTitle.textContent = 'RIP routing practice';
+      labDescription.textContent = 'Select a router to configure RIP version 2 and inspect its routing table.';
+      labSteps.replaceChildren();
+      for (const text of ['Enable RIP on both routers and their required interfaces.', 'Run ping between the PCs. Use Next or Play to inspect learned routes and forwarding.', 'Disable RIP on one router, save settings, then run ping again to test the missing route.']) {
+        const row = document.createElement('li'); row.textContent = text; labSteps.append(row);
+      }
+      labHint.textContent = completedPing?.ok ? 'The ping succeeded. Try disabling RIP to test a failure.' : 'Load RIP example for a ready-to-test two-router network.';
+      return;
+    }
     const routed = labMode === 'routed';
     const lab = routed ? NetworkLabs.routedGateway({devices, links}, completedPing) : NetworkLabs.firstPing({devices, links}, completedPing);
     labTitle.textContent = routed ? 'Guided lab: routed reply' : 'Guided lab: first ping';
@@ -84,6 +145,47 @@
       labSteps.append(row);
     }
     labHint.textContent = lab.hint;
+  }
+  function drawPacket(event) {
+    if (event === animatedEvent) return;
+    animatedEvent = event;
+    canvas.querySelectorAll('.sim-packet').forEach(marker => marker.remove());
+    if (!event) return;
+    const here = devices.find(device => device.id === event.deviceId);
+    if (!here) return;
+    const incoming = event.ingressPort && !['Route', 'Drop', 'Learn', 'Time exceeded', 'Echo reply'].includes(event.action);
+    const ports = incoming ? [event.ingressPort] : (['Send', 'Probe'].includes(event.action) ? event.egressPorts : []);
+    const paths = ports.map(port => {
+      const cable = links.find(link => [link.a,link.b].some(end => end.deviceId === here.id && end.port === port));
+      if (!cable) return null;
+      const otherEnd = cable.a.deviceId === here.id ? cable.b : cable.a;
+      const other = devices.find(device => device.id === otherEnd.deviceId);
+      return incoming ? [other,here] : [here,other];
+    }).filter(Boolean);
+    if (!paths.length) paths.push([here,here]);
+    const width = canvas.clientWidth, height = canvas.clientHeight;
+    const point = device => ({x:47 + device.x / 100 * (width - 94),y:35 + device.y / 100 * (height - 70)});
+    for (const [from,to] of paths) {
+      const start = point(from), end = point(to);
+      const marker = document.createElement('span'); marker.className = 'sim-packet';
+      marker.classList.toggle('packet-drop', event.action === 'Drop');
+      marker.classList.toggle('packet-reply', ['Reply', 'Echo reply', 'Time exceeded'].includes(event.action) || /echo reply/i.test(event.detail));
+      marker.setAttribute('aria-hidden','true'); marker.textContent = event.action === 'Drop' ? '×' : '●';
+      marker.style.left = end.x + 'px'; marker.style.top = end.y + 'px'; canvas.append(marker);
+      if (animatePackets.checked && !reducedMotion.matches) marker.animate([
+        {transform:'translate(' + (start.x-end.x) + 'px,' + (start.y-end.y) + 'px)'},
+        {transform:'translate(0,0)'}
+      ],{duration:Math.max(100,Number(speedSelect.value)*0.8),easing:'linear',fill:'forwards'});
+    }
+  }
+  function renderConsole() {
+    const rows = trace.visible().map(step => step.number + '. ' + step.protocol + ' ' + step.device + ': ' + step.detail);
+    consoleOutput.textContent = [consoleCommand,...rows,...(trace.index() === trace.total()-1 && consoleResult ? [consoleResult] : [])].join('\n');
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    const current = trace.current();
+    animationStatus.textContent = current ? (player.isPlaying() ? 'Playing' : 'Paused') + ' — ' + current.protocol + ' at ' + current.device + ': ' + current.action : 'Run ping or traceroute to see packets move across the map.';
+    animationStatus.setAttribute('aria-live',player.isPlaying() ? 'off' : 'polite');
+    drawPacket(current);
   }
   function renderTrace() {
     const current = trace.current();
@@ -132,10 +234,12 @@
     playButton.textContent = player.isPlaying() ? 'Pause' : 'Play';
     traceProgress.setAttribute('aria-live', player.isPlaying() ? 'off' : 'polite');
     highlightCurrentDevice();
+    renderConsole();
   }
   function clearTrace() {
     player.pause();
     completedPing = null;
+    consoleCommand = 'Topology changed. Run a new diagnostic.'; consoleResult = '';
     trace = NetworkTrace.create([]);
     player = NetworkTrace.createPlayer(trace, renderTrace);
     renderTrace();
@@ -216,6 +320,18 @@
       addField(form, 'Prefix length', `${port}-prefix`, iface.prefix ?? '');
     }
     if (device.type === 'pc') addField(form, 'Default gateway', 'gateway', device.config?.gateway || '');
+    if (device.type === 'router') {
+      const title = document.createElement('h4'); title.textContent = 'RIP version 2'; form.append(title);
+      for (const [name, text, checked] of [
+        ['rip-enabled', 'Enable RIP', device.config?.rip?.enabled],
+        ...NetworkTopology.portsByType.router.map(port => ['rip-' + port, 'RIP on ' + port, device.config?.rip?.ports?.includes(port) ?? true])
+      ]) {
+        const label = document.createElement('label');
+        const input = document.createElement('input'); input.type = 'checkbox'; input.name = name; input.checked = Boolean(checked);
+        label.append(input, document.createTextNode(text)); form.append(label);
+      }
+      const note = document.createElement('p'); note.textContent = 'Selected interfaces exchange RIP routes and advertise their connected subnets. Routes recalculate immediately. Update timers and authentication are not simulated.'; form.append(note);
+    }
     const submit = document.createElement('button'); submit.type = 'submit'; submit.textContent = 'Save settings'; form.append(submit);
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -226,6 +342,7 @@
         const prefix = String(data.get(`${port}-prefix`) || '').trim();
         config.interfaces[port] = {ip, prefix: prefix === '' ? '' : Number(prefix)};
       }
+      if (device.type === 'router') config.rip = {enabled: data.has('rip-enabled'), ports: NetworkTopology.portsByType.router.filter(port => data.has('rip-' + port))};
       if (device.type === 'pc') config.gateway = String(data.get('gateway') || '').trim();
       const candidate = {...device, config};
       const error = NetworkDocument.configError(candidate);
@@ -234,6 +351,17 @@
       saveDraft(); render(); announce(`${device.name} settings saved.`);
     });
     details.append(form);
+    if (device.type === 'router') {
+      const title = document.createElement('h4'); title.textContent = 'Routing table'; details.append(title);
+      const list = document.createElement('ul');
+      for (const route of NetworkRip.converge({devices, links}).get(device.id) || []) {
+        const row = document.createElement('li');
+        row.textContent = route.network + '/' + route.prefix + ' — ' + route.source + ', ' + route.port + (route.nextHop ? ', via ' + route.nextHop + ', metric ' + route.metric : '');
+        list.append(row);
+      }
+      if (!list.children.length) { const row = document.createElement('li'); row.textContent = 'Configure an interface to add a connected route.'; list.append(row); }
+      details.append(list);
+    }
   }
   function updateWires() {
     const rect = canvas.getBoundingClientRect();
@@ -271,8 +399,17 @@
       button.style.top = `calc(${device.y}% - ${device.y * .70}px)`;
       button.setAttribute('aria-label', `${device.name}, ${labels[device.type]}. Arrow keys move; Delete removes.`);
       button.setAttribute('aria-pressed', String(device.id === selectedId));
-      const glyph = document.createElement('span');
-      glyph.className = 'glyph'; glyph.setAttribute('aria-hidden', 'true'); glyph.textContent = glyphs[device.type];
+      const glyph = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      glyph.classList.add('glyph');
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.setAttribute('viewBox', '0 0 64 48');
+      glyph.setAttribute('focusable', 'false');
+      glyphs[device.type].forEach((shape, index) => {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', shape);
+        path.setAttribute('fill', index === 0 ? 'var(--btn)' : 'none');
+        glyph.append(path);
+      });
       const name = document.createElement('span');
       name.className = 'device-name'; name.textContent = device.name;
       button.append(glyph, name);
@@ -328,6 +465,7 @@
     else connectButton.textContent = 'Connect selected';
     updateWires();
     highlightCurrentDevice();
+    animatedEvent = null; drawPacket(trace.current());
   }
   function select(id) {
     if (connectingFrom) {
@@ -377,6 +515,18 @@
     labMode = 'first';
     devices = sample(); links = []; selectedId = null; connectingFrom = null; connectingPort = null;
     saveDraft(); render(); announce('First ping lab loaded. Connect PC 1 to Switch 1.');
+  });
+  document.getElementById('load-rip-sample').addEventListener('click', () => {
+    devices = [
+      {id:'rip-pc-1',type:'pc',name:'PC 1',x:5,y:40,config:{interfaces:{eth0:{ip:'192.168.1.10',prefix:24}},gateway:'192.168.1.1'}},
+      {id:'rip-r1',type:'router',name:'Router 1',x:35,y:40,config:{interfaces:{'g0/0':{ip:'192.168.1.1',prefix:24},'g0/1':{ip:'10.0.0.1',prefix:30}},rip:{enabled:true,ports:['g0/0','g0/1']}}},
+      {id:'rip-r2',type:'router',name:'Router 2',x:65,y:40,config:{interfaces:{'g0/0':{ip:'10.0.0.2',prefix:30},'g0/1':{ip:'192.168.2.1',prefix:24}},rip:{enabled:true,ports:['g0/0','g0/1']}}},
+      {id:'rip-pc-2',type:'pc',name:'PC 2',x:95,y:40,config:{interfaces:{eth0:{ip:'192.168.2.20',prefix:24}},gateway:'192.168.2.1'}}
+    ];
+    links = [];
+    for (const [a,b] of [['rip-pc-1','rip-r1'],['rip-r1','rip-r2'],['rip-r2','rip-pc-2']]) links.push(NetworkTopology.connect(devices, links, a, b).link);
+    selectedId = null; connectingFrom = null; connectingPort = null; labMode = 'first';
+    saveDraft(); render(); announce('RIP example loaded. Run ping, then disable RIP on a router to test a missing route.');
   });
   document.getElementById('load-routed-sample').addEventListener('click', () => {
     labMode = 'routed';
@@ -451,6 +601,7 @@
     announce(`${device.name} moved to ${Math.round(device.x)}%, ${Math.round(device.y)}%.`);
   });
   canvas.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
     const target = event.target.closest('.sim-device');
     if (!target) return;
     const device = devices.find(item => item.id === target.dataset.id);
@@ -490,20 +641,45 @@
     if (player.isPlaying()) player.pause();
     else player.play(Number(speedSelect.value));
     renderTrace();
+    canvas.querySelectorAll('.sim-packet').forEach(marker => marker.getAnimations().forEach(animation => {
+      if (player.isPlaying()) animation.play(); else animation.pause();
+    }));
   });
   speedSelect.addEventListener('change', () => {
     if (player.isPlaying()) { player.play(Number(speedSelect.value)); renderTrace(); }
   });
-  document.getElementById('ping-form').addEventListener('submit', event => {
-    event.preventDefault();
-    const result = NetworkSimulation.ping({schemaVersion: NetworkDocument.VERSION, devices, links}, pingSource.value, pingTarget.value);
+  function runDiagnostic(kind) {
+    const model = {schemaVersion: NetworkDocument.VERSION, devices, links};
+    const result = kind === 'traceroute' ? NetworkTraceroute.run(model, pingSource.value, pingTarget.value) : NetworkSimulation.ping(model, pingSource.value, pingTarget.value);
+    const from = devices.find(device => device.id === pingSource.value);
+    const to = devices.find(device => device.id === pingTarget.value);
+    consoleCommand = '> ' + kind + ' ' + (to?.config?.interfaces?.eth0?.ip || '(choose destination)') + ' from ' + (from?.name || '(choose source)');
+    consoleResult = result.reason;
     pingResult.textContent = result.reason;
-    completedPing = {...result, sourceId: pingSource.value, targetId: pingTarget.value};
+    if (kind === 'ping') completedPing = {...result, sourceId: pingSource.value, targetId: pingTarget.value};
     player.pause();
     trace = NetworkTrace.create(result.events);
     player = NetworkTrace.createPlayer(trace, renderTrace);
-    renderTrace();
-    renderLab();
+    if (animatePackets.checked && !reducedMotion.matches) player.play(Number(speedSelect.value));
+    renderTrace(); renderLab();
+  }
+  document.getElementById('ping-form').addEventListener('submit', event => {event.preventDefault(); runDiagnostic('ping');});
+  document.getElementById('run-traceroute').addEventListener('click', () => runDiagnostic('traceroute'));
+  animatePackets.addEventListener('change', () => {
+    if (!animatePackets.checked) { player.pause(); canvas.querySelectorAll('.sim-packet').forEach(marker => marker.getAnimations().forEach(animation => animation.finish())); renderTrace(); }
+  });
+  NetworkConnectionUI.attach(canvas, {
+    getDevice: id => devices.find(device => device.id === id),
+    getFreePorts: device => NetworkTopology.freePorts(device, links),
+    announce,
+    arm: (id, port) => {
+      selectedId = id; connectingFrom = id; connectingPort = port;
+      render(); announce('Select a destination for ' + port + '. Escape cancels.');
+      canvas.querySelector('[data-id="' + id + '"]')?.focus();
+    },
+    connect: (from, to, port) => {
+      connectingFrom = from; connectingPort = port; select(to);
+    }
   });
   canvas.tabIndex = -1;
   renderTrace();

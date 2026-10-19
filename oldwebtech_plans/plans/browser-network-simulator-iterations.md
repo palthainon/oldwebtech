@@ -206,3 +206,51 @@
 - Reload preserved the imported topology and lab mode. A routed ping then succeeded with 26 events. Importing malformed JSON showed `Import failed: Topology file is not valid JSON.` The existing topology and successful trace remained intact. An unreadable temporary file also produced a read error without replacing the topology.
 - `node --test nettools/network-*.test.js`: 26 passed, 0 failed. Browser console errors were empty during the file checks. No simulator code fix was required.
 - Next: review the cloud persistence plan and define one local save/load API slice before implementation. Keep deployment and publication outside the loop.
+
+## 2026-10-19 — device shapes
+
+- Replaced text symbols with vector monitor, switch, and router shapes. Removed the outer device blocks. Labels appear below each shape. Selection uses shape color and an underlined label. Keyboard focus outlines the label. Packet events highlight the shape.
+- Browser checks on the local preview confirmed all three shapes and device selection. The existing six-device topology remained intact. A routed ping succeeded through Router 1. The browser reported no console errors.
+- JavaScript syntax check and all 26 simulator tests passed.
+- Next: check the shapes on a narrow screen and in the light theme before the next merge.
+
+## 2026-10-19 — expanded workspace and RIP configuration
+
+- Added Expand workspace with an Escape exit and a Test a ping link. Canvas resizing recalculates cable positions.
+- Added RIP version 2 controls for each router and interface. Router details show connected and learned routes. The two-router example supports request and reply forwarding. Settings survive document export, import, and reload.
+- The model calculates converged routes before each ping. It uses subnet masks, hop metrics below 16, and split horizon. It requires a cabled path through the same subnet for route exchange. Reference: https://www.rfc-editor.org/rfc/rfc2453.html. Update timers and authentication are outside this model. RIP traces show route learning and packet forwarding without ARP or MAC learning details. The page states these limits.
+- All 31 automated tests passed. New checks cover learned routes, request and reply forwarding, disabled peers, excluded interfaces, disconnected peers, transit mask mismatch, missing return gateway, metric 15 and 16, and document validation.
+- Browser checks passed: expand and Escape exit, two-router ping success, learned route display, disabled RIP missing-route failure, reload of disabled settings, and successful ping after enabling RIP again. No console errors appeared. Exported and restored the user topology with six devices and four cables after testing.
+- Next: check the expanded view on a narrow screen and in the light theme. Extend RIP packet details before adding timer simulation. No merge or deployment occurred.
+
+## 2026-10-19 — visible ping panel
+
+- Moved the source and destination selectors and Run ping button to the right of the canvas, above device settings. Packet trace details use a keyboard-accessible expandable section. On narrow screens, the ping panel appears before the canvas. This makes ping visible without scrolling past the lab.
+- Browser checks passed for a routed ping, the same-PC error, trace expansion, Next to event 2 of 26, and Enter to close the trace section. Restored the original destination and a successful ping. No console errors appeared.
+- Next: check the right panel on a narrow screen and in the light theme.
+
+## 2026-10-19 — editing and diagnostics tabs
+
+- Added Edit and Ping and trace tabs beside the map. Diagnostic output scrolls inside its panel. Switching tabs keeps the selected device, unsaved settings, and trace position. The Test a ping link selects the diagnostic tab. This separates diagnostic output from the editing controls.
+- Browser checks passed for arrow-key and End navigation, preservation of an unsaved address, preservation of event 2 of 3, visible map, and the missing-cable failure. Restored the address field without saving. No console errors appeared. JavaScript syntax and whitespace checks passed.
+- Next: test narrow-screen layout. A separate traceroute command remains unimplemented; the diagnostic tab contains the ping packet trace.
+
+## 2026-10-19 — packet animation and console
+
+- Added cable-following packet markers for ping and traceroute. Requests and replies use different colors. Drops show a cross. Playback supports pause, speed, stepping, and an animation checkbox. Reduced-motion preferences disable automatic playback and motion. Added a scrollable text console below the map.
+- Added an educational traceroute model with increasing TTL, router expiration events, and destination replies. It uses a verified simulated ping path with symmetric return paths and one probe per hop. A failed ping stops probes without invented hop replies. No timing measurements are claimed. The page states these limits. Protocol reference: https://www.rfc-editor.org/rfc/rfc1812.html#section-5.3.1.
+- All 37 tests passed. New tests cover router expiration, switch traversal without extra hops, hop limits, two RIP routers, invalid endpoints, missing cables, and missing return gateways. JavaScript syntax and whitespace checks passed.
+- Browser checks passed for the missing-cable traceroute failure, automatic packet playback, marker presence, pause, manual stepping, completed ping output, and three-hop traceroute output. No console errors appeared. Restored the user topology with three devices and one cable. Restored normal speed and the animation checkbox.
+- Next: validate reduced-motion and narrow-screen behavior in the browser. Extend the traceroute model to independent probes on partially reachable routes. Changes remain local.
+
+## 2026-10-19 — drag connections from a device menu
+
+- Added a right-click device menu with free source ports. Drag a port onto another device to add a cable. A dashed line previews the drag. The destination uses its first free port. Clicking a port retains the existing select-destination workflow. Shift+F10 opens the menu from the keyboard. Escape and an outside drop cancel. Right-click no longer starts device movement.
+- Browser checks passed for dragging PC 2 eth0 onto Switch 1, refusing a self-connection, showing no free ports on a connected PC, Shift+F10, Escape, and dropping outside a device. Undo restored the original three-device topology with one cable. No console errors appeared. All 37 tests passed.
+- Next: test touch input and menu placement on a narrow screen.
+
+## 2026-10-19 — release validation
+
+- All 37 simulator tests passed before the merge. Browser checks passed for the light theme, expanded view and Escape exit, narrow layout without page overflow, same-subnet ping, three-hop RIP traceroute, disabled RIP failure, and export/import/reload. Restored the current user topology with three devices and two cables. Browser console errors were empty. Earlier checks in this iteration cover keyboard tabs, drag connections, invalid connections, packet playback, and document failures.
+- Added asset version parameters so the release loads matching simulator scripts and styles.
+- User authorized merge and deployment. Reconcile local and remote main without discarding unrelated work. Record deployment evidence after the workflow completes.
