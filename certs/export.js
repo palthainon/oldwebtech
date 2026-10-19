@@ -8,9 +8,11 @@
     const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/';
     const ATTRIBUTION = 'Questions from oldweb.tech, a Lawson Cyber site (' + SITE + '). ' +
         'Licensed CC BY-NC 4.0 (' + LICENSE_URL + '): share and adapt with attribution, non-commercial use only. ' +
-        'Original questions, not affiliated with or endorsed by CompTIA or Cisco.';
+        'Original questions, not affiliated with or endorsed by CompTIA, Cisco, or Microsoft.';
 
     const EXAMS = [
+        { id: 'ai901-pilot', name: 'AI-901 scoped pilot (14 questions)' },
+        { id: 'pl300-pilot', name: 'PL-300 scoped pilot (4 questions)' },
         { id: 'security-plus', name: 'Security+' },
         { id: 'a-plus', name: 'A+' },
         { id: 'network-plus', name: 'Network+' },
@@ -199,7 +201,7 @@
         if (list) {
             let all;
             const rows = EXAMS.map(e => ({ slug: e.id, name: e.name, banks: () => loadBank(e.id).then(b => [b]) }))
-                .concat([{ slug: 'all', name: 'all 8 exams', label: 'All 8 exams', banks: () => all || (all = loadAll()) }]);
+                .concat([{ slug: 'all', name: 'all ' + EXAMS.length + ' practice banks', label: 'All ' + EXAMS.length + ' practice banks (includes scoped pilots)', banks: () => all || (all = loadAll()) }]);
             rows.forEach(r => {
                 const li = document.createElement('li');
                 const name = document.createElement('span');
