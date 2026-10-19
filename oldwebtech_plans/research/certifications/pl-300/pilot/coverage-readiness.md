@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has four reviewed pilot questions. Each question uses one verified behavior card. The independent review approved all answers and choice explanations. See [independent-review.md](independent-review.md).
+PL-300, the Power BI analyst exam, has four published pilot questions. Each question uses one verified behavior card. The independent review approved all answers and choice explanations. See [independent-review.md](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -21,4 +21,4 @@ The pilot uses the existing quiz engine and a separate storage identifier. The c
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions remain reviewed until deployment succeeds. Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
