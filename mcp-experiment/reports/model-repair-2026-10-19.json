@@ -1,0 +1,335 @@
+{
+  "at": "2026-10-19T20:51:31.210Z",
+  "environment": "local isolated servers; Azure telemetry connection disabled; DNS fixtures",
+  "reports": [
+    {
+      "service": "diagnostics",
+      "model": "gpt-5.6-luna",
+      "exitCode": 0,
+      "elapsedMs": 12642,
+      "calls": [
+        {
+          "id": "item_1",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "lookup_dns",
+          "arguments": {
+            "domain": "example.com",
+            "type": "a"
+          },
+          "result": null,
+          "error": {
+            "message": "tool call error: tool call failed for `oldweb/lookup_dns`\n\nCaused by:\n    Mcp error: -32602: invalid_tool_or_arguments({\"reason\":\"invalid_arguments\",\"guidance\":\"Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.\",\"issues\":[{\"field\":\"type\",\"guidance\":\"Use one of the allowed values shown in tools/list; values are case-sensitive.\"}],\"omittedIssues\":0,\"availableTools\":[\"lookup_dns\",\"check_email_dns\",\"check_https\",\"deployment_readiness\",\"trace_email\"],\"example\":{\"method\":\"tools/call\",\"params\":{\"name\":\"lookup_dns\",\"arguments\":{\"domain\":\"example.com\",\"type\":\"A\"}}}})"
+          },
+          "status": "failed"
+        },
+        {
+          "id": "item_2",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "lookup_dns",
+          "arguments": {
+            "domain": "example.com",
+            "type": "A"
+          },
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "example.com: A lookup returned DNS status 0 and 1 answers.\n\u2022 8.8.8.8 (TTL 60s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+              }
+            ],
+            "structured_content": {
+              "domain": "example.com",
+              "type": "A",
+              "status": 0,
+              "dnssecValidated": false,
+              "answers": [
+                {
+                  "name": "example.com",
+                  "type": 1,
+                  "TTL": 60,
+                  "data": "8.8.8.8"
+                }
+              ],
+              "observedAt": "2026-10-19T20:51:10.243Z",
+              "resolver": "Google Public DNS",
+              "admin": {
+                "summary": "example.com: A lookup returned DNS status 0 and 1 answers.",
+                "findings": [
+                  "8.8.8.8 (TTL 60s)"
+                ],
+                "nextSteps": [],
+                "limitations": [
+                  "Observed DNS configuration; cached resolver answers can lag changes."
+                ]
+              }
+            }
+          },
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "summary": "**Done:**\n\n- The server rejected the first call because `type:\"a\"` used the wrong case.\n- The correction changed only `type` to `\"A\"`.\n- The corrected lookup succeeded with one synthetic fixture result: `8.8.8.8`.\n\n**Watch out:** DNS data is synthetic. It is not live Internet data.",
+      "usage": {
+        "input_tokens": 89738,
+        "cached_input_tokens": 64000,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 464,
+        "reasoning_output_tokens": 247
+      },
+      "errors": [],
+      "allInternal": true,
+      "activity": [
+        {
+          "service": "diagnostics",
+          "method": "tools/call",
+          "tool": "lookup_dns",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "validation_error",
+          "durationMs": 3,
+          "inputBytes": 775,
+          "outputBytes": 604
+        },
+        {
+          "service": "diagnostics",
+          "method": "tools/call",
+          "tool": "lookup_dns",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "tool_success",
+          "durationMs": 10,
+          "inputBytes": 775,
+          "outputBytes": 679
+        }
+      ],
+      "prohibitedActions": [],
+      "passed": true,
+      "preservedInputVerified": true
+    },
+    {
+      "service": "logs",
+      "model": "gpt-5.6-luna",
+      "exitCode": 0,
+      "elapsedMs": 7788,
+      "calls": [
+        {
+          "id": "item_1",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "parse_logs",
+          "arguments": {
+            "text": "{\"level\":\"INFO\",\"message\":\"synthetic repair test\"}",
+            "recordLimit": 201
+          },
+          "result": null,
+          "error": {
+            "message": "tool call error: tool call failed for `oldweb/parse_logs`\n\nCaused by:\n    Mcp error: -32602: invalid_tool_or_arguments({\"reason\":\"invalid_arguments\",\"guidance\":\"Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.\",\"issues\":[{\"field\":\"recordLimit\",\"guidance\":\"The value exceeds the maximum size or bound shown in tools/list.\"}],\"omittedIssues\":0,\"availableTools\":[\"parse_logs\",\"summarize_logs\",\"extract_ci_failures\",\"analyze_http_trace\",\"validate_config\"],\"example\":{\"method\":\"tools/call\",\"params\":{\"name\":\"parse_logs\",\"arguments\":{\"text\":\"{\\\"level\\\":\\\"ERROR\\\",\\\"timestamp\\\":\\\"2026-10-09T10:00:00Z\\\",\\\"message\\\":\\\"example\\\"}\",\"format\":\"auto\"}}}})"
+          },
+          "status": "failed"
+        },
+        {
+          "id": "item_2",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "parse_logs",
+          "arguments": {
+            "text": "{\"level\":\"INFO\",\"message\":\"synthetic repair test\"}",
+            "recordLimit": 200
+          },
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n\u2022 Formats: {\"json\":1}.\n\u2022 Severities: {\"info\":1}.\n\u2022 Timestamp range: unknown to unknown.\n\u2022 0 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+              }
+            ],
+            "structured_content": {
+              "detectedFormat": "json",
+              "parsed": 1,
+              "unparsed": 0,
+              "skipped": 0,
+              "formatCounts": {
+                "json": 1
+              },
+              "severityCounts": {
+                "info": 1
+              },
+              "ambiguousTimestamps": 1,
+              "timestampRange": null,
+              "records": [
+                {
+                  "line": 1,
+                  "format": "json",
+                  "fields": {
+                    "level": "INFO",
+                    "message": "synthetic repair test"
+                  }
+                }
+              ],
+              "truncated": false,
+              "omittedRecords": 0,
+              "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+              "admin": {
+                "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+                "findings": [
+                  "Formats: {\"json\":1}.",
+                  "Severities: {\"info\":1}.",
+                  "Timestamp range: unknown to unknown.",
+                  "0 records omitted; 1 ambiguous timestamps."
+                ],
+                "nextSteps": [],
+                "limitations": [
+                  "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+                ]
+              }
+            }
+          },
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "summary": "**Done:**\n\nThe server rejected the first `parse_logs` call because `recordLimit` exceeded the maximum value.\n\nThe retry used `recordLimit: 200` and preserved the intended input. It succeeded with 1 parsed JSON record.\n\n**Watch out:** The record had no timestamp. Timestamp range remains unknown.",
+      "usage": {
+        "input_tokens": 87138,
+        "cached_input_tokens": 64128,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 318,
+        "reasoning_output_tokens": 74
+      },
+      "errors": [],
+      "allInternal": true,
+      "activity": [
+        {
+          "service": "logs",
+          "method": "tools/call",
+          "tool": "parse_logs",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "validation_error",
+          "durationMs": 1,
+          "inputBytes": 827,
+          "outputBytes": 683
+        },
+        {
+          "service": "logs",
+          "method": "tools/call",
+          "tool": "parse_logs",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "tool_success",
+          "durationMs": 3,
+          "inputBytes": 827,
+          "outputBytes": 1137
+        }
+      ],
+      "prohibitedActions": [],
+      "passed": true,
+      "preservedInputVerified": true
+    },
+    {
+      "service": "network",
+      "model": "gpt-5.6-luna",
+      "exitCode": 0,
+      "elapsedMs": 10317,
+      "calls": [
+        {
+          "id": "item_1",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "inspect_subnet",
+          "arguments": {
+            "cidr": "192.0.2.0/24",
+            "extra": "synthetic"
+          },
+          "result": null,
+          "error": {
+            "message": "tool call error: tool call failed for `oldweb/inspect_subnet`\n\nCaused by:\n    Mcp error: -32602: invalid_tool_or_arguments({\"reason\":\"invalid_arguments\",\"guidance\":\"Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.\",\"issues\":[{\"field\":\"arguments\",\"guidance\":\"Remove extra keys. Only the keys in tools/list are accepted.\"}],\"omittedIssues\":0,\"availableTools\":[\"inspect_subnet\",\"plan_subnets\",\"check_cidr_overlap\"],\"example\":{\"method\":\"tools/call\",\"params\":{\"name\":\"inspect_subnet\",\"arguments\":{\"cidr\":\"192.0.2.1/24\"}}}})"
+          },
+          "status": "failed"
+        },
+        {
+          "id": "item_2",
+          "type": "mcp_tool_call",
+          "server": "oldweb",
+          "tool": "inspect_subnet",
+          "arguments": {
+            "cidr": "192.0.2.0/24"
+          },
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "192.0.2.0/24: 256 addresses.\n\u2022 Range 192.0.2.0 \u2013 192.0.2.255.\n\u2022 Usable 192.0.2.1 \u2013 192.0.2.254 (254); mask 255.255.255.0.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+              }
+            ],
+            "structured_content": {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255",
+              "admin": {
+                "summary": "192.0.2.0/24: 256 addresses.",
+                "findings": [
+                  "Range 192.0.2.0 \u2013 192.0.2.255.",
+                  "Usable 192.0.2.1 \u2013 192.0.2.254 (254); mask 255.255.255.0."
+                ],
+                "nextSteps": [],
+                "limitations": [
+                  "Capacity calculation does not account for provider-reserved addresses."
+                ]
+              }
+            }
+          },
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "summary": "**Your move:** nothing.\n\n**Done:** The first call was rejected because `extra` is not allowed. The retry removed `extra` and succeeded with `192.0.2.0/24`.\n\n**Watch out:** No oldweb log tool was available, so no log query was made. DNS results were not used.",
+      "usage": {
+        "input_tokens": 115801,
+        "cached_input_tokens": 98944,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 462,
+        "reasoning_output_tokens": 194
+      },
+      "errors": [],
+      "allInternal": true,
+      "activity": [
+        {
+          "service": "network",
+          "method": "tools/call",
+          "tool": "inspect_subnet",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "validation_error",
+          "durationMs": 1,
+          "inputBytes": 787,
+          "outputBytes": 555
+        },
+        {
+          "service": "network",
+          "method": "tools/call",
+          "tool": "inspect_subnet",
+          "phase": "preparation",
+          "internal": true,
+          "outcome": "tool_success",
+          "durationMs": 3,
+          "inputBytes": 767,
+          "outputBytes": 821
+        }
+      ],
+      "prohibitedActions": [],
+      "passed": true,
+      "preservedInputVerified": true
+    }
+  ]
+}
