@@ -349,4 +349,16 @@
     <lastmod>2026-10-05</lastmod>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://oldweb.tech/certs/ai901-pilot.html</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://oldweb.tech/certs/pl300-pilot.html</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

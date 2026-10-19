@@ -1,12 +1,12 @@
 # AI-901 pilot coverage and readiness
 
-AI-901 is the Microsoft Azure AI Fundamentals exam. This local pilot has 14 original questions from 14 verified behavior cards. Each question checks one narrow behavior. The pilot does not cover the full exam. Its score does not predict exam readiness.
+AI-901 is the Microsoft Azure AI Fundamentals exam. This scoped pilot has 14 original questions from 14 verified behavior cards. Each question checks one narrow behavior. The pilot does not cover the full exam. Its score does not predict exam readiness.
 
 The exam baseline is the [skills measured as of April 15, 2026](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901#skills-measured-as-of-april-15-2026). The guide was checked on October 16, 2026. It lists concept skills at 40–45% and implementation skills at 55–60%. The bank stores the midpoint of each range for compatibility with the quiz display. Those values are not pilot question weights. This pilot contains 3 concept questions and 11 implementation questions.
 
 ## Question map
 
-The question bank is [ai901-pilot.js](ai901-pilot.js). Each item records its issuer objective text or heading, exam version, card ID, source URL, source section, and source check date. Question IDs below use the prefix `ai901-pilot-`. Card names below use the prefix `ai901-`.
+The question bank is [ai901-pilot.js](../../../../../certs/data/ai901-pilot.js). Each item records its issuer objective text or heading, exam version, card ID, source URL, source section, and source check date. Question IDs below use the prefix `ai901-pilot-`. Card names below use the prefix `ai901-`.
 
 | Question | Verified card | Narrow behavior | Objective coverage |
 | --- | --- | --- | --- |
@@ -44,3 +44,7 @@ The pilot lacks direct checks of the six responsible AI principles, generative m
 ## Release state
 
 All 14 questions passed independent review on October 16, 2026. The reviewer checked each answer, every choice rationale, objective fit, source currency, ambiguity, and duplicate content. See [the independent review](independent-review.md). The bank and question register record reviewed status. The local preview is a review artifact. Publication requires a separate release decision.
+
+## Release location
+
+The public page is `certs/ai901-pilot.html`. The canonical bank is `certs/data/ai901-pilot.js`. Questions remain reviewed until deployment succeeds. Research notes and source PDFs stay outside the public staging directory.

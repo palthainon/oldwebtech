@@ -17,4 +17,8 @@ This pilot does not cover the full exam. Scores do not predict an exam result. T
 
 The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should add verified visual-selection and report-interaction cards before adding more questions in the covered domains.
 
-The pilot uses the existing quiz engine and a separate storage identifier. It remains under the research directory. It has no public navigation link or sitemap entry because it is not published. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
+The pilot uses the existing quiz engine and a separate storage identifier. The canonical bank and public page live under `certs/`. The public catalog, navigation, and sitemap include the pilot. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
+
+## Release location
+
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions remain reviewed until deployment succeeds. Research notes and source PDFs stay outside the public staging directory.
