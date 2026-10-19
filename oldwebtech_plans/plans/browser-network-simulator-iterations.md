@@ -254,3 +254,10 @@
 - All 37 simulator tests passed before the merge. Browser checks passed for the light theme, expanded view and Escape exit, narrow layout without page overflow, same-subnet ping, three-hop RIP traceroute, disabled RIP failure, and export/import/reload. Restored the current user topology with three devices and two cables. Browser console errors were empty. Earlier checks in this iteration cover keyboard tabs, drag connections, invalid connections, packet playback, and document failures.
 - Added asset version parameters so the release loads matching simulator scripts and styles.
 - User authorized merge and deployment. Reconcile local and remote main without discarding unrelated work. Record deployment evidence after the workflow completes.
+
+### Deployment result
+
+- Simulator merge commit: `59fbf7764c312dc7b6a5649c423abd992e453005`. All 37 tests passed again after reconciliation. Website staging passed. Search for ping ranked the simulator first. The release diff against remote main contained only simulator-related changes.
+- Azure canceled run 39322725950 when a newer main deployment started. Commit `ca933f697dfd7189d34d283d0eb59e1d680039e9` includes the simulator merge. Its production deployment succeeded: https://github.com/palthainon/oldwebtech/actions/runs/39322737334.
+- Live browser validation at https://oldweb.tech/nettools/network-simulator.html passed: uncabled ping failure, RIP ping success, three-hop traceroute, and completed console output. Browser console errors were empty. Restored the live sample after testing.
+- Remaining limits: traceroute requires a verified ping path; it does not model independent probes on partially reachable paths. RIP uses immediate convergence. Touch input and reduced-motion behavior still need browser coverage.
