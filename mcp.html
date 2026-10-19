@@ -49,7 +49,7 @@
         <li>For DNS, <code>type</code> is uppercase: <code>A</code>, <code>AAAA</code>, <code>CNAME</code>, <code>MX</code>, <code>TXT</code>, <code>NS</code>, <code>SOA</code>, or <code>CAA</code>. Omit it to use <code>A</code>.</li>
         <li>For logs, <code>text</code> is a string, not an array or object. Start with <code>format: "auto"</code>. Preserve line breaks as JSON escapes. Use a numeric <code>recordLimit</code>, such as <code>20</code>.</li>
         <li>For subnet inspection, supply one <code>cidr</code>. For overlap checks, supply a <code>cidrs</code> array. For allocation, use a <code>parent</code> CIDR and requests with a string <code>label</code> and numeric <code>prefix</code>.</li>
-        <li>Do not add extra keys. For <code>invalid_tool_or_arguments</code>, check the endpoint, name, required fields, value types, and limits against <code>tools/list</code>. Change the invalid request before retrying. For HTTP 429, wait for <code>Retry-After</code>.</li>
+        <li>Do not add extra keys. For <code>invalid_tool_or_arguments</code>, check the endpoint, name, required fields, value types, and limits against <code>tools/list</code>. Read <code>error.data.issues</code> for safe field hints and <code>error.data.example</code> for a valid call. Examples contain synthetic values; replace them with your intended input. Change the invalid request before retrying. For HTTP 429, wait for <code>Retry-After</code>.</li>
       </ul>
     </div></section>
     <section class="box" aria-labelledby="diagnostics-heading"><div class="box-head"><h2 id="diagnostics-heading">deployment diagnostics</h2></div><div class="box-body">
