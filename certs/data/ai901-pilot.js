@@ -1,7 +1,7 @@
 // Original scoped practice. Independent review is required before release.
 window.CERT_BANK = {
   id: 'ai901-pilot', vendor: 'Microsoft', exam: 'AI-901 scoped pilot', code: 'AI-901 (2026-04-15)',
-  asOf: '2026-10', examVersion: '2026-04-15', status: 'reviewed',
+  asOf: '2026-10', examVersion: '2026-04-15', status: 'published',
   objectivesUrl: 'https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901',
   scope: 'Fourteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.',
   domains: [
@@ -123,7 +123,7 @@ window.CERT_BANK = {
     }
   ].map(function (question) {
     question.examVersion = '2026-04-15';
-    question.status = 'reviewed';
+    question.status = 'published';
     question.evidenceRefs.forEach(function (reference) { reference.checkedOn = '2026-10-16'; });
     return question;
   })
