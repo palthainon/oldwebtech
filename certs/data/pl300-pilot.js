@@ -1,4 +1,4 @@
-// Original scoped practice. Independent review is required before release.
+// Original scoped practice. New items require independent review before release.
 window.CERT_BANK = {
   "id": "pl300-pilot",
   "vendor": "Microsoft",
@@ -6,9 +6,9 @@ window.CERT_BANK = {
   "code": "PL-300 (2026-04-20)",
   "asOf": "2026-10",
   "examVersion": "2026-04-20",
-  "status": "published",
+  "status": "reviewed",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
-  "scope": "Four narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
+  "scope": "Nine narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
     {
       "id": "1",
@@ -171,6 +171,181 @@ window.CERT_BANK = {
       ],
       "examVersion": "2026-04-20",
       "status": "published"
+    },
+    {
+      "id": "pl300-pilot-005",
+      "domain": "3",
+      "objective": "Select an appropriate visual",
+      "type": "single",
+      "q": "A lake monitoring report has one temperature reading for each day. The reader needs to see the shape of temperature changes across the month. Which design best meets this need?",
+      "choices": [
+        "A donut chart showing each day as a share of the monthly total",
+        "A single card showing only the latest reading",
+        "A line chart with dates on the horizontal axis",
+        "A table of temperatures sorted by value with dates hidden"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "A line chart shows the shape of values over time. A date axis preserves the time sequence.",
+      "why": [
+        "A share of a total does not show the requested time trend.",
+        "One reading omits the changes across the month.",
+        "Correct. This design presents readings in time order as a trend.",
+        "Sorting by temperature and hiding dates removes the time sequence."
+      ],
+      "cardIds": [
+        "pl300-line-chart-time-trend"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+          "locator": "Charts for comparison and trends > Line charts; Charts for part-to-whole relationships > Pie and donut charts",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-006",
+      "domain": "3",
+      "objective": "Edit and configure interactions between visuals",
+      "type": "single",
+      "q": "A report author selects a region in a bar chart. A nearby table should respond, but a comparison column chart must remain unchanged by that selection. The author selects the bar chart and opens Edit interactions. What should the author set on the comparison column chart?",
+      "choices": [
+        "None",
+        "Filter",
+        "Highlight",
+        "Filter on every visual on the page"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "None prevents the selected source visual from affecting the chosen target. Other configured interactions can remain active.",
+      "why": [
+        "Correct. This disables the source-to-target interaction for the comparison column chart.",
+        "Filter would let the source selection affect the comparison column chart.",
+        "Highlight would let the source selection affect the comparison column chart.",
+        "Filtering every target would also affect the comparison column chart."
+      ],
+      "cardIds": [
+        "pl300-disable-visual-interaction"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-reports-visual-interactions",
+          "locator": "Change the interaction behavior, source selection paragraph and None option",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-007",
+      "domain": "3",
+      "objective": "Configure drillthrough navigation, including pages, filters, and buttons",
+      "type": "single",
+      "q": "A report has a summary table with a nonaggregated Pump ID field. The author creates a Pump Details page. Users must right-click a pump in the summary to open details for that pump. Which target-page setup establishes the drillthrough field?",
+      "choices": [
+        "Rename the page title to Pump ID without adding a field",
+        "Put a count of pumps in a card without a drillthrough field",
+        "Add only a page-navigation button",
+        "Add the same Pump ID field to the Drillthrough filters well"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "The target drillthrough well must contain the field used by the source visual. The selected pump then supplies the detail context.",
+      "why": [
+        "A page title does not configure a drillthrough field.",
+        "An aggregate count does not define the required field in the target well.",
+        "Page navigation alone does not establish the drillthrough field.",
+        "Correct. This links drillthrough to the source field."
+      ],
+      "cardIds": [
+        "pl300-drillthrough-target-field"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough",
+          "locator": "Create a drillthrough page, steps 5-7; Use drillthrough from a visual, steps 1-6 and note; Troubleshooting > Drillthrough page does not appear in the context menu",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-008",
+      "domain": "3",
+      "objective": "Configure bookmarks",
+      "type": "single",
+      "q": "A report bookmark switches between a chart and a table on the same page. Users choose a date range in a slicer before switching. The date range must stay as the user selected it. Which bookmark settings fit?",
+      "choices": [
+        "Enable Data and disable Display",
+        "Disable Data and enable Display",
+        "Enable Data and Display",
+        "Disable Data and Display"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Data controls stored filter and slicer states. Display controls visual visibility. Disabling Data preserves the current slicer selection while Display changes the view.",
+      "why": [
+        "Data can restore the stored date range, while disabled Display does not restore the visibility view.",
+        "Correct. The bookmark changes visibility without restoring its saved slicer state.",
+        "Data can reset the date range to the stored selection.",
+        "With Display disabled, the bookmark does not restore the chart and table visibility settings."
+      ],
+      "cardIds": [
+        "pl300-bookmark-preserve-slicers"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-bookmarks",
+          "locator": "Create report bookmarks, bookmark options list: Data and Display; paragraph after the options list",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-009",
+      "domain": "3",
+      "objective": "Design and configure Power BI reports for accessibility",
+      "type": "single",
+      "q": "Keyboard users reach decorative border shapes before they reach the report controls. The shapes convey no information. The author wants to keep them visible. Which change improves navigation?",
+      "choices": [
+        "Remove the report controls from the tab order",
+        "Keep every shape as a keyboard stop",
+        "Use the Selection pane to remove the decorative shapes from the tab order",
+        "Move the shapes before the controls in the tab order"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Purely decorative objects should not add keyboard stops. The Selection pane lets the author remove objects from tab order.",
+      "why": [
+        "Removing useful controls would make keyboard navigation less useful.",
+        "Keeping the decoration in the tab order retains the unnecessary stops.",
+        "Correct. The shapes remain decoration without taking keyboard stops.",
+        "Putting decoration first preserves the reported problem."
+      ],
+      "cardIds": [
+        "pl300-accessibility-tab-order"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-accessibility-creating-reports",
+          "locator": "Tab order; Shapes",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
     }
   ]
 };

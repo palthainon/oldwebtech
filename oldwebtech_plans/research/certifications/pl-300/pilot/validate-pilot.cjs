@@ -24,9 +24,19 @@ function csv(input) {
   const headers = rows.shift(); return rows.map(values => Object.fromEntries(headers.map((h, i) => [h, values[i]])));
 }
 const cards = new Map(csv(fs.readFileSync(path.join(repo, 'oldwebtech_plans/research/certifications/behavior-card-register.csv'), 'utf8').replace(/^\uFEFF/, '')).map(r => [r.card_id, r]));
+const questionRows = csv(fs.readFileSync(path.join(repo, 'oldwebtech_plans/research/certifications/question-register.csv'), 'utf8').replace(/^\uFEFF/, ''));
+assert.equal(new Set(questionRows.map(r => r.question_id)).size, questionRows.length, 'Duplicate question register IDs');
+const registered = new Map(questionRows.map(r => [r.question_id, r]));
 const ids = new Set(), stems = new Set();
 for (const q of bank.questions) {
   assert(text(q.id) && !ids.has(q.id), `Invalid ID: ${q.id}`); ids.add(q.id);
+  const row = registered.get(q.id);
+  assert(row && row.certification_id === 'pl-300', `Missing register row: ${q.id}`);
+  assert(['reviewed', 'published'].includes(q.status), `Unreviewed item: ${q.id}`);
+  assert.equal(row.status, q.status, `Register status mismatch: ${q.id}`);
+  assert.equal(row.exam_version, q.examVersion, `Register version mismatch: ${q.id}`);
+  assert.equal(row.question_path, 'certs/data/pl300-pilot.js', `Register path mismatch: ${q.id}`);
+  assert.equal(row.card_ids, q.cardIds.join(';'), `Register lineage mismatch: ${q.id}`);
   assert(text(q.q) && !stems.has(q.q.trim()), `Invalid stem: ${q.id}`); stems.add(q.q.trim());
   assert(domains.has(q.domain) && text(q.objective), `Missing domain or objective: ${q.id}`);
   assert(['single', 'multi'].includes(q.type), `Invalid type: ${q.id}`);

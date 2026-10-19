@@ -12,7 +12,7 @@
 
     const EXAMS = [
         { id: 'ai901-pilot', name: 'AI-901 scoped pilot (14 questions)' },
-        { id: 'pl300-pilot', name: 'PL-300 scoped pilot (4 questions)' },
+        { id: 'pl300-pilot', name: 'PL-300 scoped pilot (9 questions)' },
         { id: 'security-plus', name: 'Security+' },
         { id: 'a-plus', name: 'A+' },
         { id: 'network-plus', name: 'Network+' },
