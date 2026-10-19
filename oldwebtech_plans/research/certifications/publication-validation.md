@@ -18,4 +18,13 @@ The export catalog contains ten banks. The XML builder produces 14 AI-901 questi
 
 ## Limits
 
-This check validates local publication files. It does not establish that deployment succeeded. The prior independent reviews remain the evidence for question accuracy. The browser screenshot tool timed out twice. The mobile check therefore covers browser interaction and page width measurements, not visual screenshot review. Firefox, Safari, physical mobile devices, screen readers, and quiz imports into Moodle remain untested.
+The local checks above validate publication files. Production confirmation follows below. The prior independent reviews remain the evidence for question accuracy. The browser screenshot tool timed out twice. The mobile check therefore covers browser interaction and page width measurements, not visual screenshot review. Firefox, Safari, physical mobile devices, screen readers, and quiz imports into Moodle remain untested.
+
+## Production deployment
+
+On 2026-10-19, [production run 39271749676](https://github.com/palthainon/oldwebtech/actions/runs/39271749676) succeeded after [pull request 48](https://github.com/palthainon/oldwebtech/pull/48) merged at commit `fac5a525`. The orchestrator confirmed HTTP 200 for both public pages and their JavaScript banks:
+
+- [AI-901 pilot](https://oldweb.tech/certs/ai901-pilot.html) and [bank](https://oldweb.tech/certs/data/ai901-pilot.js).
+- [PL-300 pilot](https://oldweb.tech/certs/pl300-pilot.html) and [bank](https://oldweb.tech/certs/data/pl300-pilot.js).
+
+The 18 pilot questions now have published status. The question text, answers, explanations, evidence, and independent review fingerprints remain unchanged.
