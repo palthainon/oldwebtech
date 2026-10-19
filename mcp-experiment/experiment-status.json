@@ -196,12 +196,19 @@
     "checkedAt": "2026-10-16T15:04:31.515482+00:00",
     "officialRegistry": "All three 1.1.0 entries verified active. No republication.",
     "smithery": {
-      "status": "blocked-not-submitted",
-      "url": "https://smithery.ai/new",
-      "reason": "Sign-in requires new account authorization. GitHub asks for email read plus gist, starring and watching write permissions. No permissions granted.",
+      "status": "blocked-publication-api",
+      "url": "https://smithery.ai/servers/new",
+      "checkedAt": "2026-10-19T13:34:24.941999+00:00",
+      "attemptedService": "diagnostics",
+      "attemptedName": "derick/oldweb-diagnostics",
+      "reason": "Signed-in publication step returned HTTP 403: Updating servers has been removed. Contact support@smithery.ai.",
+      "publicListingVerified": false,
+      "publicListingCheck": "Expected diagnostics listing returned Server Not Found or Removed.",
       "submittedAt": null,
       "publishedAt": null,
-      "approvalDelay": null
+      "approvalDelay": null,
+      "remainingServices": "logs and network not attempted after the shared publication operation failed",
+      "report": "reports/SMITHERY-2026-10-19.md"
     },
     "pulsemcp": {
       "status": "closed-not-submitted",
