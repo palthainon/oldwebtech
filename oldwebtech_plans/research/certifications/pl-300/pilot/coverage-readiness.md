@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has nine pilot questions in this checkout. Each question uses one verified behavior card. All nine questions are published. Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has thirteen pilot questions in this checkout. Each question uses one verified behavior card. The first nine questions are published. Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -8,20 +8,20 @@ The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certif
 | --- | ---: | --- |
 | Prepare the data | 2 | Append column alignment; reference refresh execution |
 | Model the data | 1 | Simultaneous date roles |
-| Visualize and analyze the data | 5 | Time trends; visual interactions; drillthrough; bookmarks; keyboard tab order |
+| Visualize and analyze the data | 9 | Time trends; interactions; drillthrough; bookmarks; keyboard order; conditional formatting; tooltips; sorting; synced slicers |
 | Manage and secure Power BI | 1 | Additive RLS roles |
 
 RLS means row-level security. Its question assumes a consumer to whom RLS applies. It does not assess a privacy policy or a legal duty.
 
-This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Nine questions cannot estimate domain readiness.
+This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Thirteen questions cannot estimate domain readiness.
 
-The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should cover missing visualization behaviors such as conditional formatting, tooltips, sorting, and sync slicers.
+The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should cover remaining objectives such as mobile layout, report navigation, reference lines, and visual calculations.
 
 The pilot uses the existing quiz engine and a separate storage identifier. The canonical bank and public page live under `certs/`. The public catalog, navigation, and sitemap include the pilot. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-009 have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-009 have published status. Questions 010-013 remain unpublished in this checkout. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -38,3 +38,14 @@ Five new cards cover five distinct April 20, 2026 objectives in the visualizatio
 ## Nine-question release
 
 On 2026-10-19, [production run 39322737334](https://github.com/palthainon/oldwebtech/actions/runs/39322737334) succeeded after [pull request 50](https://github.com/palthainon/oldwebtech/pull/50) merged at commit `ca933f6`. The orchestrator confirmed that the [live bank](https://oldweb.tech/certs/data/pl300-pilot.js) matched the reviewed nine-question release. Questions 005-009 now have published status. Question content remains unchanged.
+
+## Report-feature expansion
+
+Four new cards cover four additional objectives. The source check date is October 19, 2026. Each question cites its exact Microsoft section. These items do not establish complete objective coverage. No live Power BI report was tested.
+
+| Question | Behavior card | Objective |
+| --- | --- | --- |
+| pl300-pilot-010 | pl300-percentage-format-rule-number | Apply conditional formatting |
+| pl300-pilot-011 | pl300-tooltip-page-enable | Create custom tooltips |
+| pl300-pilot-012 | pl300-sort-label-by-order-column | Apply sorting to visuals |
+| pl300-pilot-013 | pl300-synced-hidden-slicer-filter | Configure sync slicers |
