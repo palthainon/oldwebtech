@@ -3,7 +3,7 @@ card_id: az-104-app-service-slot-setting-stays-with-slot
 certification_id: az-104
 exam_version: "2026-04-17"
 objective_ids: ["Create and configure Azure App Service > Configure deployment slots"]
-status: draft
+status: verified
 reviewed_on: 2026-10-13
 ---
 

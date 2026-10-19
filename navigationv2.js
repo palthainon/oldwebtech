@@ -87,6 +87,8 @@
             { name: 'Free PDF Editors', file: 'productivity/index.html#pdf-resources', id: 'pdf-resources' }
         ],
         certs: [
+            { name: 'AI-901 scoped pilot', file: 'certs/ai901-pilot.html', id: 'cert-ai901-pilot' },
+            { name: 'PL-300 scoped pilot', file: 'certs/pl300-pilot.html', id: 'cert-pl300-pilot' },
             { name: 'Security+', file: 'certs/security-plus.html', id: 'cert-security-plus' },
             { name: 'A+', file: 'certs/a-plus.html', id: 'cert-a-plus' },
             { name: 'Network+', file: 'certs/network-plus.html', id: 'cert-network-plus' },
@@ -175,6 +177,8 @@
         { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
         { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] },
         // Certification practice
+        { id: 'cert-ai901-pilot', name: 'AI-901 Scoped Practice Pilot', file: 'certs/ai901-pilot.html', category: 'certs', keywords: ['microsoft', 'ai-901', 'azure', 'ai', 'pilot', 'practice'], related: ['cert-pl300-pilot', 'cert-security-plus'] },
+        { id: 'cert-pl300-pilot', name: 'PL-300 Scoped Practice Pilot', file: 'certs/pl300-pilot.html', category: 'certs', keywords: ['microsoft', 'pl-300', 'power bi', 'data analyst', 'pilot', 'practice'], related: ['cert-ai901-pilot', 'cert-security-plus'] },
         { id: 'cert-security-plus', name: 'Security+ Practice Questions',  file: 'certs/security-plus.html',              category: 'certs',        keywords: ['security+', 'security plus', 'sy0-701', 'comptia', 'practice test', 'exam', 'certification'], related: ['cert-a-plus', 'cert-ccnp-scor', 'cert-cisco-ise'] },
         { id: 'cert-a-plus',        name: 'A+ Practice Questions',         file: 'certs/a-plus.html',                     category: 'certs',        keywords: ['a+', 'a plus', 'comptia', 'core 1', 'core 2', '220-1201', '220-1202', 'practice test', 'certification'], related: ['cert-security-plus', 'cert-ccna', 'chmod'] },
         { id: 'cert-network-plus',  name: 'Network+ Practice Questions',   file: 'certs/network-plus.html',               category: 'certs',        keywords: ['network+', 'network plus', 'n10-009', 'comptia', 'subnetting', 'practice test', 'certification'], related: ['cert-ccna', 'cert-a-plus', 'subnet'] },
