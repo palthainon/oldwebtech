@@ -111,3 +111,5 @@ The [October 16 directory check](reports/DIRECTORY-FOLLOWUP-2026-10-16.md) confi
 The [October 19 Smithery attempt](reports/SMITHERY-2026-10-19.md) passed sign-in but failed at publication with HTTP 403. No Smithery listing is confirmed.
 
 Invalid tool calls return HTTP 400 with JSON-RPC code `-32602`. The stable message remains `invalid_tool_or_arguments`. The `error.data` object contains a reason, up to eight safe field hints, an omitted-issue count, supported tool names, and a static valid `tools/call` example. Hints expose only known top-level schema fields. They omit supplied values, dynamic field names, and raw validator messages. Telemetry records the outcome and sizes, not the repair payload or request arguments.
+
+The [validation retry measure](RETRY-METRICS.md) estimates whether a known tool call succeeds after an error. The Azure Workbook and weekly review use existing metadata. They do not record private arguments.
