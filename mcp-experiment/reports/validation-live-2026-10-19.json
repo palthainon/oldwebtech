@@ -1,0 +1,17 @@
+[
+  {
+    "safeError": true,
+    "repairSucceeded": true,
+    "service": "diagnostics"
+  },
+  {
+    "safeError": true,
+    "repairSucceeded": true,
+    "service": "logs"
+  },
+  {
+    "safeError": true,
+    "repairSucceeded": true,
+    "service": "network"
+  }
+]

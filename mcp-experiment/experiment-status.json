@@ -60,13 +60,13 @@
     "githubPublished": true,
     "generatedHostname": "oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io",
     "publicIngress": "enabled",
-    "validatedRevision": "oldweb-mcp--extended20261010",
+    "validatedRevision": "oldweb-mcp--r6e19c929b6ee",
     "rollbackAndShutdownVerified": true,
     "dnsVerified": true,
     "validatedVersion": "1.1.0",
     "rollbackRevision": "oldweb-mcp--rollbackextended20261010",
     "allToolsSmokePassed": 13,
-    "latestDeploymentWorkflow": "https://github.com/palthainon/oldwebtech/actions/runs/38070833673",
+    "latestDeploymentWorkflow": "https://github.com/palthainon/oldwebtech/actions/runs/39271060123",
     "phaseConfigurationVerifiedAt": "2026-10-10T13:39:00.069301-04:00",
     "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion.",
     "extensionVerifiedAt": "2026-10-10T14:19:59.256825-04:00",
@@ -155,6 +155,13 @@
       "bulkWorkerRecreated": false,
       "experimentEndUnchanged": "2027-02-15T17:19:14Z",
       "report": "reports/BILLING-RESTORE-2026-10-16.md"
+    },
+    {
+      "at": "2026-10-19T14:46:24.576418+00:00",
+      "reason": "Privacy-safe tool argument repair guidance with static valid examples",
+      "revision": "oldweb-mcp--r6e19c929b6ee",
+      "report": "reports/VALIDATION-2026-10-19.md",
+      "limitsUnchanged": true
     }
   ],
   "baselineActualSeconds": 87217.537144,
@@ -191,5 +198,34 @@
       "reason": "Cost verification exhausted. User authorized public restoration on October 16.",
       "report": "reports/BILLING-RESTORE-2026-10-16.md"
     }
-  ]
+  ],
+  "directoryFollowUp": {
+    "checkedAt": "2026-10-16T15:04:31.515482+00:00",
+    "officialRegistry": "All three 1.1.0 entries verified active. No republication.",
+    "smithery": {
+      "status": "blocked-publication-api",
+      "url": "https://smithery.ai/servers/new",
+      "checkedAt": "2026-10-19T13:34:24.941999+00:00",
+      "attemptedService": "diagnostics",
+      "attemptedName": "derick/oldweb-diagnostics",
+      "reason": "Signed-in publication step returned HTTP 403: Updating servers has been removed. Contact support@smithery.ai.",
+      "publicListingVerified": false,
+      "publicListingCheck": "Expected diagnostics listing returned Server Not Found or Removed.",
+      "submittedAt": null,
+      "publishedAt": null,
+      "approvalDelay": null,
+      "remainingServices": "logs and network not attempted after the shared publication operation failed",
+      "report": "reports/SMITHERY-2026-10-19.md",
+      "followUp": "closed by user on 2026-10-19; retain failure evidence; no retries or support contact"
+    },
+    "pulsemcp": {
+      "status": "closed-not-submitted",
+      "url": "https://www.pulsemcp.com/submit",
+      "reason": "Submissions and listing changes remain paused. Page last updated September 3, 2026.",
+      "submittedAt": null,
+      "publishedAt": null,
+      "approvalDelay": null
+    },
+    "report": "reports/DIRECTORY-FOLLOWUP-2026-10-16.md"
+  }
 }

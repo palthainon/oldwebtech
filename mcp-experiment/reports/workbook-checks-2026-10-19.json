@@ -1,0 +1,32 @@
+[
+  {
+    "view": "funnel",
+    "passed": true,
+    "rows": 47
+  },
+  {
+    "view": "adoption",
+    "passed": true,
+    "rows": 2
+  },
+  {
+    "view": "latency",
+    "passed": true,
+    "rows": 7
+  },
+  {
+    "view": "clients",
+    "passed": true,
+    "rows": 443
+  },
+  {
+    "view": "gaps",
+    "passed": true,
+    "rows": 234
+  },
+  {
+    "view": "reported-cost",
+    "passed": true,
+    "rows": 1
+  }
+]

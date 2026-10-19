@@ -68,3 +68,23 @@ test('source addressing uses the proxy-appended value and fingerprints are keyed
   const limits = new RateLimits(); for (let i = 0; i < 10; i++) assert.equal(limits.take('a', true), true);
   assert.equal(limits.take('a', true), false);
 });
+
+test('validation errors contain safe repair examples without private input in responses or telemetry', async t => {
+  const { base, events, telemetry } = await fixture(t);
+  for (const [service, name, args, field] of [
+    ['diagnostics', 'lookup_dns', { domain: 'PRIVATE_VALIDATION_20261019', type: 'PRIVATE_VALIDATION_20261019' }, 'type'],
+    ['diagnostics', 'check_https', { PRIVATE_VALIDATION_20261019: 'secret' }, 'domain'],
+    ['logs', 'analyze_http_trace', { entries: [{ method: 'GET', url: 'PRIVATE_VALIDATION_20261019', status: 'PRIVATE_VALIDATION_20261019' }] }, 'entries'],
+    ['network', 'PRIVATE_VALIDATION_20261019', {}, null]
+  ]) {
+    const response = await fetch(`${base}/${service}/mcp`, { method: 'POST', headers: { 'content-type': 'application/json', 'x-oldweb-test': 'fixture-test' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name, arguments: args } }) });
+    assert.equal(response.status, 400);
+    const payload = await response.json(); assert.equal(payload.error.code, -32602);
+    assert.ok(payload.error.data.example.params.arguments);
+    if (field) assert.ok(payload.error.data.issues.some(i => i.field === field));
+    assert.ok(!JSON.stringify(payload).includes('PRIVATE_VALIDATION_20261019'));
+  }
+  await telemetry.flush();
+  assert.equal(events.filter(e => e.outcome === 'validation_error').length, 4);
+  assert.ok(!JSON.stringify(events).includes('PRIVATE_VALIDATION_20261019'));
+});

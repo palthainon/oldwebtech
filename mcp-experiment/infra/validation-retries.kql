@@ -1,0 +1,15 @@
+let observationEnd=now()-5m;
+let cohortStart=datetime(2026-10-09T17:19:14Z);
+let cohortEnd=observationEnd-10m;
+let activity=customEvents | where name=='mcp_activity' and timestamp>=datetime(2026-10-09T17:19:14Z) and timestamp<=observationEnd;
+let testCallers=activity | where tostring(customDimensions.internal)=='true' | extend caller=tostring(customDimensions.caller) | where isnotempty(caller) | distinct caller;
+let calls=activity | where timestamp>=cohortStart | where tostring(customDimensions.internal)=='false' and tostring(customDimensions.method)=='tools/call' | extend caller=tostring(customDimensions.caller),service=tostring(customDimensions.service),tool=tostring(customDimensions.tool),outcome=tostring(customDimensions.outcome) | join kind=leftanti testCallers on caller | project timestamp,caller,service,tool,outcome;
+calls | sort by caller asc,service asc,tool asc,timestamp asc | serialize
+| extend nextTime=next(timestamp),nextCaller=next(caller),nextService=next(service),nextTool=next(tool),nextOutcome=next(outcome),previousTime=prev(timestamp),previousCaller=prev(caller),previousService=prev(service),previousTool=prev(tool)
+| where outcome=='validation_error'
+| extend matched= isnotempty(caller) and isnotempty(tool),mature=timestamp<cohortEnd, sameNext=caller==nextCaller and service==nextService and tool==nextTool
+| extend ambiguous=matched and ((sameNext and nextTime==timestamp) or (caller==previousCaller and service==previousService and tool==previousTool and timestamp==previousTime)),retried=matched and sameNext and nextTime>timestamp and nextTime<=timestamp+10m
+| extend result=case(not(mature),'pending',not(matched),'unmatchable',ambiguous,'ambiguous',not(retried),'no_observed_retry',nextOutcome=='tool_success','successful_retry',nextOutcome=='validation_error','invalid_retry','other_retry')
+| summarize ValidationErrors=count(),Eligible=countif(result in ('successful_retry','invalid_retry','other_retry','no_observed_retry')),SuccessfulRetries=countif(result=='successful_retry'),InvalidRetries=countif(result=='invalid_retry'),OtherRetries=countif(result=='other_retry'),NoObservedRetry=countif(result=='no_observed_retry'),Pending=countif(result=='pending'),Unmatchable=countif(result=='unmatchable'),Ambiguous=countif(result=='ambiguous') by service,tool
+| extend ObservedRetries=SuccessfulRetries+InvalidRetries+OtherRetries
+| extend SuccessPerEligibleError=iff(Eligible>0,100.0*SuccessfulRetries/Eligible,real(null)),SuccessPerObservedRetry=iff(ObservedRetries>0,100.0*SuccessfulRetries/ObservedRetries,real(null))
