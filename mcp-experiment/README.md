@@ -107,3 +107,5 @@ The approved deadline is February 15, 2027 at 17:19:14 UTC (12:19:14 Eastern), t
 Raw telemetry still expires after 60 days. Friday reviews export privacy-safe, non-overlapping weekly aggregate reports under `reports/weekly/`, including query definitions, internal-test exclusions and gap flags. Use these for older periods, and report caller estimates within their documented windows. Weekly distinct-group counts cannot establish unique lifetime callers; missing historical evidence makes that assessment inconclusive. The final review covers actual exposure through the new deadline. Continued operation beyond it requires another explicit decision.
 
 The [October 16 directory check](reports/DIRECTORY-FOLLOWUP-2026-10-16.md) confirmed three active official Registry entries. Smithery requires account authorization. PulseMCP submissions remain closed. Neither additional directory received a submission.
+
+The [October 19 Smithery attempt](reports/SMITHERY-2026-10-19.md) passed sign-in but failed at publication with HTTP 403. No Smithery listing is confirmed.
