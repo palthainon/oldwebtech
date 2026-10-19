@@ -10,3 +10,13 @@ Checked 2026-10-12. Microsoft's [current study guide](https://learn.microsoft.co
 | [Introduction to Modern Statistics, 2e](https://www.openintro.org/book/ims/) | Open statistics background, version March 31, 2026; PDF is offered via a $0 Leanpub checkout, not a direct publisher file | Not downloaded in this pass | [CC BY-SA 3.0](https://openintro-ims.netlify.app/); attribution and ShareAlike for adaptations. |
 
 The Microsoft Press PDF passed `%PDF` header and `pdfinfo` page checks. Its 2016 interface and feature guidance are stale and should **not** drive PL-300 behavior cards or questions. Current Microsoft docs are the authoritative source for Power BI product behavior. Avoid using Microsoft practice assessment items as seeds.
+
+## Visualization sources checked October 19, 2026
+
+The April 20, 2026 objective version remains current. These Microsoft sources support the five-card visualization batch. Each card contains claim-specific sections. No source PDF was added.
+
+- [Visualizations overview](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview): Line charts and Pie and donut charts.
+- [Visual interactions](https://learn.microsoft.com/en-us/power-bi/create-reports/service-reports-visual-interactions): Change the interaction behavior.
+- [Drillthrough](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough): Create a drillthrough page and Use drillthrough from a visual.
+- [Report bookmarks](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-bookmarks): Create report bookmarks, Data and Display options.
+- [Report accessibility](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-accessibility-creating-reports): Tab order and Shapes.
