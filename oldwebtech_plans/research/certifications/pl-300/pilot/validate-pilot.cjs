@@ -2,7 +2,7 @@
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), assert = require('node:assert/strict');
 const repo = path.resolve(__dirname, '../../../../..');
 const context = { window: {} };
-vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'pl300-pilot.js'), 'utf8'), context);
+vm.runInNewContext(fs.readFileSync(path.join(repo, 'certs/data/pl300-pilot.js'), 'utf8'), context);
 const bank = context.window.CERT_BANK;
 const text = v => typeof v === 'string' && v.trim().length > 0;
 assert(bank && Array.isArray(bank.questions) && bank.questions.length, 'Missing questions');
@@ -51,7 +51,7 @@ console.log(`PASS: ${bank.questions.length} questions; engine fields, answer ind
 console.log('This check does not establish factual accuracy or replace browser interaction review.');
 // Report the closest legacy stem for each pilot item. Similarity is a review aid.
 const legacy = [];
-for (const file of fs.readdirSync(path.join(repo, 'certs/data')).filter(f => f.endsWith('.js'))) {
+for (const file of fs.readdirSync(path.join(repo, 'certs/data')).filter(f => f.endsWith('.js') && !f.endsWith('-pilot.js'))) {
   const scope = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(repo, 'certs/data', file), 'utf8'), scope);
   if (scope.window.CERT_BANK) legacy.push(...scope.window.CERT_BANK.questions);
