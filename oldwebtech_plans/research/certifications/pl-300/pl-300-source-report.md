@@ -20,3 +20,12 @@ The April 20, 2026 objective version remains current. These Microsoft sources su
 - [Drillthrough](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough): Create a drillthrough page and Use drillthrough from a visual.
 - [Report bookmarks](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-bookmarks): Create report bookmarks, Data and Display options.
 - [Report accessibility](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-accessibility-creating-reports): Tab order and Shapes.
+
+## Report-feature sources checked October 19, 2026
+
+- [Conditional table formatting](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-conditional-table-formatting): Color by rules for percentages and Color by rules.
+- [Report tooltips](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-tooltips): Create a report tooltip page and Configure your tooltip report page.
+- [Sort by column](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-sort-by-column): Set the column to use for sorting and Sort by column produces unexpected grouping.
+- [Slicers](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers): Sync and use slicers on other pages.
+
+The cards limit each behavior to its supported scope. The percentage rule concerns tables and matrices. Tooltip registration alone does not guarantee automatic selection for every visual. Sort keys use one value per label at the same level of detail. No source PDF was added.
