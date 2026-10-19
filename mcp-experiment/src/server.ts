@@ -1,3 +1,4 @@
+import { validationHelp } from './validation.js';
 import http, { type IncomingMessage, type ServerResponse } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 import ipaddr from 'ipaddr.js';
@@ -21,9 +22,9 @@ function internal(request: IncomingMessage, secret: string) {
   const value = request.headers['x-oldweb-test'];
   return !!secret && typeof value === 'string' && Buffer.byteLength(value) === Buffer.byteLength(secret) && timingSafeEqual(Buffer.from(value), Buffer.from(secret));
 }
-function reply(res: ServerResponse, status: number, code: string, id: unknown = null) {
+function reply(res: ServerResponse, status: number, code: string, id: unknown = null, data?: unknown) {
   res.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store' });
-  res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: status === 400 ? -32600 : -32000, message: code }, id }));
+  res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: data ? -32602 : status === 400 ? -32600 : -32000, message: code, ...(data ? { data } : {}) }, id }));
 }
 export function createApp(config: Config, quota: Quota, telemetry: Telemetry) {
   const rates = new RateLimits();
@@ -76,7 +77,8 @@ export function createApp(config: Config, quota: Quota, telemetry: Telemetry) {
     });
     try {
       if (method === 'tools/call') {
-        if (!tool || !definitions[service][tool].schema.safeParse(body.params?.arguments || {}).success) { event.outcome = 'validation_error'; return reply(res, 400, 'invalid_tool_or_arguments', body.id); }
+        const validation = tool ? definitions[service][tool].schema.safeParse(body.params?.arguments ?? {}) : null;
+        if (!validation?.success) { event.outcome = 'validation_error'; return reply(res, 400, 'invalid_tool_or_arguments', body.id, validationHelp(service, tool, validation?.error.issues)); }
         if (!rates.take(source, true)) { event.outcome = 'rate_limited'; res.setHeader('retry-after', '60'); return reply(res, 429, 'tool_rate_limited', body.id); }
         if (service === 'diagnostics' && diagnosticsActive >= 4) { event.outcome = 'busy'; res.setHeader('retry-after', '10'); return reply(res, 429, 'diagnostics_busy', body.id); }
         if (service === 'diagnostics') { diagnosticsActive++; res.once('close', () => { diagnosticsActive--; }); }
