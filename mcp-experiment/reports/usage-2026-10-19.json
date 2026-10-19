@@ -1,0 +1,935 @@
+{
+  "through": "2026-10-19T14:03:52.761849+00:00",
+  "queries": {
+    "cumulative_metrics": "AppEvents | where Name == 'mcp_activity' | where TimeGenerated >= datetime(2026-10-09T17:19:14Z) and TimeGenerated < datetime(2026-10-19T14:03:52.761849+00:00) | extend service=tostring(Properties.service), method=tostring(Properties.method), tool=tostring(Properties.tool), outcome=tostring(Properties.outcome), internal=tostring(Properties.internal), caller=tostring(Properties.caller), n=toint(coalesce(Measurements.count,1)), duration=todouble(Measurements.durationMs) | extend phase=iff(TimeGenerated < datetime(2026-10-10T17:32:51.537144Z),'baseline','listed'), localDay=format_datetime(datetime_utc_to_local(TimeGenerated,'America/New_York'),'yyyy-MM-dd')  | where internal == 'false' | summarize requests=sum(n),probes=sumif(n,method=='probe'),initializeOk=countif(method=='initialize' and outcome=='protocol_ok'),discoveryOk=countif(method=='tools/list' and outcome=='protocol_ok'),calls=countif(method=='tools/call'),successes=countif(outcome=='tool_success'),validationFailures=countif(outcome=='validation_error'),serviceErrors=countif(outcome=='service_error'),toolErrors=countif(outcome=='tool_error'),protocolErrors=countif(outcome=='protocol_error'),throttled=sumif(n,outcome in ('http_rate_limited','rate_limited','busy','quota_exhausted')),inputBytes=sum(todouble(Measurements.inputBytes)),outputBytes=sum(todouble(Measurements.outputBytes)) by service,phase",
+    "cumulative_callers": "AppEvents | where Name == 'mcp_activity' | where TimeGenerated >= datetime(2026-10-09T17:19:14Z) and TimeGenerated < datetime(2026-10-19T14:03:52.761849+00:00) | extend service=tostring(Properties.service), method=tostring(Properties.method), tool=tostring(Properties.tool), outcome=tostring(Properties.outcome), internal=tostring(Properties.internal), caller=tostring(Properties.caller), n=toint(coalesce(Measurements.count,1)), duration=todouble(Measurements.durationMs) | extend phase=iff(TimeGenerated < datetime(2026-10-10T17:32:51.537144Z),'baseline','listed'), localDay=format_datetime(datetime_utc_to_local(TimeGenerated,'America/New_York'),'yyyy-MM-dd')  | where internal=='false' and isnotempty(caller) and method!='probe' | summarize days=dcount(localDay),successfulCalls=countif(outcome=='tool_success') by service,caller | summarize approximateGroups=count(),groupsOnThreeDays=countif(days>=3),successfulCallerGroups=countif(successfulCalls>0),successfulGroupsOnThreeDays=countif(days>=3 and successfulCalls>0) by service",
+    "week_tools": "AppEvents | where Name == 'mcp_activity' | where TimeGenerated >= datetime(2026-10-09T17:19:14Z) and TimeGenerated < datetime(2026-10-19T14:03:52.761849+00:00) | extend service=tostring(Properties.service), method=tostring(Properties.method), tool=tostring(Properties.tool), outcome=tostring(Properties.outcome), internal=tostring(Properties.internal), caller=tostring(Properties.caller), n=toint(coalesce(Measurements.count,1)), duration=todouble(Measurements.durationMs) | extend phase=iff(TimeGenerated < datetime(2026-10-10T17:32:51.537144Z),'baseline','listed'), localDay=format_datetime(datetime_utc_to_local(TimeGenerated,'America/New_York'),'yyyy-MM-dd')  | where internal=='false' and method=='tools/call' | summarize calls=count(),p50ms=percentile(duration,50),p95ms=percentile(duration,95) by service,tool,outcome,phase",
+    "week_clients": "AppEvents | where Name == 'mcp_activity' | where TimeGenerated >= datetime(2026-10-09T17:19:14Z) and TimeGenerated < datetime(2026-10-19T14:03:52.761849+00:00) | extend service=tostring(Properties.service), method=tostring(Properties.method), tool=tostring(Properties.tool), outcome=tostring(Properties.outcome), internal=tostring(Properties.internal), caller=tostring(Properties.caller), n=toint(coalesce(Measurements.count,1)), duration=todouble(Measurements.durationMs) | extend phase=iff(TimeGenerated < datetime(2026-10-10T17:32:51.537144Z),'baseline','listed'), localDay=format_datetime(datetime_utc_to_local(TimeGenerated,'America/New_York'),'yyyy-MM-dd')  | where internal=='false' and method=='initialize' | extend reportedName=tostring(Properties.clientName), reportedVersion=tostring(Properties.clientVersion) | extend client=case(tolower(reportedName) in ('codex','claude','claude-ai','claude-desktop','cursor','smithery','mcp-inspector','inspector','chatgpt','cline','mcp-client','python-mcp','mcp-remote','mcpbeat','codex-mcp-client','claude-code','@modelcontextprotocol/inspector'),tolower(reportedName),'other self-reported client'), version=iff(reportedVersion matches regex @'^[0-9]{1,3}(\\.[0-9]{1,3}){0,3}$',reportedVersion,'omitted') | summarize initializations=count() by service,client,version,outcome",
+    "gaps": "AppEvents | where Name=='mcp_activity' and tostring(Properties.outcome)=='telemetry_gap' and TimeGenerated>=datetime(2026-10-09T17:19:14Z) and TimeGenerated<datetime(2026-10-19T14:03:52.761849+00:00) | summarize events=count(),reportedCount=sum(toint(Measurements.count))",
+    "conservative_external": "let activity=AppEvents | where Name=='mcp_activity' and TimeGenerated>=datetime(2026-10-09T17:19:14Z) and TimeGenerated<datetime(2026-10-19T14:03:52.761849+00:00); let known=activity | where tostring(Properties.internal)=='true' | distinct caller=tostring(Properties.caller); activity | where tostring(Properties.internal)=='false' and isnotempty(tostring(Properties.caller)) | extend caller=tostring(Properties.caller) | join kind=leftanti known on caller | summarize initializations=countif(tostring(Properties.method)=='initialize' and tostring(Properties.outcome)=='protocol_ok'),discoveries=countif(tostring(Properties.method)=='tools/list' and tostring(Properties.outcome)=='protocol_ok'),calls=countif(tostring(Properties.method)=='tools/call'),successes=countif(tostring(Properties.outcome)=='tool_success') by service=tostring(Properties.service)",
+    "successful_days": "AppEvents | where Name=='mcp_activity' and TimeGenerated>=datetime(2026-10-09T17:19:14Z) and TimeGenerated<datetime(2026-10-19T14:03:52.761849+00:00) | where tostring(Properties.internal)=='false' and tostring(Properties.outcome)=='tool_success' | extend caller=tostring(Properties.caller), day=format_datetime(datetime_utc_to_local(TimeGenerated,'America/New_York'),'yyyy-MM-dd') | summarize days=dcount(day),calls=count() by caller,service=tostring(Properties.service) | summarize groups=count(),groupsWithSuccessOnThreeDays=countif(days>=3) by service",
+    "latest_cost": "AppEvents | where Name=='mcp_cost' | top 1 by TimeGenerated desc | project TimeGenerated,reportedCostUsd=todouble(Measurements.reportedCostUsd)"
+  },
+  "results": {
+    "cumulative_metrics": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "inputBytes": "0",
+        "outputBytes": "0",
+        "phase": "listed",
+        "probes": "868",
+        "protocolErrors": "0",
+        "requests": "868",
+        "service": "unknown",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "18",
+        "discoveryOk": "1073",
+        "initializeOk": "1395",
+        "inputBytes": "432646",
+        "outputBytes": "4787057",
+        "phase": "listed",
+        "probes": "459",
+        "protocolErrors": "362",
+        "requests": "4410",
+        "service": "diagnostics",
+        "serviceErrors": "0",
+        "successes": "4",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "14"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "inputBytes": "0",
+        "outputBytes": "0",
+        "phase": "baseline",
+        "probes": "950",
+        "protocolErrors": "0",
+        "requests": "950",
+        "service": "unknown",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "5",
+        "discoveryOk": "1018",
+        "initializeOk": "1331",
+        "inputBytes": "407909",
+        "outputBytes": "2861638",
+        "phase": "listed",
+        "probes": "344",
+        "protocolErrors": "353",
+        "requests": "4097",
+        "service": "network",
+        "serviceErrors": "0",
+        "successes": "1",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "4"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "discoveryOk": "1026",
+        "initializeOk": "1355",
+        "inputBytes": "415551",
+        "outputBytes": "5768381",
+        "phase": "listed",
+        "probes": "355",
+        "protocolErrors": "355",
+        "requests": "4160",
+        "service": "logs",
+        "serviceErrors": "0",
+        "successes": "4",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "4"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "59",
+        "initializeOk": "65",
+        "inputBytes": "26047",
+        "outputBytes": "118836",
+        "phase": "baseline",
+        "probes": "159",
+        "protocolErrors": "0",
+        "requests": "346",
+        "service": "logs",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "59",
+        "initializeOk": "65",
+        "inputBytes": "25993",
+        "outputBytes": "139704",
+        "phase": "baseline",
+        "probes": "158",
+        "protocolErrors": "0",
+        "requests": "344",
+        "service": "diagnostics",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "58",
+        "initializeOk": "65",
+        "inputBytes": "25908",
+        "outputBytes": "143513",
+        "phase": "baseline",
+        "probes": "161",
+        "protocolErrors": "0",
+        "requests": "346",
+        "service": "network",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "120",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      }
+    ],
+    "cumulative_callers": [
+      {
+        "TableName": "PrimaryResult",
+        "approximateGroups": "347",
+        "groupsOnThreeDays": "54",
+        "service": "diagnostics",
+        "successfulCallerGroups": "3",
+        "successfulGroupsOnThreeDays": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "approximateGroups": "344",
+        "groupsOnThreeDays": "52",
+        "service": "network",
+        "successfulCallerGroups": "1",
+        "successfulGroupsOnThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "approximateGroups": "345",
+        "groupsOnThreeDays": "52",
+        "service": "logs",
+        "successfulCallerGroups": "3",
+        "successfulGroupsOnThreeDays": "1"
+      }
+    ],
+    "week_tools": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "4",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "phase": "listed",
+        "service": "diagnostics",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "4",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "phase": "listed",
+        "service": "network",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "4",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "phase": "listed",
+        "service": "logs",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "5",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "4",
+        "phase": "listed",
+        "service": "diagnostics",
+        "tool": "check_https"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "5",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "phase": "listed",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "3",
+        "outcome": "tool_success",
+        "p50ms": "3076",
+        "p95ms": "3147",
+        "phase": "listed",
+        "service": "logs",
+        "tool": "extract_ci_failures"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "93",
+        "p95ms": "3286",
+        "phase": "listed",
+        "service": "diagnostics",
+        "tool": "check_email_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "882",
+        "p95ms": "882",
+        "phase": "listed",
+        "service": "network",
+        "tool": "inspect_subnet"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "15",
+        "p95ms": "15",
+        "phase": "listed",
+        "service": "logs",
+        "tool": "parse_logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "57",
+        "p95ms": "108",
+        "phase": "listed",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      }
+    ],
+    "week_clients": [
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "275",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "244",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "224",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "385",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "385",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "385",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "16",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "237",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "238",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "112",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "117",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "238",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "109",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "64",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "66",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "66",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "136",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "136",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "17",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "17",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "117",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "135",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "108",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "105",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "13",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "15",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "10",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "10",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "10",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "15",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "8",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_error",
+        "service": "diagnostics",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_error",
+        "service": "network",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "65",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "65",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "65",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_error",
+        "service": "network",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_error",
+        "service": "diagnostics",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "diagnostics",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "logs",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "outcome": "protocol_ok",
+        "service": "network",
+        "version": "1.0.0.0"
+      }
+    ],
+    "gaps": [
+      {
+        "TableName": "PrimaryResult",
+        "events": "0",
+        "reportedCount": "0"
+      }
+    ],
+    "conservative_external": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "17",
+        "discoveries": "1066",
+        "initializations": "1378",
+        "service": "diagnostics",
+        "successes": "3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "7",
+        "discoveries": "1020",
+        "initializations": "1342",
+        "service": "logs",
+        "successes": "3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "4",
+        "discoveries": "1014",
+        "initializations": "1322",
+        "service": "network",
+        "successes": "0"
+      }
+    ],
+    "successful_days": [
+      {
+        "TableName": "PrimaryResult",
+        "groups": "3",
+        "groupsWithSuccessOnThreeDays": "0",
+        "service": "logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "3",
+        "groupsWithSuccessOnThreeDays": "0",
+        "service": "diagnostics"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "1",
+        "groupsWithSuccessOnThreeDays": "0",
+        "service": "network"
+      }
+    ],
+    "latest_cost": [
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-19T13:27:57.6203366Z",
+        "reportedCostUsd": "1.63544663171398"
+      }
+    ]
+  }
+}
