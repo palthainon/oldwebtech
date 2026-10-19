@@ -208,7 +208,8 @@
       "publishedAt": null,
       "approvalDelay": null,
       "remainingServices": "logs and network not attempted after the shared publication operation failed",
-      "report": "reports/SMITHERY-2026-10-19.md"
+      "report": "reports/SMITHERY-2026-10-19.md",
+      "followUp": "closed by user on 2026-10-19; retain failure evidence; no retries or support contact"
     },
     "pulsemcp": {
       "status": "closed-not-submitted",
