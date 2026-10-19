@@ -1,0 +1,20 @@
+# PL-300 pilot coverage
+
+PL-300, the Power BI analyst exam, has four reviewed pilot questions. Each question uses one verified behavior card. The independent review approved all answers and choice explanations. See [independent-review.md](independent-review.md).
+
+The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
+
+| Domain | Questions | Behavior |
+| --- | ---: | --- |
+| Prepare the data | 2 | Append column alignment; reference refresh execution |
+| Model the data | 1 | Simultaneous date roles |
+| Visualize and analyze the data | 0 | No coverage |
+| Manage and secure Power BI | 1 | Additive RLS roles |
+
+RLS means row-level security. Its question assumes a consumer to whom RLS applies. It does not assess a privacy policy or a legal duty.
+
+This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Four questions cannot estimate domain readiness.
+
+The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should add verified visual-selection and report-interaction cards before adding more questions in the covered domains.
+
+The pilot uses the existing quiz engine and a separate storage identifier. It remains under the research directory. It has no public navigation link or sitemap entry because it is not published. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
