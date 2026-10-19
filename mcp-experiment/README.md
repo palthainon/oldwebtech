@@ -109,3 +109,5 @@ Raw telemetry still expires after 60 days. Friday reviews export privacy-safe, n
 The [October 16 directory check](reports/DIRECTORY-FOLLOWUP-2026-10-16.md) confirmed three active official Registry entries. Smithery requires account authorization. PulseMCP submissions remain closed. Neither additional directory received a submission.
 
 The [October 19 Smithery attempt](reports/SMITHERY-2026-10-19.md) passed sign-in but failed at publication with HTTP 403. No Smithery listing is confirmed.
+
+Invalid tool calls return HTTP 400 with JSON-RPC code `-32602`. The stable message remains `invalid_tool_or_arguments`. The `error.data` object contains a reason, up to eight safe field hints, an omitted-issue count, supported tool names, and a static valid `tools/call` example. Hints expose only known top-level schema fields. They omit supplied values, dynamic field names, and raw validator messages. Telemetry records the outcome and sizes, not the repair payload or request arguments.
