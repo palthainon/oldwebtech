@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# OldWeb MCP experiment\nExternal activity excludes requests carrying the private internal-test header. Caller groups are keyed IP/user-agent approximations, not verified identities or exact sessions. Client names are self-reported. Probe counts are aggregated; gaps and throttling must be considered before comparing phases."
+        "json": "# OldWeb MCP experiment\nAdoption views exclude marked internal requests and every caller group also seen in marked tests within the available 60-day window. Shared networks can exclude real users; unmarked operator traffic can remain. Caller groups and client names do not verify identities. Probes lack caller identifiers and remain separate operational counts.\n\nLaunch: October 9, 2026, 13:19:14 Eastern. First listing: October 10, 2026, 13:32:51 Eastern. Baseline: about 24 hours 14 minutes. Phase uses event time, not stored tags. Returning callers require successful calls on three Eastern dates. Public access was interrupted October 12\u201316. Historical caller matching expires with raw telemetry."
       },
       "name": "introduction"
     },
@@ -14,7 +14,7 @@
       "content": {
         "version": "KqlItem/1.0",
         "title": "Activity by service and phase",
-        "query": "customEvents | where name == 'mcp_activity' | extend service=tostring(customDimensions.service), phase=tostring(customDimensions.phase), method=tostring(customDimensions.method), outcome=tostring(customDimensions.outcome), internal=tostring(customDimensions.internal) | where internal != 'true' | summarize Events=sum(todouble(customMeasurements.count)) by service, phase, method, outcome | order by service asc",
+        "query": "let activity=customEvents | where name == 'mcp_activity' and timestamp >= datetime(2026-10-09T17:19:14Z); let testCallers=activity | where tostring(customDimensions.internal)=='true' | extend caller=tostring(customDimensions.caller) | where isnotempty(caller) | distinct caller; let external=activity | where tostring(customDimensions.internal)=='false' | extend caller=tostring(customDimensions.caller) | join kind=leftanti testCallers on caller; external | where name == 'mcp_activity' | extend service=tostring(customDimensions.service), phase=iff(timestamp < datetime(2026-10-10T17:32:51.537144Z),'baseline','listed'), method=tostring(customDimensions.method), outcome=tostring(customDimensions.outcome), internal=tostring(customDimensions.internal) | where internal != 'true' | summarize Events=sum(todouble(customMeasurements.count)) by service, phase, method, outcome | order by service asc",
         "queryType": 0,
         "resourceType": "microsoft.insights/components",
         "visualization": "table",
@@ -30,7 +30,7 @@
       "content": {
         "version": "KqlItem/1.0",
         "title": "Successful tool use and approximate repeat callers",
-        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.outcome) == 'tool_success' | extend service=tostring(customDimensions.service), caller=tostring(customDimensions.caller) | summarize Calls=count(), Days=dcount(bin(timestamp,1d)) by service, caller | summarize SuccessfulCalls=sum(Calls), CallerGroups=count(), ReturningThreeDays=countif(Days >= 3) by service",
+        "query": "let activity=customEvents | where name == 'mcp_activity' and timestamp >= datetime(2026-10-09T17:19:14Z); let testCallers=activity | where tostring(customDimensions.internal)=='true' | extend caller=tostring(customDimensions.caller) | where isnotempty(caller) | distinct caller; let external=activity | where tostring(customDimensions.internal)=='false' | extend caller=tostring(customDimensions.caller) | join kind=leftanti testCallers on caller; external | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.outcome) == 'tool_success' | extend service=tostring(customDimensions.service), caller=tostring(customDimensions.caller) | summarize Calls=count(), Days=dcount(format_datetime(datetime_utc_to_local(timestamp,'America/New_York'),'yyyy-MM-dd')) by service, caller | summarize SuccessfulCalls=sum(Calls), CallerGroups=count(), ReturningThreeDays=countif(Days >= 3) by service",
         "queryType": 0,
         "resourceType": "microsoft.insights/components",
         "visualization": "table",
@@ -46,7 +46,7 @@
       "content": {
         "version": "KqlItem/1.0",
         "title": "Tool outcomes and latency",
-        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'tools/call' | extend service=tostring(customDimensions.service), tool=tostring(customDimensions.tool), outcome=tostring(customDimensions.outcome), ms=todouble(customMeasurements.durationMs) | summarize Calls=count(), Success=countif(outcome == 'tool_success'), ServiceErrors=countif(outcome == 'service_error'), ToolErrors=countif(outcome == 'tool_error'), p50=percentile(ms,50), p95=percentile(ms,95) by service, tool",
+        "query": "let activity=customEvents | where name == 'mcp_activity' and timestamp >= datetime(2026-10-09T17:19:14Z); let testCallers=activity | where tostring(customDimensions.internal)=='true' | extend caller=tostring(customDimensions.caller) | where isnotempty(caller) | distinct caller; let external=activity | where tostring(customDimensions.internal)=='false' | extend caller=tostring(customDimensions.caller) | join kind=leftanti testCallers on caller; external | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'tools/call' | extend service=tostring(customDimensions.service), tool=tostring(customDimensions.tool), outcome=tostring(customDimensions.outcome), ms=todouble(customMeasurements.durationMs) | summarize Calls=count(), Success=countif(outcome == 'tool_success'), ServiceErrors=countif(outcome == 'service_error'), ToolErrors=countif(outcome == 'tool_error'), p50=percentile(ms,50), p95=percentile(ms,95) by service, tool",
         "queryType": 0,
         "resourceType": "microsoft.insights/components",
         "visualization": "table",
@@ -62,7 +62,7 @@
       "content": {
         "version": "KqlItem/1.0",
         "title": "Reported client identities at initialization only",
-        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'initialize' | summarize Initializations=count() by Service=tostring(customDimensions.service), Client=tostring(customDimensions.clientName), Version=tostring(customDimensions.clientVersion), Outcome=tostring(customDimensions.outcome)",
+        "query": "let activity=customEvents | where name == 'mcp_activity' and timestamp >= datetime(2026-10-09T17:19:14Z); let testCallers=activity | where tostring(customDimensions.internal)=='true' | extend caller=tostring(customDimensions.caller) | where isnotempty(caller) | distinct caller; let external=activity | where tostring(customDimensions.internal)=='false' | extend caller=tostring(customDimensions.caller) | join kind=leftanti testCallers on caller; external | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'initialize' | summarize Initializations=count() by Service=tostring(customDimensions.service), Client=tostring(customDimensions.clientName), Version=tostring(customDimensions.clientVersion), Outcome=tostring(customDimensions.outcome)",
         "queryType": 0,
         "resourceType": "microsoft.insights/components",
         "visualization": "table",
@@ -78,7 +78,7 @@
       "content": {
         "version": "KqlItem/1.0",
         "title": "Telemetry gaps, throttling and probes",
-        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' | where tostring(customDimensions.method) in ('probe','system') or tostring(customDimensions.outcome) in ('quota_exhausted','rate_limited','busy') | summarize Count=sum(todouble(customMeasurements.count)) by bin(timestamp,1h), Outcome=tostring(customDimensions.outcome)",
+        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' | where tostring(customDimensions.method) in ('probe','system') or tostring(customDimensions.outcome) in ('quota_exhausted','rate_limited','http_rate_limited','busy') | summarize Count=sum(todouble(customMeasurements.count)) by bin(timestamp,1h), Outcome=tostring(customDimensions.outcome)",
         "queryType": 0,
         "resourceType": "microsoft.insights/components",
         "visualization": "timechart",
@@ -108,7 +108,7 @@
       "type": 1,
       "name": "cost",
       "content": {
-        "json": "## Cost and interpretation\nOpen Azure Cost Management filtered to resource group **rg-oldweb-mcp-experiment** for billing totals. The six-hour cost-guard workflow records reported month-to-date cost and pauses ingress at $20. Review its latest run before evaluating usage. Absence of events is not proof of zero traffic: check workspace ingestion caps and workflow health.\n\nDay 37: expand only when a service has at least 100 successful external calls, five approximate caller groups, two groups returning on three days, and at least 95% success among valid admitted calls. Listing delays, outages and telemetry gaps make results inconclusive."
+        "json": "## Cost and interpretation\nOpen Azure Cost Management filtered to resource group **rg-oldweb-mcp-experiment** for billing totals. The six-hour cost-guard workflow records reported month-to-date cost and pauses ingress at $20. Review its latest run before evaluating usage. Absence of events is not proof of zero traffic: check workspace ingestion caps and workflow health.\n\nFinal review: February 15, 2027 at 12:19:14 Eastern (17:19:14 UTC). At that review, expand only when a service has at least 100 successful external calls, five approximate caller groups, two groups returning on three days, and at least 95% success among valid admitted calls. Listing delays, outages and telemetry gaps make results inconclusive."
       }
     }
   ],

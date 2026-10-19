@@ -1,0 +1,9 @@
+# Dashboard and examples — October 19, 2026
+
+The existing Azure Workbook now excludes caller groups seen in marked internal tests from adoption views. The exclusion uses available telemetry within the 60-day window. Shared networks can exclude real users; unmarked operator requests can remain. Probes have no caller identifier and remain operational counts. Phase follows the actual October 10 first listing. Successful return days use America/New_York. The final date is February 15, 2027 at 12:19:14 Eastern. The six query views passed live workspace queries. Azure readback matched the deployed content exactly.
+
+The cumulative snapshot contains 22 unmarked validation failures. Twelve have no recognized tool name for the selected endpoint. Five identify lookup_dns and five identify check_https. The server records validation_error before execution when the name is unknown or the strict argument schema fails. Arguments are not retained. Missing fields, extra keys, wrong types, and unsupported DNS types are plausible causes, not recovered request contents. A full URL in the domain field passes the current string schema and fails later domain validation, so it does not explain these pre-execution counts by itself.
+
+The public page now explains endpoint selection, tools/list, SDK parameters versus the JSON-RPC envelope, transport headers, strict keys, domain inputs, uppercase DNS types, text strings, numeric prefixes, and retry behavior. Fourteen published calls cover all thirteen tools and pass the actual schemas. Five synthetic invalid argument examples were rejected. A repository test now checks all published call examples. Tool behavior and public limits are unchanged. No backend image deployment is required.
+
+Successful examples do not prove that external callers will succeed more often. Compare valid use in the next weekly review. The prior usage snapshot overlaps weekly intervals and must not be added to weekly totals.
