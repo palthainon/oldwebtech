@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has nine pilot questions in this checkout. Each question uses one verified behavior card. The first four questions are published. Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has nine pilot questions in this checkout. Each question uses one verified behavior card. All nine questions are published. Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -21,7 +21,7 @@ The pilot uses the existing quiz engine and a separate storage identifier. The c
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-004 have published status. Questions 005-009 remain unpublished in this checkout. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-009 have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -34,3 +34,7 @@ Five new cards cover five distinct April 20, 2026 objectives in the visualizatio
 | pl300-pilot-007 | pl300-drillthrough-target-field | Configure drillthrough navigation, including pages, filters, and buttons |
 | pl300-pilot-008 | pl300-bookmark-preserve-slicers | Configure bookmarks |
 | pl300-pilot-009 | pl300-accessibility-tab-order | Design and configure Power BI reports for accessibility |
+
+## Nine-question release
+
+On 2026-10-19, [production run 39322737334](https://github.com/palthainon/oldwebtech/actions/runs/39322737334) succeeded after [pull request 50](https://github.com/palthainon/oldwebtech/pull/50) merged at commit `ca933f6`. The orchestrator confirmed that the [live bank](https://oldweb.tech/certs/data/pl300-pilot.js) matched the reviewed nine-question release. Questions 005-009 now have published status. Question content remains unchanged.
