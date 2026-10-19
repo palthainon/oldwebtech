@@ -6,9 +6,9 @@ window.CERT_BANK = {
   "code": "PL-300 (2026-04-20)",
   "asOf": "2026-10",
   "examVersion": "2026-04-20",
-  "status": "published",
+  "status": "reviewed",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
-  "scope": "Nine narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
+  "scope": "Thirteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
     {
       "id": "1",
@@ -346,6 +346,146 @@ window.CERT_BANK = {
       ],
       "examVersion": "2026-04-20",
       "status": "published"
+    },
+    {
+      "id": "pl300-pilot-010",
+      "domain": "3",
+      "objective": "Apply conditional formatting",
+      "type": "single",
+      "q": "A Power BI table displays a completion measure as a percentage. The measure stores 60% as 0.60. A font-color rule must use a fixed threshold of 60% completion, regardless of the minimum and maximum values in the table. Which boundary setting fits?",
+      "choices": [
+        "60 with Percent",
+        "0.60 with Percent",
+        "60 with Number",
+        "0.60 with Number"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Percentage measures use their decimal values in Number rule boundaries. Percent instead defines a position within the range of values.",
+      "why": [
+        "Percent describes the value range rather than the fixed completion threshold.",
+        "Percent still uses the range even when the entered value is a decimal.",
+        "The stored threshold is 0.60, not 60.",
+        "Correct. This compares the measure to its stored decimal threshold."
+      ],
+      "cardIds": [
+        "pl300-percentage-format-rule-number"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-conditional-table-formatting",
+          "locator": "Color by rules for percentages; Color by rules, paragraph beginning When you select Percent",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-011",
+      "domain": "3",
+      "objective": "Create custom tooltips",
+      "type": "single",
+      "q": "An author creates a report page with the Tooltip size template. The author adds visuals and compatible Tooltip fields. The Page Information Tooltip setting is still Off. Which change registers the page as a report tooltip?",
+      "choices": [
+        "Turn Tooltip On in Page Information",
+        "Rename the page to Tooltip",
+        "Change the page view to Actual Size only",
+        "Make the canvas smaller without changing Page Information"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "The Tooltip canvas template sets the size. The Page Information Tooltip setting registers the page for tooltip use.",
+      "why": [
+        "Correct. This is the registration setting.",
+        "The page name does not enable the Tooltip setting.",
+        "Actual Size changes the author view, not tooltip registration.",
+        "Changing canvas size does not enable tooltip registration."
+      ],
+      "cardIds": [
+        "pl300-tooltip-page-enable"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-tooltips",
+          "locator": "Create a report tooltip page, steps 2-3; Configure your tooltip report page, steps 1-2",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-012",
+      "domain": "3",
+      "objective": "Apply sorting to visuals",
+      "type": "single",
+      "q": "A Power BI Desktop chart uses Phase labels. The required order is Intake, Test, Repair. Phase Order maps Intake to 1, Test to 2, and Repair to 3. The chart is sorted ascending by Phase, but the labels appear alphabetically. Which model setting gives Phase the required order?",
+      "choices": [
+        "Set Phase Order to sort by Phase",
+        "Set Phase to sort by Phase Order",
+        "Change the chart to sort by the repair-cost measure",
+        "Sort Phase descending alphabetically"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Set Sort by Column on the label column and select its order column. The label and order columns have the same level of detail.",
+      "why": [
+        "This reverses the label and order roles.",
+        "Correct. Phase uses its numeric ordering column.",
+        "Cost order does not define the required phase sequence.",
+        "Reverse alphabetical order does not produce Intake, Test, Repair."
+      ],
+      "cardIds": [
+        "pl300-sort-label-by-order-column"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-sort-by-column",
+          "locator": "Set the column to use for sorting, opening paragraph and steps 1-3; Troubleshooting sort by column > Sort by column produces unexpected grouping",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-013",
+      "domain": "3",
+      "objective": "Configure sync slicers",
+      "type": "single",
+      "q": "A Region slicer is visible on the Overview page. In Sync slicers, the Details page has Sync selected and Visible cleared. A user selects North on Overview. What should the author expect on Details?",
+      "choices": [
+        "The filter applies only if the slicer is visible on Details",
+        "Clearing Visible removes the sync selection automatically",
+        "The synced Region selection filters Details even though the slicer is hidden",
+        "The Details page receives every region because the slicer is hidden"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Sync controls where selections apply. Visible controls where the slicer appears. A hidden synced slicer still filters its page.",
+      "why": [
+        "Visibility is not required for the synced filter to apply.",
+        "Sync and Visible are separate settings.",
+        "Correct. The hidden slicer still applies the synced selection.",
+        "Hiding the slicer does not clear its selection or disable its filter."
+      ],
+      "cardIds": [
+        "pl300-synced-hidden-slicer-filter"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers",
+          "locator": "Sync and use slicers on other pages, steps 3-4 and Note",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
     }
   ]
 };
