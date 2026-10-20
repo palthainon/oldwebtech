@@ -34,6 +34,14 @@ Model script settings: `EVAL_RUN` selects a separate output directory; `EVAL_BAT
 
 ## Evaluate and improve
 
+### Required repair regression
+
+If tool names, routing, input schemas, descriptions, validation rules, error guidance, examples, or transport error responses change, run the repair gate in `mcp-experiment/TEST-PLAN.md`. From `mcp-experiment`, run `npm run build`, then `node scripts/evaluate-repair-expanded.mjs`. Use the smallest verified supported model. Record an explicit `EVAL_MODEL` override. Do not silently use a larger model.
+
+Use `test/repair-cases.json` as the versioned case catalogue. Extend the cases when capabilities change. Require all 18 repair cases to succeed within two model calls. Manually verify that the three clarification cases request the correct missing information without a tool call. Preserve initial failures and fresh rerun reports. An incomplete run or an unavailable model leaves the gate incomplete. Documentation-only changes do not require model calls.
+
+Keep repair tests on isolated local servers with synthetic inputs, internal test markers, and Azure telemetry disabled. Do not supply production secrets or use public endpoints. Check that every captured event is internal. Exclude repair results from adoption counts and dashboard retry metrics. Report fixture results as local evidence. Follow the release plan for acceptance checks and evidence storage.
+
 Check structured correctness independently from model prose. Record expected tool/arguments, actual calls, error codes, missing cases, exact large-integer strings and evidence references. Score concise answers (<=50 words), correct reported facts, useful next steps and explicit uncertainty. Wrong routing, failed calls and missing answers remain failures. Report token usage as observed CLI token counts; do not present cached input as new paid API tokens or infer Azure cost from Codex usage.
 
 Use `admin.summary/findings/nextSteps/limitations` for readable explanations. Plain text is bounded to 1,500 characters and structured output carries exact counts and truncation. Prefer summaries to returning every record when records are unnecessary. Do not “optimize” by hiding errors, dropping labels, rounding IPv6 counts, silently ignoring schema keywords or asserting causes from status codes.
