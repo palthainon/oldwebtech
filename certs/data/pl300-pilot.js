@@ -6,9 +6,9 @@ window.CERT_BANK = {
   "code": "PL-300 (2026-04-20)",
   "asOf": "2026-10",
   "examVersion": "2026-04-20",
-  "status": "published",
+  "status": "reviewed",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
-  "scope": "Eighteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
+  "scope": "Twenty-three narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
     {
       "id": "1",
@@ -661,6 +661,186 @@ window.CERT_BANK = {
       ],
       "examVersion": "2026-04-20",
       "status": "published"
+    },
+    {
+      "id": "pl300-pilot-019",
+      "domain": "3",
+      "objective": "Create visual calculations by using DAX",
+      "type": "single",
+      "q": "A matrix contains Workshop and Labor Hours. The semantic model also has a Parts Cost measure, but the matrix does not contain it. An author wants a visual calculation to refer to Parts Cost in this matrix. What must the author do first?",
+      "choices": [
+        "Add Parts Cost to the selected matrix",
+        "Add Parts Cost only to a different report visual",
+        "Rename the report page to Parts Cost",
+        "Leave Parts Cost only in the model because every model field is available"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "A visual calculation can refer to a model field after that field is added to its visual.",
+      "why": [
+        "Correct. The field must be part of the selected visual.",
+        "A field in a different visual does not satisfy the selected visual scope.",
+        "A page name does not add a field to the visual.",
+        "Model membership alone does not make the field available to this visual calculation."
+      ],
+      "cardIds": [
+        "pl300-visual-calculation-field-scope"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-visual-calculations-overview",
+          "locator": "Introduction, visual calculation differences bullets 1 and 3",
+          "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-020",
+      "domain": "3",
+      "objective": "Choose when to use a paginated report",
+      "type": "single",
+      "q": "A depot needs a printed equipment register with every matching equipment row. The list exceeds one page. A regular report table currently requires scrolling. Which report design meets the printing requirement?",
+      "choices": [
+        "Keep the scrolling table and print only its report page",
+        "Use a paginated report with a table that spans the required pages",
+        "Use a bookmark that saves the current report filters",
+        "Replace the table with a single summary card"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "A paginated report can print every table row across the required pages.",
+      "why": [
+        "A regular report page print contains the visible table rows.",
+        "Correct. The paginated table continues onto additional pages.",
+        "Saved filters do not change regular table printing to paginated output.",
+        "A summary card does not provide the required equipment rows."
+      ],
+      "cardIds": [
+        "pl300-paginated-all-table-rows"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/paginated-reports/paginated-reports-report-builder-power-bi",
+          "locator": "Compare Power BI reports and paginated reports, first two paragraphs",
+          "checkedOn": "2026-10-20"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-bookmarks",
+          "locator": "Introduction, opening paragraph: filters saved with report state",
+          "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-021",
+      "domain": "3",
+      "objective": "Apply and customize a theme",
+      "type": "single",
+      "q": "An author assigns an explicit non-theme color to a visual. After a new report theme is applied, that color stays unchanged. The author wants the affected color section to use the theme again. What should the author do?",
+      "choices": [
+        "Apply the same theme again without changing the visual",
+        "Assign another explicit non-theme color",
+        "Reset the affected formatting section to default",
+        "Change only the report page name"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Direct formatting can override the theme. A section reset restores that section to theme formatting.",
+      "why": [
+        "The direct color override remains when the theme is reapplied.",
+        "Another explicit non-theme color remains a manual override.",
+        "Correct. Resetting the affected section restores its default theme formatting.",
+        "A page name does not change visual color formatting."
+      ],
+      "cardIds": [
+        "pl300-theme-manual-color-override"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-report-themes",
+          "locator": "Understand how the report uses themes, Individual visuals paragraph; Understand how theme colors are used by the report, If you prefer paragraph",
+          "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-022",
+      "domain": "3",
+      "objective": "Configure automatic page refresh",
+      "type": "single",
+      "q": "A Power BI Desktop report uses only Import tables. The author cannot find Page refresh in the formatting pane. The requirement is automatic page refresh, not a semantic model refresh. What explains the missing option?",
+      "choices": [
+        "A report theme hides the refresh option",
+        "Automatic page refresh must be configured on a bookmark",
+        "Every Import report supports this option after its page is renamed",
+        "Import storage mode does not support automatic page refresh"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Automatic page refresh is not available for a report that uses only Import storage mode.",
+      "why": [
+        "Theme selection does not change the documented storage-mode restriction.",
+        "A bookmark does not provide automatic page refresh support for Import mode.",
+        "Renaming a page does not change its storage-mode support.",
+        "Correct. The Import restriction explains the unavailable option."
+      ],
+      "cardIds": [
+        "pl300-import-page-refresh-unavailable"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-automatic-page-refresh",
+          "locator": "Author reports with automatic page refresh in Power BI Desktop, Important callout; Considerations and limitations, first bullet",
+          "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-023",
+      "domain": "3",
+      "objective": "Use reference lines, error bars, and forecasting",
+      "type": "single",
+      "q": "A supported line chart shows historical weekly parcel volumes. A planner wants an estimate of future volumes from those trends. Which Analytics pane feature directly meets this requirement?",
+      "choices": [
+        "Forecast",
+        "Y-axis constant line",
+        "Anomalies",
+        "Average line"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Forecast estimates future values from historical trends.",
+      "why": [
+        "Correct. Forecast provides a future estimate from the time data.",
+        "A constant line shows a fixed value rather than estimating future volumes.",
+        "Anomalies identify unexpected spikes or dips in the time series.",
+        "An average line summarizes the data rather than projecting future volumes."
+      ],
+      "cardIds": [
+        "pl300-forecast-line-visual"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane",
+          "locator": "Use the Analytics pane, feature table Forecast, Y-Axis constant line and Average line rows; Forecast; Anomalies, opening paragraph",
+          "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
     }
   ]
 };
