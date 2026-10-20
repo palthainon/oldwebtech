@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has thirteen pilot questions in this checkout. Each question uses one verified behavior card. The first nine questions are published. Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has thirteen pilot questions in this checkout. Each question uses one verified behavior card. All thirteen questions are published. Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -21,7 +21,7 @@ The pilot uses the existing quiz engine and a separate storage identifier. The c
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-009 have published status. Questions 010-013 remain unpublished in this checkout. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-013 have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -49,3 +49,7 @@ Four new cards cover four additional objectives. The source check date is Octobe
 | pl300-pilot-011 | pl300-tooltip-page-enable | Create custom tooltips |
 | pl300-pilot-012 | pl300-sort-label-by-order-column | Apply sorting to visuals |
 | pl300-pilot-013 | pl300-synced-hidden-slicer-filter | Configure sync slicers |
+
+## Thirteen-question release
+
+On 2026-10-19, [production run 39344937691](https://github.com/palthainon/oldwebtech/actions/runs/39344937691) succeeded after [pull request 52](https://github.com/palthainon/oldwebtech/pull/52) merged at commit `a5c74a7`. The orchestrator confirmed that the [live bank](https://oldweb.tech/certs/data/pl300-pilot.js) matched the reviewed thirteen-question release. Questions 010-013 now have published status. Question content remains unchanged.
