@@ -27,7 +27,32 @@ No network calls for offline analyses or network planning. Email reports describ
 
 Release requires 300/300 deterministic cases, existing safety regression checks, all live tools smoke-tested, no privacy sentinel leaks, and a transparent agent evaluation report. Agent reliability target: >=95% successful eligible calls and >=90% concise answers containing expected facts. Report observed failures and limitations even if targets pass. No increase to Azure resources, public quotas or experiment duration. Model evaluation consumes the user's Codex allowance separately from Azure operating cost.
 
-## Reproducibility
+## Repair regression gate
+
+Run this gate before release when tool names, routing, input schemas, descriptions, validation rules, error guidance, examples, or transport error responses change. Documentation-only changes do not require model calls. Run this gate in addition to the existing release checks.
+
+The [repair case catalogue](test/repair-cases.json) contains 21 cases, with seven cases for each server. Extend the catalogue when tools change. Keep coverage for missing fields, wrong types, unknown tools, extra fields, invalid values, nested fields, and missing information that requires clarification.
+
+1. From `mcp-experiment`, run `npm run build`.
+2. Run `node scripts/evaluate-repair-expanded.mjs` with the smallest verified supported model. The current default is `gpt-5.6-luna`. If the model changes, set `EVAL_MODEL` explicitly and record the reason. Do not silently use a larger model.
+3. Verify that each seeded invalid request reaches the local server and returns JSON-RPC error `-32602`. A client rejection does not prove that server guidance works. The harness supplies the initial error to the model. It does not measure whether the model creates the initial invalid call.
+4. Require all 18 repairable cases to select the expected tool, preserve the intended input, and return a successful result within two model calls.
+5. Manually review the three clarification answers. Each answer must request the correct missing domain, log text, or CIDR. Each case must make zero tool calls. The automated check only requires a nonempty answer with zero calls.
+6. Check the test exclusions below. Review every failed case and every missing case. If a fix is needed, retain the failure report and rerun the affected checks. Run the complete repair gate before release.
+
+A failed case, incomplete run, unavailable model, incorrect clarification, or failed privacy check leaves this gate incomplete. Record the remaining problem before release. A passing local sample does not establish production reliability.
+
+### Test exclusions and evidence
+
+Use isolated loopback servers with synthetic inputs. Keep the Azure telemetry connection empty. Use the local internal marker. Do not load production secrets or send repair cases to public endpoints. DNS results use fixtures.
+
+Require every captured event to have `internal=true`. Confirm that the harness uses the local server and disabled Azure export before each run. Keep seed errors, model calls, and clarification cases out of external adoption counts and dashboard retry metrics. Do not import local evaluation reports into production telemetry.
+
+The harness writes a new timestamped `reports/repair-expanded-<timestamp>/` directory. Retain the case results and `summary.json`. Add a report with the model, completed case count, initial errors, actual calls, result classifications, token counts, elapsed time, manual clarification review, and privacy checks. Store only synthetic inputs. Do not persist caller identifiers. Preserve earlier evidence when a rerun passes.
+
+The [initial expanded report](reports/repair-expanded-2026-10-19T23-58-15-872Z/REPORT.md) records the baseline. Use it for comparison. It does not replace a run against changed code.
+
+## General reproduction commands
 
 From `mcp-experiment`: `npm test`, then `node scripts/evaluate.mjs` for the 300-case matrix, and `node scripts/evaluate-model.mjs` for actual model calls. The model harness supports resume and records evidence per batch. Three repetitive bulk-input cases use compact distinct agent variants; the SDK suite still exercises the full-size boundaries. Production smoke uses `MCP_BASE_URL` and `TEST_SECRET` from the existing secret store; never commit a secret. The reusable repository skill is `mcp-experiment/skills/oldweb-mcp-lab/SKILL.md`, installed into the user's Codex skills folder after validation.
 
