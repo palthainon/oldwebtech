@@ -39,3 +39,13 @@ The cards limit each behavior to its supported scope. The percentage rule concer
 - [Report buttons](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-buttons): Select the action for a button and Create page navigation.
 
 Each card limits its claim to the cited behavior. No source PDF was added.
+
+## Report-design sources checked October 20, 2026
+
+- [Visual calculation field scope](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-visual-calculations-overview): evidence sections are recorded in `cards/pl300-visual-calculation-field-scope.md`.
+- [Paginated table printing](https://learn.microsoft.com/en-us/power-bi/paginated-reports/paginated-reports-report-builder-power-bi): evidence sections are recorded in `cards/pl300-paginated-all-table-rows.md`.
+- [Manual theme color override](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-report-themes): evidence sections are recorded in `cards/pl300-theme-manual-color-override.md`.
+- [Import automatic refresh restriction](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-automatic-page-refresh): evidence sections are recorded in `cards/pl300-import-page-refresh-unavailable.md`.
+- [Forecast future values](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane): evidence sections are recorded in `cards/pl300-forecast-line-visual.md`.
+
+The refresh card covers pure Import mode. The forecasting card tests future estimates. The theme card limits reset to the affected formatting section. No source PDF was added.

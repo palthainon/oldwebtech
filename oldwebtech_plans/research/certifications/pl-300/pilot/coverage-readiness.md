@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has eighteen pilot questions in this checkout. Each question uses one verified behavior card. All eighteen questions are published. Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has twenty-three pilot questions in this checkout. Each question uses one verified behavior card. The first eighteen questions are published. Five report-design questions passed [independent review](report-design-independent-review.md). Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -8,20 +8,20 @@ The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certif
 | --- | ---: | --- |
 | Prepare the data | 2 | Append column alignment; reference refresh execution |
 | Model the data | 1 | Simultaneous date roles |
-| Visualize and analyze the data | 14 | Time trends; interactions; drillthrough; bookmarks; keyboard order; formatting; tooltips; sorting; slicers; binning; anomaly sensitivity; reference lines; mobile formatting; page navigation |
+| Visualize and analyze the data | 19 | Time trends; interactions; drillthrough; bookmarks; keyboard order; formatting; tooltips; sorting; slicers; binning; anomaly sensitivity; reference lines; mobile formatting; page navigation; visual calculations; paginated printing; themes; automatic refresh; forecasting |
 | Manage and secure Power BI | 1 | Additive RLS roles |
 
 RLS means row-level security. Its question assumes a consumer to whom RLS applies. It does not assess a privacy policy or a legal duty.
 
-This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Eighteen questions cannot estimate domain readiness.
+This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Twenty-three questions cannot estimate domain readiness.
 
-The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should cover remaining objectives such as visual calculations, paginated reports, themes, automatic page refresh, and forecasting.
+The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should consider Selection pane layering, visual personalization, export settings, report filters, and the Analyze feature.
 
 The pilot uses the existing quiz engine and a separate storage identifier. The canonical bank and public page live under `certs/`. The public catalog, navigation, and sitemap include the pilot. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-018 have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-018 have published status. Questions 019-023 remain unpublished. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -69,3 +69,15 @@ Five new cards cover five additional objectives. Each source was checked on Octo
 ## Eighteen-question release
 
 On 2026-10-20, [pull request 54](https://github.com/palthainon/oldwebtech/pull/54) merged at commit `1994bc6`. The first deployment run was canceled. [Production run 39437683670](https://github.com/palthainon/oldwebtech/actions/runs/39437683670) succeeded for later main commit `7fa15f2`, which includes the release. The orchestrator confirmed that the [live bank](https://oldweb.tech/certs/data/pl300-pilot.js) matched the approved eighteen-question bank. Questions 014-018 now have published status. Question content remains unchanged.
+
+## Report-design expansion
+
+Five new cards cover four additional objective leaves and an additional forecasting behavior. The author checked current Microsoft sources on October 20, 2026. The guide still uses skills effective April 20, 2026. These narrow items do not establish complete objective coverage. No live Power BI report was tested.
+
+| Question | Behavior card | Objective |
+| --- | --- | --- |
+| pl300-pilot-019 | pl300-visual-calculation-field-scope | Create visual calculations by using DAX |
+| pl300-pilot-020 | pl300-paginated-all-table-rows | Choose when to use a paginated report |
+| pl300-pilot-021 | pl300-theme-manual-color-override | Apply and customize a theme |
+| pl300-pilot-022 | pl300-import-page-refresh-unavailable | Configure automatic page refresh |
+| pl300-pilot-023 | pl300-forecast-line-visual | Use reference lines, error bars, and forecasting |
