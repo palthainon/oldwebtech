@@ -29,3 +29,13 @@ The April 20, 2026 objective version remains current. These Microsoft sources su
 - [Slicers](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers): Sync and use slicers on other pages.
 
 The cards limit each behavior to its supported scope. The percentage rule concerns tables and matrices. Tooltip registration alone does not guarantee automatic selection for every visual. Sort keys use one value per label at the same level of detail. No source PDF was added.
+
+## Analysis and navigation sources checked October 19, 2026
+
+- [Grouping and binning](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-grouping-and-binning): Use binning.
+- [Anomaly detection](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-anomaly-detection): Format anomalies and Considerations and limitations.
+- [Analytics pane](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane): feature table under Use the Analytics pane.
+- [Mobile visual formatting](https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-create-mobile-optimized-report-format-visuals): The visualizations pane and Discarding mobile formatting changes.
+- [Report buttons](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-buttons): Select the action for a button and Create page navigation.
+
+Each card limits its claim to the cited behavior. No source PDF was added.
