@@ -1,0 +1,303 @@
+{
+  "at": "2026-10-20T00:01:00.536Z",
+  "model": "gpt-5.6-luna",
+  "environment": "local isolated servers; Azure telemetry connection disabled; DNS fixtures; invalid requests seeded by harness",
+  "total": 21,
+  "completed": 21,
+  "results": [
+    {
+      "id": "diagnostics-missing",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43581,
+        "cached_input_tokens": 28288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 220,
+        "reasoning_output_tokens": 37
+      },
+      "elapsedMs": 8845
+    },
+    {
+      "id": "diagnostics-type",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43723,
+        "cached_input_tokens": 38016,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 327,
+        "reasoning_output_tokens": 150
+      },
+      "elapsedMs": 7663
+    },
+    {
+      "id": "diagnostics-enum",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43615,
+        "cached_input_tokens": 38016,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 224,
+        "reasoning_output_tokens": 78
+      },
+      "elapsedMs": 7270
+    },
+    {
+      "id": "diagnostics-extra",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43550,
+        "cached_input_tokens": 38016,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 184,
+        "reasoning_output_tokens": 33
+      },
+      "elapsedMs": 6827
+    },
+    {
+      "id": "diagnostics-unknown",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44021,
+        "cached_input_tokens": 41088,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 456,
+        "reasoning_output_tokens": 309
+      },
+      "elapsedMs": 8243
+    },
+    {
+      "id": "diagnostics-nested",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44065,
+        "cached_input_tokens": 38272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 334,
+        "reasoning_output_tokens": 124
+      },
+      "elapsedMs": 7594
+    },
+    {
+      "id": "diagnostics-unknown-input",
+      "service": "diagnostics",
+      "passed": true,
+      "classification": "clarification_requested",
+      "usage": {
+        "input_tokens": 37780,
+        "cached_input_tokens": 23424,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 236,
+        "reasoning_output_tokens": 144
+      },
+      "elapsedMs": 8273
+    },
+    {
+      "id": "logs-missing",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 47756,
+        "cached_input_tokens": 40704,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 244,
+        "reasoning_output_tokens": 67
+      },
+      "elapsedMs": 7351
+    },
+    {
+      "id": "logs-type",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44377,
+        "cached_input_tokens": 38528,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 326,
+        "reasoning_output_tokens": 153
+      },
+      "elapsedMs": 6934
+    },
+    {
+      "id": "logs-enum",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44264,
+        "cached_input_tokens": 38400,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 278,
+        "reasoning_output_tokens": 73
+      },
+      "elapsedMs": 7094
+    },
+    {
+      "id": "logs-bound",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44407,
+        "cached_input_tokens": 38528,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 341,
+        "reasoning_output_tokens": 142
+      },
+      "elapsedMs": 7193
+    },
+    {
+      "id": "logs-unknown",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44128,
+        "cached_input_tokens": 41088,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 227,
+        "reasoning_output_tokens": 51
+      },
+      "elapsedMs": 9848
+    },
+    {
+      "id": "logs-nested",
+      "service": "logs",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 44243,
+        "cached_input_tokens": 41216,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 246,
+        "reasoning_output_tokens": 49
+      },
+      "elapsedMs": 7720
+    },
+    {
+      "id": "logs-unknown-input",
+      "service": "logs",
+      "passed": true,
+      "classification": "clarification_requested",
+      "usage": {
+        "input_tokens": 31339,
+        "cached_input_tokens": 24704,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 222,
+        "reasoning_output_tokens": 116
+      },
+      "elapsedMs": 7744
+    },
+    {
+      "id": "network-missing",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43358,
+        "cached_input_tokens": 37888,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 431,
+        "reasoning_output_tokens": 244
+      },
+      "elapsedMs": 9996
+    },
+    {
+      "id": "network-type",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 55907,
+        "cached_input_tokens": 47104,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 229,
+        "reasoning_output_tokens": 53
+      },
+      "elapsedMs": 7388
+    },
+    {
+      "id": "network-extra",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 62321,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 564,
+        "reasoning_output_tokens": 358
+      },
+      "elapsedMs": 10048
+    },
+    {
+      "id": "network-bound",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 28523,
+        "cached_input_tokens": 23552,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 302,
+        "reasoning_output_tokens": 205
+      },
+      "elapsedMs": 7290
+    },
+    {
+      "id": "network-unknown",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 30768,
+        "cached_input_tokens": 24576,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 355,
+        "reasoning_output_tokens": 241
+      },
+      "elapsedMs": 7578
+    },
+    {
+      "id": "network-nested",
+      "service": "network",
+      "passed": true,
+      "classification": "repaired",
+      "usage": {
+        "input_tokens": 43081,
+        "cached_input_tokens": 37888,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 231,
+        "reasoning_output_tokens": 35
+      },
+      "elapsedMs": 6534
+    },
+    {
+      "id": "network-unknown-input",
+      "service": "network",
+      "passed": true,
+      "classification": "clarification_requested",
+      "usage": {
+        "input_tokens": 28366,
+        "cached_input_tokens": 23424,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 212,
+        "reasoning_output_tokens": 132
+      },
+      "elapsedMs": 6965
+    }
+  ]
+}

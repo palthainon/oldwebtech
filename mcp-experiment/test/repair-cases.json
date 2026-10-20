@@ -1,0 +1,342 @@
+[
+  {
+    "id": "diagnostics-missing",
+    "service": "diagnostics",
+    "tool": "lookup_dns",
+    "args": {
+      "type": "MX"
+    },
+    "task": "Look up MX records for example.net.",
+    "expectedTool": "lookup_dns",
+    "expectedArguments": {
+      "domain": "example.net",
+      "type": "MX"
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-type",
+    "service": "diagnostics",
+    "tool": "lookup_dns",
+    "args": {
+      "domain": [
+        "example.net"
+      ],
+      "type": "A"
+    },
+    "task": "Look up A records for example.net.",
+    "expectedTool": "lookup_dns",
+    "expectedArguments": {
+      "domain": "example.net",
+      "type": "A"
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-enum",
+    "service": "diagnostics",
+    "tool": "lookup_dns",
+    "args": {
+      "domain": "example.net",
+      "type": "mx"
+    },
+    "task": "Look up MX records for example.net.",
+    "expectedTool": "lookup_dns",
+    "expectedArguments": {
+      "domain": "example.net",
+      "type": "MX"
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-extra",
+    "service": "diagnostics",
+    "tool": "check_https",
+    "args": {
+      "domain": "example.net",
+      "timeout": 30
+    },
+    "task": "Inspect HTTPS for example.net using supported limits.",
+    "expectedTool": "check_https",
+    "expectedArguments": {
+      "domain": "example.net"
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-unknown",
+    "service": "diagnostics",
+    "tool": "dns_lookup",
+    "args": {
+      "domain": "example.net",
+      "type": "TXT"
+    },
+    "task": "Look up TXT records for example.net.",
+    "expectedTool": "lookup_dns",
+    "expectedArguments": {
+      "domain": "example.net",
+      "type": "TXT"
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-nested",
+    "service": "diagnostics",
+    "tool": "trace_email",
+    "args": {
+      "headers": "Received: from a.example by b.example; Fri, 09 Oct 2026 10:00:00 +0000",
+      "trustedAuthservIds": [
+        123
+      ]
+    },
+    "task": "Inspect the supplied header. The caller-designated authserv ID is the string 123.",
+    "expectedTool": "trace_email",
+    "expectedArguments": {
+      "headers": "Received: from a.example by b.example; Fri, 09 Oct 2026 10:00:00 +0000",
+      "trustedAuthservIds": [
+        "123"
+      ]
+    },
+    "clarification": false
+  },
+  {
+    "id": "diagnostics-unknown-input",
+    "service": "diagnostics",
+    "tool": "check_https",
+    "args": {},
+    "task": "Inspect my website. I have not supplied its domain. Ask me for missing required information; do not invent it.",
+    "expectedTool": "check_https",
+    "expectedArguments": null,
+    "clarification": true
+  },
+  {
+    "id": "logs-missing",
+    "service": "logs",
+    "tool": "parse_logs",
+    "args": {},
+    "task": "Parse this exact log text: {\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+    "expectedTool": "parse_logs",
+    "expectedArguments": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}"
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-type",
+    "service": "logs",
+    "tool": "parse_logs",
+    "args": {
+      "text": {
+        "level": "INFO",
+        "message": "repair fixture"
+      }
+    },
+    "task": "Parse the supplied JSON log as text.",
+    "expectedTool": "parse_logs",
+    "expectedArguments": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}"
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-enum",
+    "service": "logs",
+    "tool": "summarize_logs",
+    "args": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+      "format": "JSON"
+    },
+    "task": "Summarize this JSON log.",
+    "expectedTool": "summarize_logs",
+    "expectedArguments": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+      "format": "json"
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-bound",
+    "service": "logs",
+    "tool": "parse_logs",
+    "args": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+      "recordLimit": 201
+    },
+    "task": "Parse this log and use the largest allowed record limit.",
+    "expectedTool": "parse_logs",
+    "expectedArguments": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+      "recordLimit": 200
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-unknown",
+    "service": "logs",
+    "tool": "parse_log",
+    "args": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}"
+    },
+    "task": "Parse the supplied log.",
+    "expectedTool": "parse_logs",
+    "expectedArguments": {
+      "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}"
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-nested",
+    "service": "logs",
+    "tool": "analyze_http_trace",
+    "args": {
+      "entries": [
+        {
+          "method": "GET",
+          "url": "https://example.net/",
+          "status": "429"
+        }
+      ]
+    },
+    "task": "Analyze this captured GET response with numeric HTTP status 429.",
+    "expectedTool": "analyze_http_trace",
+    "expectedArguments": {
+      "entries": [
+        {
+          "method": "GET",
+          "url": "https://example.net/",
+          "status": 429
+        }
+      ]
+    },
+    "clarification": false
+  },
+  {
+    "id": "logs-unknown-input",
+    "service": "logs",
+    "tool": "extract_ci_failures",
+    "args": {},
+    "task": "Find failures in my build log. I have not supplied the log. Ask for missing required information; do not invent it.",
+    "expectedTool": "extract_ci_failures",
+    "expectedArguments": null,
+    "clarification": true
+  },
+  {
+    "id": "network-missing",
+    "service": "network",
+    "tool": "inspect_subnet",
+    "args": {},
+    "task": "Inspect 198.51.100.0/24.",
+    "expectedTool": "inspect_subnet",
+    "expectedArguments": {
+      "cidr": "198.51.100.0/24"
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-type",
+    "service": "network",
+    "tool": "check_cidr_overlap",
+    "args": {
+      "cidrs": "198.51.100.0/24"
+    },
+    "task": "Check overlap for this single CIDR: 198.51.100.0/24.",
+    "expectedTool": "check_cidr_overlap",
+    "expectedArguments": {
+      "cidrs": [
+        "198.51.100.0/24"
+      ]
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-extra",
+    "service": "network",
+    "tool": "inspect_subnet",
+    "args": {
+      "cidr": "198.51.100.0/24",
+      "format": "json"
+    },
+    "task": "Inspect the supplied CIDR.",
+    "expectedTool": "inspect_subnet",
+    "expectedArguments": {
+      "cidr": "198.51.100.0/24"
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-bound",
+    "service": "network",
+    "tool": "plan_subnets",
+    "args": {
+      "parent": "2001:db8::/48",
+      "requests": [
+        {
+          "label": "office",
+          "prefix": 129
+        }
+      ]
+    },
+    "task": "Allocate one /64 labeled office from 2001:db8::/48. The malformed request has the wrong prefix.",
+    "expectedTool": "plan_subnets",
+    "expectedArguments": {
+      "parent": "2001:db8::/48",
+      "requests": [
+        {
+          "label": "office",
+          "prefix": 64
+        }
+      ]
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-unknown",
+    "service": "network",
+    "tool": "subnet_info",
+    "args": {
+      "cidr": "198.51.100.0/24"
+    },
+    "task": "Inspect the supplied CIDR.",
+    "expectedTool": "inspect_subnet",
+    "expectedArguments": {
+      "cidr": "198.51.100.0/24"
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-nested",
+    "service": "network",
+    "tool": "plan_subnets",
+    "args": {
+      "parent": "198.51.100.0/24",
+      "requests": [
+        {
+          "label": "office",
+          "prefix": "26"
+        }
+      ]
+    },
+    "task": "Allocate a /26 labeled office from the supplied parent.",
+    "expectedTool": "plan_subnets",
+    "expectedArguments": {
+      "parent": "198.51.100.0/24",
+      "requests": [
+        {
+          "label": "office",
+          "prefix": 26
+        }
+      ]
+    },
+    "clarification": false
+  },
+  {
+    "id": "network-unknown-input",
+    "service": "network",
+    "tool": "inspect_subnet",
+    "args": {},
+    "task": "Inspect my subnet. I have not supplied a CIDR. Ask for missing required information; do not invent it.",
+    "expectedTool": "inspect_subnet",
+    "expectedArguments": null,
+    "clarification": true
+  }
+]

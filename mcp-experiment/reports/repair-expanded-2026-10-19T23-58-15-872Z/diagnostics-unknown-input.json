@@ -1,0 +1,69 @@
+{
+  "id": "diagnostics-unknown-input",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "domain",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "lookup_dns",
+          "check_email_dns",
+          "check_https",
+          "deployment_readiness",
+          "trace_email"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "check_https",
+            "arguments": {
+              "domain": "example.com"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "diagnostics",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 8273,
+  "calls": [],
+  "summary": "Please provide the website domain, such as `example.com`. I cannot inspect the website without this required value.",
+  "usage": {
+    "input_tokens": 37780,
+    "cached_input_tokens": 23424,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 236,
+    "reasoning_output_tokens": 144
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 93,
+      "outputBytes": 579
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "clarification_requested"
+}

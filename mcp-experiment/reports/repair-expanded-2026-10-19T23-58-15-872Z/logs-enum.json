@@ -1,0 +1,133 @@
+{
+  "id": "logs-enum",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "format",
+            "guidance": "Use one of the allowed values shown in tools/list; values are case-sensitive."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "parse_logs",
+          "summarize_logs",
+          "extract_ci_failures",
+          "analyze_http_trace",
+          "validate_config"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "summarize_logs",
+            "arguments": {
+              "text": "Oct  9 10:00:00 router process: example",
+              "format": "rfc3164"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "logs",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7094,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+        "format": "json"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done: `summarize_logs` succeeded with the case-sensitive format value `\"json\"`.\n\nResult: 1 JSON record parsed. Severity: `info`. Timestamp range: unknown.",
+  "usage": {
+    "input_tokens": 44264,
+    "cached_input_tokens": 38400,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 278,
+    "reasoning_output_tokens": 73
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 172,
+      "outputBytes": 653
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 822,
+      "outputBytes": 1051
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

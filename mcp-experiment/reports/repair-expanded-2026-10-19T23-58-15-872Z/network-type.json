@@ -1,0 +1,133 @@
+{
+  "id": "network-type",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "cidrs",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "inspect_subnet",
+          "plan_subnets",
+          "check_cidr_overlap"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "check_cidr_overlap",
+            "arguments": {
+              "cidrs": [
+                "192.0.2.0/24",
+                "192.0.2.128/25"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "network",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7388,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "198.51.100.0/24"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 subnets: 0 overlapping pairs; 0 pairs omitted.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "198.51.100.0/24",
+              "prefix": 24,
+              "firstAddress": "198.51.100.0",
+              "lastAddress": "198.51.100.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "198.51.100.1",
+              "lastUsable": "198.51.100.254",
+              "broadcast": "198.51.100.255"
+            }
+          ],
+          "overlaps": [],
+          "overlapCount": 0,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": false,
+          "admin": {
+            "summary": "1 subnets: 0 overlapping pairs; 0 pairs omitted.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done. `198.51.100.0/24` has no overlap with another subnet.",
+  "usage": {
+    "input_tokens": 55907,
+    "cached_input_tokens": 47104,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 229,
+    "reasoning_output_tokens": 53
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 125,
+      "outputBytes": 575
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 777,
+      "outputBytes": 732
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

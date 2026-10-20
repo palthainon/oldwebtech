@@ -1,0 +1,155 @@
+{
+  "id": "network-nested",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "requests",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "inspect_subnet",
+          "plan_subnets",
+          "check_cidr_overlap"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "plan_subnets",
+            "arguments": {
+              "parent": "2001:db8::/48",
+              "requests": [
+                {
+                  "label": "office",
+                  "prefix": 64
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "network",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 6534,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "198.51.100.0/24",
+        "requests": [
+          {
+            "label": "office",
+            "prefix": 26
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "198.51.100.0/24: 1/1 allocations; 192 addresses remain.\n• office: 198.51.100.0/26.\nLimit: Largest blocks allocated first; input indices preserve request identity."
+          }
+        ],
+        "structured_content": {
+          "parent": {
+            "version": 4,
+            "cidr": "198.51.100.0/24",
+            "prefix": 24,
+            "firstAddress": "198.51.100.0",
+            "lastAddress": "198.51.100.255",
+            "addressCount": "256",
+            "netmask": "255.255.255.0",
+            "usableHostCount": "254",
+            "firstUsable": "198.51.100.1",
+            "lastUsable": "198.51.100.254",
+            "broadcast": "198.51.100.255"
+          },
+          "complete": true,
+          "allocations": [
+            {
+              "label": "office",
+              "prefix": 26,
+              "index": 0,
+              "allocated": true,
+              "version": 4,
+              "cidr": "198.51.100.0/26",
+              "firstAddress": "198.51.100.0",
+              "lastAddress": "198.51.100.63",
+              "addressCount": "64",
+              "netmask": "255.255.255.192",
+              "usableHostCount": "62",
+              "firstUsable": "198.51.100.1",
+              "lastUsable": "198.51.100.62",
+              "broadcast": "198.51.100.63"
+            }
+          ],
+          "freeAddressCount": "192",
+          "admin": {
+            "summary": "198.51.100.0/24: 1/1 allocations; 192 addresses remain.",
+            "findings": [
+              "office: 198.51.100.0/26."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Largest blocks allocated first; input indices preserve request identity."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done: allocated `office` as `198.51.100.0/26` within `198.51.100.0/24`.\n\nThe parent has 192 addresses remaining.",
+  "usage": {
+    "input_tokens": 43081,
+    "cached_input_tokens": 37888,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 231,
+    "reasoning_output_tokens": 35
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 166,
+      "outputBytes": 599
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 814,
+      "outputBytes": 1134
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}
