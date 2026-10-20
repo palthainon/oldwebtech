@@ -6,7 +6,7 @@ window.CERT_BANK = {
   "code": "PL-300 (2026-04-20)",
   "asOf": "2026-10",
   "examVersion": "2026-04-20",
-  "status": "reviewed",
+  "status": "published",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
   "scope": "Eighteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
@@ -520,7 +520,7 @@ window.CERT_BANK = {
         }
       ],
       "examVersion": "2026-04-20",
-      "status": "reviewed"
+      "status": "published"
     },
     {
       "id": "pl300-pilot-015",
@@ -555,7 +555,7 @@ window.CERT_BANK = {
         }
       ],
       "examVersion": "2026-04-20",
-      "status": "reviewed"
+      "status": "published"
     },
     {
       "id": "pl300-pilot-016",
@@ -590,7 +590,7 @@ window.CERT_BANK = {
         }
       ],
       "examVersion": "2026-04-20",
-      "status": "reviewed"
+      "status": "published"
     },
     {
       "id": "pl300-pilot-017",
@@ -625,7 +625,7 @@ window.CERT_BANK = {
         }
       ],
       "examVersion": "2026-04-20",
-      "status": "reviewed"
+      "status": "published"
     },
     {
       "id": "pl300-pilot-018",
@@ -660,7 +660,7 @@ window.CERT_BANK = {
         }
       ],
       "examVersion": "2026-04-20",
-      "status": "reviewed"
+      "status": "published"
     }
   ]
 };

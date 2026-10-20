@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has eighteen pilot questions in this checkout. Each question uses one verified behavior card. The first thirteen questions are published. Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has eighteen pilot questions in this checkout. Each question uses one verified behavior card. All eighteen questions are published. Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -21,7 +21,7 @@ The pilot uses the existing quiz engine and a separate storage identifier. The c
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-013 have published status. Questions 014-018 remain unpublished in this checkout. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-018 have published status. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -65,3 +65,7 @@ Five new cards cover five additional objectives. Each source was checked on Octo
 | pl300-pilot-016 | pl300-fixed-reference-line | Use reference lines, error bars, and forecasting |
 | pl300-pilot-017 | pl300-mobile-format-setting-override | Design reports for mobile devices |
 | pl300-pilot-018 | pl300-page-navigation-action | Configure navigation for a report |
+
+## Eighteen-question release
+
+On 2026-10-20, [pull request 54](https://github.com/palthainon/oldwebtech/pull/54) merged at commit `1994bc6`. The first deployment run was canceled. [Production run 39437683670](https://github.com/palthainon/oldwebtech/actions/runs/39437683670) succeeded for later main commit `7fa15f2`, which includes the release. The orchestrator confirmed that the [live bank](https://oldweb.tech/certs/data/pl300-pilot.js) matched the approved eighteen-question bank. Questions 014-018 now have published status. Question content remains unchanged.
