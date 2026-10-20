@@ -6,9 +6,9 @@ window.CERT_BANK = {
   "code": "PL-300 (2026-04-20)",
   "asOf": "2026-10",
   "examVersion": "2026-04-20",
-  "status": "published",
+  "status": "reviewed",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
-  "scope": "Thirteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
+  "scope": "Eighteen narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
     {
       "id": "1",
@@ -486,6 +486,181 @@ window.CERT_BANK = {
       ],
       "examVersion": "2026-04-20",
       "status": "published"
+    },
+    {
+      "id": "pl300-pilot-014",
+      "domain": "3",
+      "objective": "Use grouping, binning, and clustering",
+      "type": "single",
+      "q": "A Power BI Desktop model has a numeric calculated column named Package Weight and a measure named Average Package Weight. The author wants equal-sized weight ranges with the built-in binning feature. Which field is eligible?",
+      "choices": [
+        "Only Average Package Weight, because it is a measure",
+        "Package Weight, because calculated columns support bins",
+        "Both fields, because both return numbers",
+        "Neither field, because calculated columns cannot have bins"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "The binning feature supports numeric columns, including calculated columns. It does not support measures.",
+      "why": [
+        "The binning feature does not support measures.",
+        "Correct. The numeric calculated column is eligible.",
+        "A numeric result does not make a measure eligible.",
+        "Calculated columns can have bins."
+      ],
+      "cardIds": [
+        "pl300-bin-column-not-measure"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-grouping-and-binning",
+          "locator": "Use binning, opening paragraph",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-015",
+      "domain": "3",
+      "objective": "Detect outliers and anomalies",
+      "type": "single",
+      "q": "Anomaly detection is configured on a supported single-series time line chart with enough data points. The chart has no legend or secondary values. The author wants smaller deviations to be marked as anomalies. Which change fits?",
+      "choices": [
+        "Decrease sensitivity",
+        "Keep sensitivity unchanged and change only marker color",
+        "Increase sensitivity",
+        "Change only the marker size"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Higher sensitivity makes detection respond to smaller deviations. Lower sensitivity makes detection more selective.",
+      "why": [
+        "Lower sensitivity makes detection more selective.",
+        "Marker color changes appearance, not detection sensitivity.",
+        "Correct. Higher sensitivity can mark smaller deviations.",
+        "Marker size changes appearance, not detection sensitivity."
+      ],
+      "cardIds": [
+        "pl300-anomaly-sensitivity"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-anomaly-detection",
+          "locator": "Format anomalies; Considerations and limitations, first three bullets",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-016",
+      "domain": "3",
+      "objective": "Use reference lines, error bars, and forecasting",
+      "type": "single",
+      "q": "A clustered column chart shows daily equipment downtime in minutes. A report author needs a horizontal line at a fixed limit of 45 minutes. The line must not move to the average of the displayed data. Which Analytics option fits?",
+      "choices": [
+        "Average line",
+        "Median line",
+        "Min line",
+        "Y-axis constant line set to 45"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "A Y-axis constant line marks a fixed value. An Average line instead uses a computed measure average.",
+      "why": [
+        "An average can change with the displayed data.",
+        "The median describes the data rather than the fixed limit.",
+        "The minimum describes the data rather than the fixed limit.",
+        "Correct. A constant line marks the specified threshold."
+      ],
+      "cardIds": [
+        "pl300-fixed-reference-line"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane",
+          "locator": "Use the Analytics pane, feature table: Y-Axis constant line, Average line, Median line, Min line",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-017",
+      "domain": "3",
+      "objective": "Design reports for mobile devices",
+      "type": "single",
+      "q": "An author changes an inherited font-size setting in the mobile layout of a Power BI report. Later, the author changes the same font-size setting in the desktop layout. The mobile override is not cleared. What should the author expect?",
+      "choices": [
+        "The mobile font-size override stays independent of the desktop change",
+        "Every mobile format setting stops inheriting desktop values",
+        "The desktop change always replaces the mobile override",
+        "The mobile override is automatically cleared on the next desktop edit"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Changing an inherited mobile setting disconnects that setting from its desktop value. Other inherited settings do not all disconnect.",
+      "why": [
+        "Correct. The changed setting remains independent until its mobile change is discarded.",
+        "The change applies to the affected setting, not every setting.",
+        "A desktop edit does not replace the disconnected mobile setting.",
+        "A desktop edit does not automatically discard the mobile override."
+      ],
+      "cardIds": [
+        "pl300-mobile-format-setting-override"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-create-mobile-optimized-report-format-visuals",
+          "locator": "The visualizations pane, opening paragraphs; Discarding mobile formatting changes",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-018",
+      "domain": "3",
+      "objective": "Configure navigation for a report",
+      "type": "single",
+      "q": "A report has an Overview page and a Service Schedule page. A button on Overview must always open Service Schedule. The author does not need a saved bookmark state. Which configuration directly meets the requirement?",
+      "choices": [
+        "Enable Action, choose Back, and rely on the previous page",
+        "Enable Action, choose Page navigation, and set Destination to Service Schedule",
+        "Change only the button text to Service Schedule",
+        "Disable Action and set the button hover color"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Page navigation opens the selected destination within the same report without a bookmark.",
+      "why": [
+        "Back returns to the previous page, which need not be Service Schedule.",
+        "Correct. The destination identifies the required report page.",
+        "Button text alone does not configure navigation.",
+        "Appearance changes with Action disabled do not navigate to the page."
+      ],
+      "cardIds": [
+        "pl300-page-navigation-action"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-buttons",
+          "locator": "Select the action for a button, Back bullet and steps 1-2; Create page navigation, opening paragraph and step 1",
+          "checkedOn": "2026-10-19"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
     }
   ]
 };
