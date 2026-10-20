@@ -1,0 +1,67 @@
+{
+  "id": "network-unknown-input",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "cidr",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "inspect_subnet",
+          "plan_subnets",
+          "check_cidr_overlap"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "inspect_subnet",
+            "arguments": {
+              "cidr": "192.0.2.1/24"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "network",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 6965,
+  "calls": [],
+  "summary": "Please provide the subnet CIDR, such as `192.0.2.0/24`. I cannot inspect the subnet without this required value.",
+  "usage": {
+    "input_tokens": 28366,
+    "cached_input_tokens": 23424,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 212,
+    "reasoning_output_tokens": 132
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 96,
+      "outputBytes": 550
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "clarification_requested"
+}

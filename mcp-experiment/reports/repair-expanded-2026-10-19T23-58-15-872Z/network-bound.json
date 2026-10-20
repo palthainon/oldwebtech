@@ -1,0 +1,147 @@
+{
+  "id": "network-bound",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "requests",
+            "guidance": "The value exceeds the maximum size or bound shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "inspect_subnet",
+          "plan_subnets",
+          "check_cidr_overlap"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "plan_subnets",
+            "arguments": {
+              "parent": "2001:db8::/48",
+              "requests": [
+                {
+                  "label": "office",
+                  "prefix": 64
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "network",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7290,
+  "calls": [
+    {
+      "id": "item_0",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "2001:db8::/48",
+        "requests": [
+          {
+            "label": "office",
+            "prefix": 64
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2001:db8::/48: 1/1 allocations; 1208907372870555465154560 addresses remain.\n• office: 2001:db8::/64.\nLimit: Largest blocks allocated first; input indices preserve request identity."
+          }
+        ],
+        "structured_content": {
+          "parent": {
+            "version": 6,
+            "cidr": "2001:db8::/48",
+            "prefix": 48,
+            "firstAddress": "2001:db8::",
+            "lastAddress": "2001:db8:0:ffff:ffff:ffff:ffff:ffff",
+            "addressCount": "1208925819614629174706176",
+            "note": "IPv6 has no broadcast address; addressCount includes the complete prefix."
+          },
+          "complete": true,
+          "allocations": [
+            {
+              "label": "office",
+              "prefix": 64,
+              "index": 0,
+              "allocated": true,
+              "version": 6,
+              "cidr": "2001:db8::/64",
+              "firstAddress": "2001:db8::",
+              "lastAddress": "2001:db8::ffff:ffff:ffff:ffff",
+              "addressCount": "18446744073709551616",
+              "note": "IPv6 has no broadcast address; addressCount includes the complete prefix."
+            }
+          ],
+          "freeAddressCount": "1208907372870555465154560",
+          "admin": {
+            "summary": "2001:db8::/48: 1/1 allocations; 1208907372870555465154560 addresses remain.",
+            "findings": [
+              "office: 2001:db8::/64."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Largest blocks allocated first; input indices preserve request identity."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done.\n\nAllocated `office` as `2001:db8::/64` from `2001:db8::/48`.\n\nThe malformed prefix `129` was corrected to `64`.",
+  "usage": {
+    "input_tokens": 28523,
+    "cached_input_tokens": 23552,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 302,
+    "reasoning_output_tokens": 205
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 2,
+      "inputBytes": 163,
+      "outputBytes": 603
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 4,
+      "inputBytes": 812,
+      "outputBytes": 1152
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

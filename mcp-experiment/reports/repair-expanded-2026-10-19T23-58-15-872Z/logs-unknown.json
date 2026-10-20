@@ -1,0 +1,137 @@
+{
+  "id": "logs-unknown",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "unknown_tool_for_endpoint",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [],
+        "omittedIssues": 0,
+        "availableTools": [
+          "parse_logs",
+          "summarize_logs",
+          "extract_ci_failures",
+          "analyze_http_trace",
+          "validate_config"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "parse_logs",
+            "arguments": {
+              "text": "{\"level\":\"ERROR\",\"timestamp\":\"2026-10-09T10:00:00Z\",\"message\":\"example\"}",
+              "format": "auto"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "logs",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 9848,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+        "format": "auto"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "repair fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done: `parse_logs` parsed the supplied log successfully.\n\nResult: 1 JSON record parsed. Severity: `info`. No lines were skipped.",
+  "usage": {
+    "input_tokens": 44128,
+    "cached_input_tokens": 41088,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 227,
+    "reasoning_output_tokens": 51
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 151,
+      "outputBytes": 590
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 818,
+      "outputBytes": 1130
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

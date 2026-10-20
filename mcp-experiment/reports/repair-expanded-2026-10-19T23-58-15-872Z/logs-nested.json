@@ -1,0 +1,148 @@
+{
+  "id": "logs-nested",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "entries",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "parse_logs",
+          "summarize_logs",
+          "extract_ci_failures",
+          "analyze_http_trace",
+          "validate_config"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "analyze_http_trace",
+            "arguments": {
+              "entries": [
+                {
+                  "method": "GET",
+                  "url": "https://example.com/",
+                  "status": 429,
+                  "responseHeaders": {
+                    "Retry-After": "60"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "logs",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7720,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://example.net/",
+            "status": 429
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "429": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://example.net/",
+              "status": 429,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Rate limited; respect Retry-After when retrying."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done: `analyze_http_trace` accepted the corrected call.\n\nThe fix changed `status` from string `\"429\"` to numeric `429`. The response identified one rate-limited request and advised checking `Retry-After`.",
+  "usage": {
+    "input_tokens": 44243,
+    "cached_input_tokens": 41216,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 246,
+    "reasoning_output_tokens": 49
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 2,
+      "inputBytes": 172,
+      "outputBytes": 683
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 820,
+      "outputBytes": 1119
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

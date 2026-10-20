@@ -1,0 +1,128 @@
+{
+  "id": "diagnostics-type",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "domain",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "lookup_dns",
+          "check_email_dns",
+          "check_https",
+          "deployment_readiness",
+          "trace_email"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "lookup_dns",
+            "arguments": {
+              "domain": "example.com",
+              "type": "A"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "diagnostics",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7663,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "example.net",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "example.net: A lookup returned DNS status 0 and 1 answers.\n• 8.8.8.8 (TTL 60s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "example.net",
+          "type": "A",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "example.net",
+              "type": 1,
+              "TTL": 60,
+              "data": "8.8.8.8"
+            }
+          ],
+          "observedAt": "2026-10-19T23:58:30.541Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "example.net: A lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "8.8.8.8 (TTL 60s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Corrected `domain` from an array to a string.\n\n`example.net` A record: `8.8.8.8` with TTL `60s`.",
+  "usage": {
+    "input_tokens": 43723,
+    "cached_input_tokens": 38016,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 327,
+    "reasoning_output_tokens": 150
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 2,
+      "inputBytes": 127,
+      "outputBytes": 589
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 4,
+      "inputBytes": 775,
+      "outputBytes": 679
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

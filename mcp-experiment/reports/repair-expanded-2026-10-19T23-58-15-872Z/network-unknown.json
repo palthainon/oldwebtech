@@ -1,0 +1,117 @@
+{
+  "id": "network-unknown",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "unknown_tool_for_endpoint",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [],
+        "omittedIssues": 0,
+        "availableTools": [
+          "inspect_subnet",
+          "plan_subnets",
+          "check_cidr_overlap"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "inspect_subnet",
+            "arguments": {
+              "cidr": "192.0.2.1/24"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "network",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7578,
+  "calls": [
+    {
+      "id": "item_0",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "198.51.100.0/24"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "198.51.100.0/24: 256 addresses.\n• Range 198.51.100.0 – 198.51.100.255.\n• Usable 198.51.100.1 – 198.51.100.254 (254); mask 255.255.255.0.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "198.51.100.0/24",
+          "prefix": 24,
+          "firstAddress": "198.51.100.0",
+          "lastAddress": "198.51.100.255",
+          "addressCount": "256",
+          "netmask": "255.255.255.0",
+          "usableHostCount": "254",
+          "firstUsable": "198.51.100.1",
+          "lastUsable": "198.51.100.254",
+          "broadcast": "198.51.100.255",
+          "admin": {
+            "summary": "198.51.100.0/24: 256 addresses.",
+            "findings": [
+              "Range 198.51.100.0 – 198.51.100.255.",
+              "Usable 198.51.100.1 – 198.51.100.254 (254); mask 255.255.255.0."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "The server required `inspect_subnet`, not `subnet_info`.\n\n`198.51.100.0/24` contains 256 addresses. Usable hosts are `198.51.100.1` through `198.51.100.254`. The netmask is `255.255.255.0`.",
+  "usage": {
+    "input_tokens": 30768,
+    "cached_input_tokens": 24576,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 355,
+    "reasoning_output_tokens": 241
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 117,
+      "outputBytes": 468
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 770,
+      "outputBytes": 869
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

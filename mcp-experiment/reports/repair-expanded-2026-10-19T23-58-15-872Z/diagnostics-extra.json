@@ -1,0 +1,123 @@
+{
+  "id": "diagnostics-extra",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "arguments",
+            "guidance": "Remove extra keys. Only the keys in tools/list are accepted."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "lookup_dns",
+          "check_email_dns",
+          "check_https",
+          "deployment_readiness",
+          "trace_email"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "check_https",
+            "arguments": {
+              "domain": "example.com"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "diagnostics",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 6827,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "example.net"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 0 redirects.\n• https://example.net/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://example.net/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-19T23:58:44.800Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 0 redirects.",
+            "findings": [
+              "https://example.net/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Removed the unsupported `timeout` argument. The HTTPS check for `example.net` succeeded with HTTP 200, zero redirects, and an authorized TLS certificate.",
+  "usage": {
+    "input_tokens": 43550,
+    "cached_input_tokens": 38016,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 184,
+    "reasoning_output_tokens": 33
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 2,
+      "inputBytes": 128,
+      "outputBytes": 582
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 4,
+      "inputBytes": 765,
+      "outputBytes": 635
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}

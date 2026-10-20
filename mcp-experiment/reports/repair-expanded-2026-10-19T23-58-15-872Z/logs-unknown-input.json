@@ -1,0 +1,69 @@
+{
+  "id": "logs-unknown-input",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "text",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "parse_logs",
+          "summarize_logs",
+          "extract_ci_failures",
+          "analyze_http_trace",
+          "validate_config"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "extract_ci_failures",
+            "arguments": {
+              "text": "src/app.ts(2,1): error TS2322: type mismatch"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "logs",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7744,
+  "calls": [],
+  "summary": "The build log is required.\n\nPaste the log text. I will submit it as the `text` field to `extract_ci_failures`.",
+  "usage": {
+    "input_tokens": 31339,
+    "cached_input_tokens": 24704,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 222,
+    "reasoning_output_tokens": 116
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 101,
+      "outputBytes": 625
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "clarification_requested"
+}

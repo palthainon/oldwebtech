@@ -1,0 +1,142 @@
+{
+  "id": "logs-missing",
+  "seedError": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "invalid_tool_or_arguments",
+      "data": {
+        "reason": "invalid_arguments",
+        "guidance": "Call tools/list on this endpoint. Use the exact tool name and argument schema. Correct the request before retrying.",
+        "issues": [
+          {
+            "field": "text",
+            "guidance": "Supply the required field with the type shown in tools/list."
+          }
+        ],
+        "omittedIssues": 0,
+        "availableTools": [
+          "parse_logs",
+          "summarize_logs",
+          "extract_ci_failures",
+          "analyze_http_trace",
+          "validate_config"
+        ],
+        "example": {
+          "method": "tools/call",
+          "params": {
+            "name": "parse_logs",
+            "arguments": {
+              "text": "{\"level\":\"ERROR\",\"timestamp\":\"2026-10-09T10:00:00Z\",\"message\":\"example\"}",
+              "format": "auto"
+            }
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  "service": "logs",
+  "model": "gpt-5.6-luna",
+  "exitCode": 0,
+  "elapsedMs": 7351,
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"repair fixture\"}",
+        "format": "auto"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "repair fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "summary": "Done: `parse_logs` accepted the exact log text.\n\nResult: 1 JSON record parsed with severity `info`. No records were omitted. Timestamp is unknown.",
+  "usage": {
+    "input_tokens": 47756,
+    "cached_input_tokens": 40704,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 244,
+    "reasoning_output_tokens": 67
+  },
+  "errors": [],
+  "allInternal": true,
+  "activity": [
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 2,
+      "inputBytes": 92,
+      "outputBytes": 672
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 6,
+      "inputBytes": 818,
+      "outputBytes": 1130
+    }
+  ],
+  "prohibitedActions": [],
+  "passed": true,
+  "classification": "repaired"
+}
