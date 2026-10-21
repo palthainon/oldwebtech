@@ -214,6 +214,11 @@
         .zone-search { margin-top: 16px; }
         .zone-search[hidden] { display: none; }
         .zone-search-error { color: var(--err); }
+        .work-row { display: grid; grid-template-columns: minmax(120px, 2fr) 1fr 1fr; gap: 12px; align-items: end; margin: 12px 0; }
+        .work-row input { width: 100%; min-width: 0; min-height: 44px; }
+        .work-row label { display: block; }
+        #availability { margin: 16px 0; }
+        @media (max-width: 700px) { .work-row { grid-template-columns: 1fr 1fr; } .work-row strong { grid-column: 1 / -1; } }
         @media (max-width: 700px) {
             .timeline-table th[scope="row"] { min-width: 84px; max-width: 96px; width: 96px; white-space: normal; overflow-wrap: anywhere; font-size: 0.8rem; }
             .timeline-table th, .timeline-table td { padding: 4px; }
@@ -319,6 +324,11 @@
                     <label for="meetingDateTime">Meeting Date &amp; Time (in home TZ)</label>
                     <input type="datetime-local" id="meetingDateTime" aria-required="true">
                 </div>
+                <div class="input-field">
+                    <label for="meetingDuration">Duration (minutes)</label>
+                    <input type="number" id="meetingDuration" min="15" max="480" step="15" value="60" required aria-describedby="durationHelp">
+                    <small id="durationHelp">15–480 minutes, in 15-minute steps.</small>
+                </div>
             </div>
             <div class="actions">
                 <button type="button" id="addTimezone" class="btn primary" onclick="addRow()" aria-label="Add another timezone" aria-expanded="false" aria-controls="zoneSearch">+ Add Timezone</button>
@@ -343,11 +353,22 @@
                 <h2 id="times-heading">meeting times</h2>
             </div>
             <div class="box-body">
+            <details>
+                <summary>Working hours for each time zone</summary>
+                <p>Hours apply every day in each zone. An end before the start means an overnight shift. Equal times mean 24 hours.</p>
+                <form id="workingHoursForm">
+                    <div id="workingHoursRows"></div>
+                    <button type="submit" class="btn">Apply working hours</button>
+                    <span id="workingHoursStatus" role="status"></span>
+                </form>
+            </details>
+            <div id="availability" role="status" aria-live="polite"></div>
+            <div id="suggestedTimes" class="actions"></div>
             <div class="tz-rows" id="tzRows" aria-live="polite"></div>
             <div class="legend-strip">
-                <span class="legend-key"><span class="biz-indicator biz-green">Business hours</span> 9 AM &ndash; 5 PM</span>
-                <span class="legend-key"><span class="biz-indicator biz-yellow">Edge</span> 7&ndash;9 AM or 5&ndash;9 PM</span>
-                <span class="legend-key"><span class="biz-indicator biz-red">Off hours</span> Outside 7 AM &ndash; 9 PM</span>
+                <span class="legend-key"><span class="biz-indicator biz-green">Full meeting fits</span></span>
+                <span class="legend-key"><span class="biz-indicator biz-yellow">Partly outside hours</span></span>
+                <span class="legend-key"><span class="biz-indicator biz-red">Outside working hours</span></span>
             </div>
             </div>
         </section>
@@ -398,6 +419,9 @@
         let extraRows = [];           // Array of timezone strings (other than home TZ)
         let selectedInstant = null;
         let renderedInstant = null;
+        let workingHours = {};
+        let workingZoneKey = '';
+        const minuteFormatters = new Map();
         const ROWS_KEY = 'tz-meeting-planner-rows';
 
         // Comparison rows shown on first visit: PST, EDT, UTC
@@ -590,7 +614,7 @@
                     return n ? n.value : '';
                 } catch (e) { return ''; }
             })();
-            return { time, date, tzShort };
+            return { time, date, tzShort, utcMs };
         }
 
         function dayOffset(utcMs, homeTz, otherTz) {
@@ -614,16 +638,108 @@
             return parseInt(fmt.format(new Date(utcMs)), 10);
         }
 
-        function bizClass(hour) {
-            // Treat 24-hour 0-23. Use start hour of meeting.
-            if (hour >= 9 && hour < 17) return { cls: 'biz-green', label: 'Business hours' };
-            if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 21)) return { cls: 'biz-yellow', label: 'Edge hours' };
-            return { cls: 'biz-red', label: 'Off hours' };
-        }
-
         function normalizeTz(value) {
             const trimmed = value.trim();
             return trimmed.toUpperCase() === 'UTC' ? 'UTC' : trimmed;
+        }
+
+        function plannerZones() { return [$('homeTz').value.trim(), ...extraRows].filter(tz => TZ_SET.has(tz)); }
+
+        function deduplicateRows(homeTz) {
+            const unique = [...new Set(extraRows)].filter(tz => TZ_SET.has(tz) && tz !== homeTz);
+            if (JSON.stringify(unique) !== JSON.stringify(extraRows)) {
+                extraRows = unique;
+                persistRows();
+            }
+        }
+
+        function durationMinutes() {
+            const input = $('meetingDuration');
+            return input.validity.valid && input.value ? Number(input.value) : null;
+        }
+
+        function meetingEndText(instant, tz) {
+            const duration = durationMinutes();
+            if (!duration) return 'Set a valid duration';
+            const end = formatInTz(instant + duration * 60000, tz);
+            return `Ends ${end.date}, ${end.time} ${end.tzShort}`;
+        }
+
+        function workFor(tz) { return workingHours[tz] || { start: '09:00', end: '17:00' }; }
+        function clockMinutes(value) { const [h, m] = value.split(':').map(Number); return h * 60 + m; }
+
+        function isWorkingMinute(instant, tz) {
+            if (!minuteFormatters.has(tz)) minuteFormatters.set(tz, new Intl.DateTimeFormat('en-GB', {
+                timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+            }));
+            const local = clockMinutes(minuteFormatters.get(tz).format(instant));
+            const work = workFor(tz), start = clockMinutes(work.start), end = clockMinutes(work.end);
+            return start === end || (start < end ? local >= start && local < end : local >= start || local < end);
+        }
+
+        function meetingFit(instant, tz) {
+            const duration = durationMinutes();
+            if (!duration) return { cls: 'biz-red', label: 'Set duration' };
+            let inside = 0;
+            // Check every elapsed minute, including repeated or skipped local hours.
+            // The end is exclusive: a meeting may end at the work-period boundary.
+            for (let minute = 0; minute < duration; minute++) if (isWorkingMinute(instant + minute * 60000, tz)) inside++;
+            return inside === duration ? { cls: 'biz-green', label: 'Full meeting fits' }
+                : inside ? { cls: 'biz-yellow', label: 'Partly outside hours' }
+                : { cls: 'biz-red', label: 'Outside working hours' };
+        }
+
+        function renderWorkingHours() {
+            const zones = plannerZones(), key = JSON.stringify(zones);
+            if (key === workingZoneKey) return;
+            workingZoneKey = key;
+            $('workingHoursRows').replaceChildren();
+            zones.forEach((tz, index) => {
+                const work = workFor(tz), row = document.createElement('div');
+                row.className = 'work-row';
+                row.innerHTML = `<strong>${escapeHtml(cityLabel(tz))}</strong>
+                    <div><label for="workStart${index}">Start (${escapeHtml(cityLabel(tz))})</label><input id="workStart${index}" type="time" required value="${work.start}"></div>
+                    <div><label for="workEnd${index}">End (${escapeHtml(cityLabel(tz))})</label><input id="workEnd${index}" type="time" required value="${work.end}"></div>`;
+                $('workingHoursRows').appendChild(row);
+            });
+            $('workingHoursStatus').textContent = '';
+        }
+
+        function nextSharedStarts(instant, zones, duration) {
+            const candidates = [];
+            let run = 0;
+            // Scan each minute so non-quarter-hour work boundaries are not missed.
+            for (let minute = 0; minute < 2880 + duration; minute++) {
+                run = zones.every(tz => isWorkingMinute(instant + minute * 60000, tz)) ? run + 1 : 0;
+                const start = minute - duration + 1;
+                const candidate = instant + start * 60000;
+                const usefulStart = run === duration || candidate % 900000 === 0;
+                if (run >= duration && start > 0 && start <= 2880 && usefulStart && (!candidates.length || candidate >= candidates[candidates.length - 1] + 15 * 60000)) {
+                    candidates.push(instant + start * 60000);
+                    if (candidates.length === 3) break;
+                }
+            }
+            return candidates;
+        }
+
+        function renderAvailability(instant) {
+            const duration = durationMinutes(), zones = plannerZones();
+            $('suggestedTimes').replaceChildren();
+            if (!duration) { $('availability').textContent = 'Enter a duration from 15 to 480 minutes in 15-minute steps.'; return; }
+            const fits = zones.every(tz => meetingFit(instant, tz).cls === 'biz-green');
+            $('availability').textContent = fits ? `The full ${duration}-minute meeting fits every zone's working hours.`
+                : `The ${duration}-minute meeting is outside at least one zone's working hours.`;
+            const starts = nextSharedStarts(instant, zones, duration);
+            const note = document.createElement('p');
+            note.textContent = starts.length ? `Next starts that fit all zones (${cityLabel(zones[0])} time, options at least 15 minutes apart):`
+                : 'No later start fits the full meeting in the next 48 hours. Change the hours, duration, or date.';
+            $('suggestedTimes').appendChild(note);
+            starts.forEach(start => {
+                const button = document.createElement('button'), f = formatInTz(start, zones[0]);
+                button.type = 'button'; button.className = 'btn'; button.textContent = `${f.date}, ${f.time} ${f.tzShort}`;
+                button.addEventListener('click', () => { selectMeeting(start); $('laterTime').focus(); });
+                $('suggestedTimes').appendChild(button);
+            });
         }
 
         function renderTimeline(homeTz, utcMs) {
@@ -824,7 +940,7 @@
             const zones = [{ tz: homeTz, isHome: true }].concat(extraRows.map(tz => ({ tz, isHome: false })));
             const entries = zones.map(z => {
                 const mins = getTzOffsetMinutes(z.tz, utcMs);
-                const biz = bizClass(hourInTz(utcMs, z.tz));
+                const biz = meetingFit(utcMs, z.tz);
                 return { tz: z.tz, isHome: z.isHome, lon: (mins / 60) * 15, biz };
             });
 
@@ -883,6 +999,8 @@
 
         function render() {
             const homeTz = $('homeTz').value.trim();
+            if (TZ_SET.has(homeTz)) deduplicateRows(homeTz);
+            renderWorkingHours();
             const wall = parseLocalInput($('meetingDateTime').value);
             const container = $('tzRows');
             container.innerHTML = '';
@@ -893,6 +1011,8 @@
                 container.innerHTML = '<div class="empty-state">Pick a home timezone and meeting time above.</div>';
                 renderGlobeEmpty();
                 $('timeline').textContent = 'Pick a home time zone and meeting time above.';
+                $('availability').textContent = 'Pick a home time zone and meeting time to check working hours.';
+                $('suggestedTimes').replaceChildren();
                 return;
             }
 
@@ -911,6 +1031,7 @@
 
             renderGlobe(homeTz, utcMs);
             renderTimeline(homeTz, utcMs);
+            renderAvailability(utcMs);
 
             if (extraRows.length === 0) {
                 const tip = document.createElement('div');
@@ -924,12 +1045,11 @@
             const row = document.createElement('div');
             row.className = 'tz-row home-row';
             const f = formatInTz(utcMs, homeTz);
-            const h = hourInTz(utcMs, homeTz);
-            const biz = bizClass(h);
+            const biz = meetingFit(utcMs, homeTz);
             const homeMins = getTzOffsetMinutes(homeTz, utcMs);
             row.innerHTML = `
                 <div class="home-name">&#8962; ${escapeHtml(homeTz)}</div>
-                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="offset-part">${fmtAbsOffset(homeMins)} &middot; home zone</span></div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="date-part">${meetingEndText(utcMs, homeTz)}</span><span class="offset-part">${fmtAbsOffset(homeMins)} &middot; home zone</span></div>
                 <span class="day-badge same">Home</span>
                 <span class="biz-indicator ${biz.cls}">${biz.label}</span>
                 <div class="row-actions">
@@ -943,8 +1063,7 @@
             const row = document.createElement('div');
             row.className = 'tz-row';
             const f = formatInTz(utcMs, tz);
-            const h = hourInTz(utcMs, tz);
-            const biz = bizClass(h);
+            const biz = meetingFit(utcMs, tz);
             const tzMins = getTzOffsetMinutes(tz, utcMs);
             const homeMins = getTzOffsetMinutes(homeTz, utcMs);
             const dOff = dayOffset(utcMs, homeTz, tz);
@@ -956,7 +1075,7 @@
 
             row.innerHTML = `
                 <div></div>
-                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="offset-part">${fmtAbsOffset(tzMins)} &middot; ${fmtRelOffset(tzMins, homeMins)}</span></div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="date-part">${meetingEndText(utcMs, tz)}</span><span class="offset-part">${fmtAbsOffset(tzMins)} &middot; ${fmtRelOffset(tzMins, homeMins)}</span></div>
                 ${dayBadge}
                 <span class="biz-indicator ${biz.cls}">${biz.label}</span>
                 <div class="row-actions">
@@ -976,6 +1095,11 @@
             input.addEventListener('change', () => {
                 const v = normalizeTz(input.value);
                 if (TZ_SET.has(v)) {
+                    if (v === homeTz || extraRows.some((zone, rowIndex) => rowIndex !== idx && zone === v)) {
+                        showTzError('This time zone is already shown.', input);
+                        input.value = extraRows[idx];
+                        return;
+                    }
                     clearTzError(input);
                     extraRows[idx] = v;
                     persistRows();
@@ -990,7 +1114,7 @@
         }
 
         function formatCopy(tz, f) {
-            return `${f.date} ${f.time} ${f.tzShort} (${tz})`;
+            return `${f.date} ${f.time} ${f.tzShort} — ${meetingEndText(f.utcMs, tz)} (${tz})`;
         }
 
         function escapeHtml(s) {
@@ -1079,7 +1203,7 @@
             }
         });
 
-        const formFields = ['homeTz', 'meetingDateTime'];
+        const formFields = ['homeTz', 'meetingDateTime', 'meetingDuration'];
 
         function clearAllSavedData() {
             if (!confirm('Clear the meeting time and all added timezones?')) return;
@@ -1087,6 +1211,10 @@
             StorageUtils.remove(ROWS_KEY);
             StorageUtils.remove('tz-meeting-planner-instant');
             selectedInstant = null;
+            workingHours = {};
+            workingZoneKey = '';
+            StorageUtils.remove('tz-meeting-planner-working-hours');
+            $('meetingDuration').value = '60';
             extraRows = DEFAULT_ROWS.slice();
             // Reset to browser-detected home + 1 hour from now
             const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
@@ -1099,6 +1227,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             buildTzDatalist();
             buildGlobeStatic();
+            const savedHours = StorageUtils.load('tz-meeting-planner-working-hours', {});
+            if (savedHours && typeof savedHours === 'object') {
+                const validTime = value => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+                Object.entries(savedHours).forEach(([tz, work]) => {
+                    if (TZ_SET.has(tz) && work && validTime(work.start) && validTime(work.end)) workingHours[tz] = work;
+                });
+            }
+            $('workingHoursForm').addEventListener('submit', event => {
+                event.preventDefault();
+                plannerZones().forEach((tz, index) => {
+                    workingHours[tz] = { start: $(`workStart${index}`).value, end: $(`workEnd${index}`).value };
+                });
+                StorageUtils.save('tz-meeting-planner-working-hours', workingHours);
+                render();
+                $('workingHoursStatus').textContent = 'Working hours applied and saved.';
+            });
+            $('workingHoursForm').addEventListener('input', () => { $('workingHoursStatus').textContent = 'Changes are not applied yet.'; });
+            $('meetingDuration').addEventListener('input', render);
             const savedInstant = StorageUtils.load('tz-meeting-planner-instant', null);
             if (savedInstant && Number.isFinite(savedInstant.instant)) selectedInstant = savedInstant;
             $('zoneSearch').addEventListener('submit', submitZone);
@@ -1133,6 +1279,7 @@
             extraRows = Array.isArray(savedRows) ? savedRows : DEFAULT_ROWS.slice();
 
             StorageUtils.loadFormInputs('tz-meeting-planner', formFields, function(data) {
+                if (!data.meetingDuration) $('meetingDuration').value = '60';
                 if (!data['homeTz']) {
                     const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
                     $('homeTz').value = detected;
