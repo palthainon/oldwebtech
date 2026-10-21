@@ -41,17 +41,21 @@
         }
         .home-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
             gap: 16px;
         }
         @media (max-width: 700px) { .home-grid { grid-template-columns: 1fr; } }
         .input-field {
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
         /* theme.css does not cover datetime-local; match the other fields */
         input[type="datetime-local"] {
+            box-sizing: border-box;
+            min-width: 0;
+            max-width: 100%;
             width: 100%;
             min-height: 44px;
             padding: 8px 12px;
@@ -61,6 +65,8 @@
             font-family: var(--font-body);
             font-size: 1rem;
         }
+        input[type="datetime-local"]::-webkit-date-and-time-value { min-width: 0; text-align: left; }
+        input[type="datetime-local"]::-webkit-datetime-edit { min-width: 0; padding: 0; }
         .actions {
             display: flex;
             flex-wrap: wrap;
@@ -214,6 +220,12 @@
         .zone-search { margin-top: 16px; }
         .zone-search[hidden] { display: none; }
         .zone-search-error { color: var(--err); }
+        .zone-combobox { position: relative; min-width: 0; width: 100%; }
+        .zone-combobox input { width: 100%; box-sizing: border-box; }
+        .zone-options { position: absolute; top: 100%; left: 0; right: 0; z-index: 20; max-height: 240px; overflow-y: auto; background: var(--field); color: var(--fg); border: 1px solid var(--hi); box-shadow: 0 4px 8px var(--shadow); }
+        .zone-option { padding: 10px; min-height: 44px; box-sizing: border-box; cursor: pointer; overflow-wrap: anywhere; }
+        .zone-option:hover, .zone-option[aria-selected="true"] { background: var(--head); outline: 2px solid var(--hi); outline-offset: -2px; }
+        .zone-option small { display: block; color: var(--dim); }
         .work-row { display: grid; grid-template-columns: minmax(120px, 2fr) 1fr 1fr; gap: 12px; align-items: end; margin: 12px 0; }
         .work-row input { width: 100%; min-width: 0; min-height: 44px; }
         .work-row label { display: block; }
@@ -478,6 +490,97 @@
         // Valid IANA zones, populated by buildTzDatalist(). Used to validate
         // the free-text input from the filterable timezone fields.
         let TZ_SET = new Set();
+        let zoneSearchId = 0;
+
+        function attachZoneSearch(input) {
+            input.removeAttribute('list');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'zone-combobox';
+            input.replaceWith(wrapper);
+            wrapper.appendChild(input);
+            const list = document.createElement('div');
+            list.className = 'zone-options';
+            list.id = `zoneOptions${++zoneSearchId}`;
+            list.setAttribute('role', 'listbox');
+            list.setAttribute('aria-label', 'Matching time zones');
+            list.hidden = true;
+            wrapper.appendChild(list);
+            input.setAttribute('role', 'combobox');
+            input.setAttribute('aria-autocomplete', 'list');
+            input.setAttribute('aria-controls', list.id);
+            input.setAttribute('aria-expanded', 'false');
+            let matches = [], active = -1;
+            const close = () => {
+                list.hidden = true;
+                input.setAttribute('aria-expanded', 'false');
+                input.removeAttribute('aria-activedescendant');
+                active = -1;
+            };
+            const choose = tz => {
+                input.value = tz;
+                close();
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                close();
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                const replacement = input.id && document.getElementById(input.id);
+                if (replacement && replacement !== input) {
+                    replacement.focus();
+                    replacement.dispatchEvent(new Event('zone-search-close'));
+                }
+            };
+            const show = () => {
+                const query = input.value.trim().toLowerCase().replace(/_/g, ' ');
+                matches = [...new Set([...POPULAR, ...TZ_SET])].filter(tz => TZ_SET.has(tz) && tz.toLowerCase().replace(/_/g, ' ').includes(query)).slice(0, 20);
+                active = -1;
+                input.removeAttribute('aria-activedescendant');
+                list.replaceChildren();
+                matches.forEach((tz, index) => {
+                    const option = document.createElement('div');
+                    option.className = 'zone-option';
+                    option.id = `${list.id}-${index}`;
+                    option.setAttribute('role', 'option');
+                    option.setAttribute('aria-selected', 'false');
+                    option.textContent = cityLabel(tz);
+                    const detail = document.createElement('small');
+                    detail.textContent = `${tz} · ${fmtAbsOffset(getTzOffsetMinutes(tz, renderedInstant ?? Math.floor(Date.now() / 60000) * 60000))}`;
+                    option.appendChild(detail);
+                    option.addEventListener('pointerdown', event => event.preventDefault());
+                    option.addEventListener('mousedown', event => event.preventDefault());
+                    option.addEventListener('click', () => choose(tz));
+                    list.appendChild(option);
+                });
+                if (!matches.length) {
+                    const empty = document.createElement('div');
+                    empty.className = 'zone-option';
+                    empty.textContent = 'No matching zones. Try a city name or UTC.';
+                    empty.setAttribute('role', 'status');
+                    list.appendChild(empty);
+                }
+                list.hidden = false;
+                input.setAttribute('aria-expanded', 'true');
+            };
+            input.addEventListener('focus', show);
+            input.addEventListener('click', show);
+            input.addEventListener('zone-search-close', close);
+            input.addEventListener('input', show);
+            input.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && !list.hidden) { event.preventDefault(); event.stopPropagation(); close(); return; }
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (list.hidden) show();
+                    if (!matches.length) return;
+                    active = active < 0 ? (event.key === 'ArrowDown' ? 0 : matches.length - 1)
+                        : (active + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length;
+                    [...list.children].forEach((option, index) => option.setAttribute('aria-selected', String(index === active)));
+                    input.setAttribute('aria-activedescendant', list.children[active].id);
+                    list.children[active].scrollIntoView({ block: 'nearest' });
+                } else if (event.key === 'Enter' && !list.hidden && matches.length) {
+                    event.preventDefault();
+                    choose(matches[active < 0 ? 0 : active]);
+                } else if (event.key === 'Tab') close();
+            });
+            wrapper.addEventListener('focusout', event => { if (!wrapper.contains(event.relatedTarget)) close(); });
+        }
 
         function makeTzOption(tz) {
             const opt = document.createElement('option');
@@ -705,17 +808,20 @@
             $('workingHoursStatus').textContent = '';
         }
 
+        function nextHalfHour(instant, tz) {
+            const offset = getTzOffsetMinutes(tz, Math.floor(instant / 60000) * 60000) * 60000;
+            return (Math.floor((instant + offset) / 1800000) + 1) * 1800000 - offset;
+        }
+
         function nextSharedStarts(instant, zones, duration) {
             const candidates = [];
-            let run = 0;
-            // Scan each minute so non-quarter-hour work boundaries are not missed.
-            for (let minute = 0; minute < 2880 + duration; minute++) {
-                run = zones.every(tz => isWorkingMinute(instant + minute * 60000, tz)) ? run + 1 : 0;
-                const start = minute - duration + 1;
-                const candidate = instant + start * 60000;
-                const usefulStart = run === duration || candidate % 900000 === 0;
-                if (run >= duration && start > 0 && start <= 2880 && usefulStart && (!candidates.length || candidate >= candidates[candidates.length - 1] + 15 * 60000)) {
-                    candidates.push(instant + start * 60000);
+            for (let candidate = nextHalfHour(instant, zones[0]); candidate <= instant + 48 * 3600000; candidate += 3600000) {
+                let fits = true;
+                for (let minute = 0; minute < duration && fits; minute++) {
+                    fits = zones.every(tz => isWorkingMinute(candidate + minute * 60000, tz));
+                }
+                if (fits) {
+                    candidates.push(candidate);
                     if (candidates.length === 3) break;
                 }
             }
@@ -731,8 +837,8 @@
                 : `The ${duration}-minute meeting is outside at least one zone's working hours.`;
             const starts = nextSharedStarts(instant, zones, duration);
             const note = document.createElement('p');
-            note.textContent = starts.length ? `Next starts that fit all zones (${cityLabel(zones[0])} time, options at least 15 minutes apart):`
-                : 'No later start fits the full meeting in the next 48 hours. Change the hours, duration, or date.';
+            note.textContent = starts.length ? `Starts that fit all zones (${cityLabel(zones[0])} time). Check the next half hour, then every hour. Times outside working hours are skipped:`
+                : 'No hourly option from the next half hour fits the full meeting in the next 48 hours. Change the hours, duration, or date.';
             $('suggestedTimes').appendChild(note);
             starts.forEach(start => {
                 const button = document.createElement('button'), f = formatInTz(start, zones[0]);
@@ -1085,6 +1191,7 @@
             `;
             // Replace first cell with a filterable timezone input
             const input = document.createElement('input');
+            input.id = `comparisonZone${idx}`;
             input.type = 'text';
             input.className = 'tz-input';
             input.value = tz;
@@ -1110,6 +1217,7 @@
                 }
             });
             row.firstElementChild.replaceWith(input);
+            attachZoneSearch(input);
             return row;
         }
 
@@ -1192,6 +1300,11 @@
             selectMeeting(Math.floor(Date.now() / 60000) * 60000);
         }
 
+        function useNextHalfHour() {
+            const tz = normalizeTz($('homeTz').value);
+            if (TZ_SET.has(tz)) selectMeeting(nextHalfHour(Date.now(), tz));
+        }
+
         // Skip link
         document.querySelector('.skip-link').addEventListener('click', function(e) {
             e.preventDefault();
@@ -1220,12 +1333,14 @@
             const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
             $('homeTz').value = detected;
             clearTzError($('homeTz'));
-            useNow();
+            useNextHalfHour();
             A11yUtils.announce('All timezone data cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             buildTzDatalist();
+            attachZoneSearch($('homeTz'));
+            attachZoneSearch($('newTimezone'));
             buildGlobeStatic();
             const savedHours = StorageUtils.load('tz-meeting-planner-working-hours', {});
             if (savedHours && typeof savedHours === 'object') {
@@ -1285,7 +1400,7 @@
                     $('homeTz').value = detected;
                 }
                 if (!data['meetingDateTime']) {
-                    useNow();
+                    useNextHalfHour();
                 } else {
                     render();
                 }
