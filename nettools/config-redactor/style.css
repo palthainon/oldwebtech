@@ -1,0 +1,16 @@
+.box { margin-bottom: 1.5rem; }
+.box-body { display: grid; gap: 1rem; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.comparison { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+.comparison > div { min-width: 0; }
+.comparison label { display: block; margin-bottom: .5rem; }
+.comparison textarea { width: 100%; box-sizing: border-box; min-height: 24rem; resize: vertical; font: .9rem/1.5 var(--font-body); tab-size: 2; }
+.review-check { display: flex; align-items: flex-start; gap: .75rem; }
+.review-check input { width: auto; margin-top: .2rem; }
+#error { color: var(--err); border: 2px solid var(--err); padding: .75rem; }
+[hidden] { display: none !important; }
+#findings { display: grid; gap: .75rem; }
+.finding { border: 1px solid var(--line); padding: .75rem; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+input[type="file"] { max-width: 100%; }
+@media (max-width: 800px) { .comparison { grid-template-columns: minmax(0, 1fr); } }
