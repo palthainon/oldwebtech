@@ -100,3 +100,29 @@ test('XML credentials cannot use the default-route exemption',async()=>{
  assert.equal(result.flags.length,0);assert.ok(!result.output.includes('0.0.0.0'));
  assert.ok(scan('<?xml secret="PRIVATE"?><config/>','panos-xml').flags.length);
 });
+
+for(const profile of ['junos-set','junos-hierarchical'])for(const mode of ['labels','addresses'])
+test('browser masks Junos privacy credentials: '+profile+' '+mode,async()=>{
+ for(const field of ['privacy-key','privacy-password'])for(const value of ['SEED-PRIVACY-KEY','$9$SYNTHETIC-HASH','0.0.0.0/0','SEED privacy phrase']) {
+  const leaf=`${field} "${value}"`;
+  const source=profile==='junos-set'
+   ?`set snmp v3 usm local-engine user LAB-USER privacy-aes128 ${leaf}\nset snmp v3 usm remote-engine LAB-ENGINE user LAB-USER privacy-aes128 ${leaf}\n`
+   :`snmp { v3 { usm { local-engine { user LAB-USER { privacy-aes128 { ${leaf}; } } } remote-engine LAB-ENGINE { user LAB-USER { privacy-aes128 { ${leaf}; } } } } } }\n`;
+  const options={addressMode:mode,key:new Uint8Array(32).fill(19)};
+  const result=await replace(source,scan(source,profile),[],options);
+  assert.equal(result.flags.length,0);assert.ok(!result.output.includes(value));
+  const secrets=result.replacements.filter(r=>r.category==='SECRET');assert.equal(secrets.length,2);assert.equal(secrets[0].label,secrets[1].label);
+  assert.equal(result.output.split('<SECRET_001>').length-1,2);assert.ok(result.output.includes(field));
+  assert.deepEqual(result,reference.replace(source,referenceScan(source,profile),[],options));
+ }
+});
+for(const profile of ['junos-set','junos-hierarchical'])
+test('browser flags unsupported Junos privacy values: '+profile,async()=>{
+ for(const leaf of ['privacy-key','privacy-password','privacy-key [ SEED-UNSUPPORTED ]','privacy-key SEED-FIRST SEED-SECOND','privacy-key-new SEED-UNSUPPORTED'])for(const mode of ['labels','addresses']) {
+  const source=profile==='junos-set'
+   ?`set snmp v3 usm local-engine user LAB-USER privacy-aes128 ${leaf}`
+   :`snmp { v3 { usm { local-engine { user LAB-USER { privacy-aes128 { ${leaf}; } } } } } }`;
+  const result=await replace(source,scan(source,profile),[],{addressMode:mode,key:new Uint8Array(32).fill(19)});
+  assert.ok(result.flags.length,leaf);
+ }
+});
