@@ -1,0 +1,2626 @@
+{
+  "weekStart": "2026-10-16T04:00:00Z",
+  "weekEndExclusive": "2026-10-23T04:00:00Z",
+  "observationEnd": "2026-10-23T12:56:50Z",
+  "timezone": "America/New_York",
+  "testExclusion": "All marked tests and caller groups seen in marked tests from launch through observation end",
+  "results": {
+    "metrics": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "discoveryOk": "1609",
+        "initializeOk": "2080",
+        "lastSeen": "2026-10-23T03:59:11.456Z",
+        "period": "week",
+        "probes": "575",
+        "protocolErrors": "282",
+        "requests": "6224",
+        "service": "network",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "1",
+        "validationFailures": "7"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "22",
+        "discoveryOk": "1613",
+        "initializeOk": "2096",
+        "lastSeen": "2026-10-23T03:59:11.455Z",
+        "period": "week",
+        "probes": "716",
+        "protocolErrors": "287",
+        "requests": "6406",
+        "service": "diagnostics",
+        "serviceErrors": "0",
+        "successes": "3",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "19"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "10",
+        "discoveryOk": "1606",
+        "initializeOk": "2084",
+        "lastSeen": "2026-10-23T03:59:11.456Z",
+        "period": "week",
+        "probes": "572",
+        "protocolErrors": "282",
+        "requests": "6213",
+        "service": "logs",
+        "serviceErrors": "0",
+        "successes": "3",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "7"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "lastSeen": "2026-10-23T03:59:11.456Z",
+        "period": "week",
+        "probes": "2229",
+        "protocolErrors": "0",
+        "requests": "2229",
+        "service": "unknown",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "lastSeen": "2026-10-20T18:22:02.813Z",
+        "period": "week",
+        "probes": "0",
+        "protocolErrors": "0",
+        "requests": "10",
+        "service": "all",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "9",
+        "discoveryOk": "2008",
+        "initializeOk": "2594",
+        "lastSeen": "2026-10-23T12:53:30.659Z",
+        "period": "cumulative",
+        "probes": "862",
+        "protocolErrors": "530",
+        "requests": "8069",
+        "service": "network",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "120",
+        "toolErrors": "1",
+        "validationFailures": "8"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "29",
+        "discoveryOk": "2038",
+        "initializeOk": "2637",
+        "lastSeen": "2026-10-23T12:53:30.657Z",
+        "period": "cumulative",
+        "probes": "1034",
+        "protocolErrors": "534",
+        "requests": "8367",
+        "service": "diagnostics",
+        "serviceErrors": "0",
+        "successes": "5",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "24"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "14",
+        "discoveryOk": "2013",
+        "initializeOk": "2614",
+        "lastSeen": "2026-10-23T12:53:30.533Z",
+        "period": "cumulative",
+        "probes": "869",
+        "protocolErrors": "526",
+        "requests": "8102",
+        "service": "logs",
+        "serviceErrors": "0",
+        "successes": "6",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "8"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "lastSeen": "2026-10-23T12:39:22.424Z",
+        "period": "cumulative",
+        "probes": "3943",
+        "protocolErrors": "0",
+        "requests": "3943",
+        "service": "unknown",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "lastSeen": "2026-10-20T18:22:02.813Z",
+        "period": "cumulative",
+        "probes": "0",
+        "protocolErrors": "0",
+        "requests": "10",
+        "service": "all",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "6",
+        "discoveryOk": "328",
+        "initializeOk": "417",
+        "lastSeen": "2026-10-12T06:03:30.654Z",
+        "period": "previous",
+        "probes": "279",
+        "protocolErrors": "227",
+        "requests": "1576",
+        "service": "diagnostics",
+        "serviceErrors": "0",
+        "successes": "1",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "5"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "discoveryOk": "308",
+        "initializeOk": "403",
+        "lastSeen": "2026-10-12T06:03:30.665Z",
+        "period": "previous",
+        "probes": "263",
+        "protocolErrors": "224",
+        "requests": "1504",
+        "service": "logs",
+        "serviceErrors": "0",
+        "successes": "1",
+        "throttled": "117",
+        "toolErrors": "0",
+        "validationFailures": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "discoveryOk": "298",
+        "initializeOk": "385",
+        "lastSeen": "2026-10-12T06:03:30.656Z",
+        "period": "previous",
+        "probes": "256",
+        "protocolErrors": "223",
+        "requests": "1453",
+        "service": "network",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "120",
+        "toolErrors": "0",
+        "validationFailures": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "0",
+        "discoveryOk": "0",
+        "initializeOk": "0",
+        "lastSeen": "2026-10-14T23:12:43.133Z",
+        "period": "previous",
+        "probes": "1312",
+        "protocolErrors": "0",
+        "requests": "1312",
+        "service": "unknown",
+        "serviceErrors": "0",
+        "successes": "0",
+        "throttled": "0",
+        "toolErrors": "0",
+        "validationFailures": "0"
+      }
+    ],
+    "tools": [
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "tool": "check_https"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "previous",
+        "service": "network",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "previous",
+        "service": "logs",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "18",
+        "p95ms": "18",
+        "period": "previous",
+        "service": "logs",
+        "tool": "extract_ci_failures"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "108",
+        "p95ms": "108",
+        "period": "previous",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "4121",
+        "p95ms": "4121",
+        "period": "week",
+        "service": "logs",
+        "tool": "summarize_logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "4153",
+        "p95ms": "4153",
+        "period": "week",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "6",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "2",
+        "period": "week",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "6",
+        "outcome": "validation_error",
+        "p50ms": "2",
+        "p95ms": "4",
+        "period": "week",
+        "service": "diagnostics",
+        "tool": "check_https"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_error",
+        "p50ms": "3975",
+        "p95ms": "3975",
+        "period": "week",
+        "service": "network",
+        "tool": "inspect_subnet"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "93",
+        "p95ms": "3286",
+        "period": "week",
+        "service": "diagnostics",
+        "tool": "check_email_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "3076",
+        "p95ms": "3147",
+        "period": "week",
+        "service": "logs",
+        "tool": "extract_ci_failures"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "7",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "week",
+        "service": "logs",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "7",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "week",
+        "service": "network",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "7",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "week",
+        "service": "diagnostics",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "3",
+        "outcome": "tool_success",
+        "p50ms": "3772",
+        "p95ms": "4153",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_success",
+        "p50ms": "4121",
+        "p95ms": "4121",
+        "period": "cumulative",
+        "service": "logs",
+        "tool": "summarize_logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "2978",
+        "p95ms": "3042",
+        "period": "cumulative",
+        "service": "logs",
+        "tool": "parse_logs"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "outcome": "validation_error",
+        "p50ms": "2",
+        "p95ms": "4",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "tool": "check_https"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "1",
+        "outcome": "tool_error",
+        "p50ms": "3975",
+        "p95ms": "3975",
+        "period": "cumulative",
+        "service": "network",
+        "tool": "inspect_subnet"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "2",
+        "outcome": "tool_success",
+        "p50ms": "93",
+        "p95ms": "3286",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "tool": "check_email_dns"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "3",
+        "outcome": "tool_success",
+        "p50ms": "3076",
+        "p95ms": "3147",
+        "period": "cumulative",
+        "service": "logs",
+        "tool": "extract_ci_failures"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "cumulative",
+        "service": "network",
+        "tool": ""
+      },
+      {
+        "TableName": "PrimaryResult",
+        "calls": "8",
+        "outcome": "validation_error",
+        "p50ms": "1",
+        "p95ms": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "tool": ""
+      }
+    ],
+    "callers": [
+      {
+        "TableName": "PrimaryResult",
+        "groups": "431",
+        "groupsThreeDays": "63",
+        "period": "week",
+        "service": "network",
+        "successfulGroups": "0",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "444",
+        "groupsThreeDays": "67",
+        "period": "week",
+        "service": "diagnostics",
+        "successfulGroups": "2",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "416",
+        "groupsThreeDays": "72",
+        "period": "week",
+        "service": "logs",
+        "successfulGroups": "2",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "545",
+        "groupsThreeDays": "78",
+        "period": "cumulative",
+        "service": "network",
+        "successfulGroups": "0",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "558",
+        "groupsThreeDays": "85",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "successfulGroups": "4",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "540",
+        "groupsThreeDays": "84",
+        "period": "cumulative",
+        "service": "logs",
+        "successfulGroups": "4",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "158",
+        "groupsThreeDays": "4",
+        "period": "previous",
+        "service": "diagnostics",
+        "successfulGroups": "1",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "161",
+        "groupsThreeDays": "3",
+        "period": "previous",
+        "service": "logs",
+        "successfulGroups": "1",
+        "successfulGroupsThreeDays": "0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "groups": "156",
+        "groupsThreeDays": "5",
+        "period": "previous",
+        "service": "network",
+        "successfulGroups": "0",
+        "successfulGroupsThreeDays": "0"
+      }
+    ],
+    "clients": [
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "146",
+        "period": "week",
+        "service": "network",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "week",
+        "service": "logs",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "101",
+        "period": "week",
+        "service": "network",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "103",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "102",
+        "period": "week",
+        "service": "logs",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "145",
+        "period": "week",
+        "service": "logs",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "157",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "163",
+        "period": "week",
+        "service": "logs",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "36",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "32",
+        "period": "week",
+        "service": "logs",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "29",
+        "period": "week",
+        "service": "network",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "402",
+        "period": "week",
+        "service": "logs",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "399",
+        "period": "week",
+        "service": "network",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "397",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "24",
+        "period": "week",
+        "service": "network",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "348",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "349",
+        "period": "week",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "24",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "356",
+        "period": "week",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "171",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "167",
+        "period": "week",
+        "service": "network",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "603",
+        "period": "week",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "603",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "603",
+        "period": "week",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "23",
+        "period": "week",
+        "service": "logs",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "5",
+        "period": "week",
+        "service": "logs",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "5",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "logs",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "212",
+        "period": "week",
+        "service": "logs",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "period": "week",
+        "service": "network",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "period": "week",
+        "service": "logs",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "logs",
+        "version": "0.1.9"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "19",
+        "period": "week",
+        "service": "network",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "19",
+        "period": "week",
+        "service": "logs",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "19",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "204",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "network",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "logs",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "8",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "logs",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "week",
+        "service": "network",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "211",
+        "period": "week",
+        "service": "network",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "8",
+        "period": "week",
+        "service": "logs",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "logs",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "week",
+        "service": "network",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "network",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "logs",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "network",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "logs",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "diagnostics",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "week",
+        "service": "logs",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "205",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "network",
+        "version": "3.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "130",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "132",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "133",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "203",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "219",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "44",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "40",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "36",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "487",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "471",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "487",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "432",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "434",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "218",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "212",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "221",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "25",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "440",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "747",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "747",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "747",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "5",
+        "period": "cumulative",
+        "service": "network",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "8",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "9",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "7",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "25",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "24",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.2.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.5.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "262",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "7",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "7",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "7",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.3.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.1.9"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "21",
+        "period": "cumulative",
+        "service": "network",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "21",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "21",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "257",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.4.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "12",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "261",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "11",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "cumulative",
+        "service": "network",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1.0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "network",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.2.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "logs",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "network",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "cumulative",
+        "service": "diagnostics",
+        "version": "0.3.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "67",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "58",
+        "period": "previous",
+        "service": "logs",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "50",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "46",
+        "period": "previous",
+        "service": "network",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "47",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "46",
+        "period": "previous",
+        "service": "network",
+        "version": "1.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "network",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.0.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "66",
+        "period": "previous",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "68",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "66",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "network",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "43",
+        "period": "previous",
+        "service": "network",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "42",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "42",
+        "period": "previous",
+        "service": "logs",
+        "version": "1.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "6",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "110",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "110",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "mcpbeat",
+        "initializations": "110",
+        "period": "previous",
+        "service": "network",
+        "version": "0.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "22",
+        "period": "previous",
+        "service": "logs",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "previous",
+        "service": "network",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "20",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "20",
+        "period": "previous",
+        "service": "network",
+        "version": "1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "4",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "network",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.1.2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "40",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "network",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "codex-mcp-client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "0.154.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "37",
+        "period": "previous",
+        "service": "network",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "37",
+        "period": "previous",
+        "service": "logs",
+        "version": "0.2.0"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "previous",
+        "service": "network",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "3",
+        "period": "previous",
+        "service": "logs",
+        "version": "2"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "network",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "2",
+        "period": "previous",
+        "service": "logs",
+        "version": "omitted"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "network",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "logs",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "1.3.3"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "network",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "logs",
+        "version": "3.5.1"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "client": "other self-reported client",
+        "initializations": "1",
+        "period": "previous",
+        "service": "diagnostics",
+        "version": "3.5.1"
+      }
+    ],
+    "health": {
+      "TableName": "PrimaryResult",
+      "events": "36017",
+      "gapEvents": "2",
+      "lastSeen": "2026-10-23T13:02:07.599Z",
+      "lateEvents": "0"
+    },
+    "operations": null,
+    "bulk": {
+      "TableName": "PrimaryResult",
+      "TimeGenerated": "2026-10-10T17:57:36.4310674Z",
+      "cidrCount": "10000",
+      "durationMs": "662",
+      "failed": "False",
+      "logicalRecords": "100001",
+      "modelUsed": "False",
+      "overlapCount": "24995000",
+      "parsed": "99000",
+      "privateFieldsExcluded": "None",
+      "sampledRssBytes": "93630464",
+      "unparsed": "1000"
+    },
+    "privacy": {
+      "TableName": "PrimaryResult",
+      "checkedRows": "41136",
+      "sentinelLeaks": "0"
+    },
+    "cost": [
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T05:59:02.2601679Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.038995111"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T12:39:11.2136188Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.0806454442"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T13:30:00.1373809Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.0945288886"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T13:34:55.9445812Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.0945288886"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T16:53:29.1848441Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:18:48.243864Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:33:35.0929056Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:42:18.4200785Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:49:39.8312215Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:55:13.4628613Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T17:57:05.4196152Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1222957774"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T18:15:39.2920726Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1361792218"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-10T21:49:22.569857Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.1639463266"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-11T05:54:33.0963559Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.2056020958"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-11T12:58:27.6725586Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.2611358734"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-11T22:03:14.9266419Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.3305530954"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-12T15:36:27.0011928Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.455504095"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-13T11:31:11.7397324Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.5804550946"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-13T14:18:49.2711512Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.6012802612"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-13T22:50:41.9767043Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.663755761"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-14T04:59:59.8337504Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.6915226498"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-14T12:00:35.4480788Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.7470564274"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-14T17:17:44.869979Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.7887067606"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-14T21:46:16.8328522Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.8303570938"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-15T04:48:13.7257127Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.8789491492"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-15T11:37:38.5737637Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.9136577602"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-15T17:06:53.113775Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.9553080934"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-15T21:29:08.7127167Z",
+        "period": "2026-10",
+        "reportedCostUsd": "0.9830749822"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T04:39:01.9566716Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.0386087598"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T11:31:46.9327621Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.0733173708"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T13:39:13.8228652Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.0941425374"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T13:46:37.177884Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.0941425374"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T14:41:34.9116208Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.1080259818"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T16:44:42.8335645Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.1219094262"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-16T21:17:08.0399825Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.149677251"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-17T04:35:22.4256634Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.20907563591183"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-17T10:51:31.6158931Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.25475822717634"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-17T15:40:55.4269472Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.28521336001936"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-17T20:40:53.2823559Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.33089602328387"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-18T04:40:48.9171904Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.39941991018065"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-18T11:15:52.5782662Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.43748873623441"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-18T15:55:51.3945856Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.46861584008817"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-18T20:50:21.594053Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.51362638834194"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-19T04:48:55.9701443Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.57453651002796"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-19T13:27:57.6203366Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.63544663171398"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-19T14:39:49.8609221Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.65067416213548"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-19T22:25:34.5051236Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.71158543582151"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T04:57:40.1678484Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.75794007009677"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T11:46:11.8125566Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.80362266136129"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T17:15:07.3417969Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.84863320961505"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T21:41:30.8444534Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.88737407867957"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-21T04:56:51.5162215Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.91021537431183"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-21T11:58:03.8936053Z",
+        "period": "2026-10",
+        "reportedCostUsd": "1.9787392612086"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-21T17:17:56.5561525Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.01680808726237"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-21T21:47:13.2218028Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.06181863551613"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-22T04:57:08.6946707Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.11578703500215"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-22T12:00:13.9865924Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.17602511367742"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-22T17:15:59.0307605Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.21409393973118"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-22T21:41:57.8318756Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.2597765309957"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-23T04:58:58.9132563Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.30545912226022"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-23T11:46:02.9563675Z",
+        "period": "2026-10",
+        "reportedCostUsd": "2.44303198273548"
+      }
+    ],
+    "retries": [
+      {
+        "Ambiguous": "0",
+        "Eligible": "6",
+        "InvalidRetries": "0",
+        "NoObservedRetry": "6",
+        "ObservedRetries": "0",
+        "OtherRetries": "0",
+        "Pending": "0",
+        "SuccessPerEligibleError": "0",
+        "SuccessPerObservedRetry": "None",
+        "SuccessfulRetries": "0",
+        "TableName": "PrimaryResult",
+        "Unmatchable": "0",
+        "ValidationErrors": "6",
+        "service": "diagnostics",
+        "tool": "check_https"
+      },
+      {
+        "Ambiguous": "0",
+        "Eligible": "6",
+        "InvalidRetries": "0",
+        "NoObservedRetry": "6",
+        "ObservedRetries": "0",
+        "OtherRetries": "0",
+        "Pending": "0",
+        "SuccessPerEligibleError": "0",
+        "SuccessPerObservedRetry": "None",
+        "SuccessfulRetries": "0",
+        "TableName": "PrimaryResult",
+        "Unmatchable": "0",
+        "ValidationErrors": "6",
+        "service": "diagnostics",
+        "tool": "lookup_dns"
+      },
+      {
+        "Ambiguous": "0",
+        "Eligible": "0",
+        "InvalidRetries": "0",
+        "NoObservedRetry": "0",
+        "ObservedRetries": "0",
+        "OtherRetries": "0",
+        "Pending": "0",
+        "SuccessPerEligibleError": "None",
+        "SuccessPerObservedRetry": "None",
+        "SuccessfulRetries": "0",
+        "TableName": "PrimaryResult",
+        "Unmatchable": "7",
+        "ValidationErrors": "7",
+        "service": "diagnostics",
+        "tool": ""
+      },
+      {
+        "Ambiguous": "0",
+        "Eligible": "0",
+        "InvalidRetries": "0",
+        "NoObservedRetry": "0",
+        "ObservedRetries": "0",
+        "OtherRetries": "0",
+        "Pending": "0",
+        "SuccessPerEligibleError": "None",
+        "SuccessPerObservedRetry": "None",
+        "SuccessfulRetries": "0",
+        "TableName": "PrimaryResult",
+        "Unmatchable": "7",
+        "ValidationErrors": "7",
+        "service": "logs",
+        "tool": ""
+      },
+      {
+        "Ambiguous": "0",
+        "Eligible": "0",
+        "InvalidRetries": "0",
+        "NoObservedRetry": "0",
+        "ObservedRetries": "0",
+        "OtherRetries": "0",
+        "Pending": "0",
+        "SuccessPerEligibleError": "None",
+        "SuccessPerObservedRetry": "None",
+        "SuccessfulRetries": "0",
+        "TableName": "PrimaryResult",
+        "Unmatchable": "7",
+        "ValidationErrors": "7",
+        "service": "network",
+        "tool": ""
+      }
+    ],
+    "gaps": [
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T17:47:47.545Z",
+        "reportedCount": "9"
+      },
+      {
+        "TableName": "PrimaryResult",
+        "TimeGenerated": "2026-10-20T18:22:02.813Z",
+        "reportedCount": "1"
+      }
+    ]
+  },
+  "errors": [],
+  "completeness": {
+    "capOperationRows": 0,
+    "priorWeekRecomputedWithTestCallerExclusion": true,
+    "workerExecutionApiUnavailableAfterDeletion": true,
+    "telemetryGaps": true,
+    "retentionLoss": false,
+    "healthQueryIsUnboundedAtCollection": true,
+    "exactWeeklyEasternCostUnavailable": true,
+    "lateEventsObserved": 0,
+    "promotionTimestampVerified": false
+  }
+}
