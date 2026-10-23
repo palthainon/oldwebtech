@@ -1,0 +1,307 @@
+{
+  "id": "subscriptions/e9272531-0f96-446b-a97d-80cc43b1adfc/resourcegroups/rg-oldweb-mcp-experiment/providers/Microsoft.CostManagement/query/129564b3-b675-490f-bf18-e9381cea6622",
+  "name": "129564b3-b675-490f-bf18-e9381cea6622",
+  "type": "Microsoft.CostManagement/query",
+  "location": null,
+  "sku": null,
+  "eTag": null,
+  "properties": {
+    "nextLink": null,
+    "columns": [
+      {
+        "name": "PreTaxCost",
+        "type": "Number"
+      },
+      {
+        "name": "UsageDate",
+        "type": "Number"
+      },
+      {
+        "name": "ServiceName",
+        "type": "String"
+      },
+      {
+        "name": "Currency",
+        "type": "String"
+      }
+    ],
+    "rows": [
+      [
+        0.0528770074,
+        20261009,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261009,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        1.548E-06,
+        20261009,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.0,
+        20261010,
+        "Bandwidth",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261010,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261010,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        5.652E-06,
+        20261010,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261011,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261011,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261012,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261012,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261013,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261013,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261014,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261014,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261015,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261015,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.00520833333333333,
+        20261016,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261016,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261016,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        1.296E-06,
+        20261016,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261017,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261017,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261017,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        1.44E-07,
+        20261017,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261018,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261018,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261018,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261019,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261019,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261019,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        1.152E-06,
+        20261019,
+        "Storage",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261020,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261020,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261020,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261021,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261021,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261021,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.0161290322580645,
+        20261022,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.1666013328,
+        20261022,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261022,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        0.110559,
+        20261023,
+        "Azure Container Apps",
+        "USD"
+      ],
+      [
+        0.00470430107526882,
+        20261023,
+        "Azure Monitor",
+        "USD"
+      ],
+      [
+        0.0416503332,
+        20261023,
+        "Container Registry",
+        "USD"
+      ],
+      [
+        0.0,
+        20261023,
+        "Log Analytics",
+        "USD"
+      ],
+      [
+        5.04E-07,
+        20261023,
+        "Storage",
+        "USD"
+      ]
+    ]
+  }
+}
