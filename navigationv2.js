@@ -39,6 +39,7 @@
             id: 'home'
         },
         network: [
+            { name: 'Config Redactor', file: 'nettools/config-redactor.html', id: 'config-redactor' },
             { name: 'What Is My IP', file: 'nettools/my-ip.html', id: 'my-ip' },
             { name: 'Subnet Calculator', file: 'nettools/subnet-calculator.html', id: 'subnet' },
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },

@@ -77,7 +77,7 @@
                         <tr><td>Home page, when it opens</td><td>ipwho.is</td><td>Shows your public IP, country and network operator in the box at the top.</td></tr>
                         <tr><td><a href="nettools/my-ip.html">My IP</a> tool</td><td>ipwho.is, ipapi.co, api64.ipify.org, rdap.org, rdap-bootstrap.arin.net</td><td>IP, location and registry lookups. If you type an address to look up, that address is sent to these services.</td></tr>
                         <tr><td><a href="pdf/index.html">PDF tools</a></td><td>cdn.jsdelivr.net</td><td>Loads the open-source PDF libraries. Your PDF files are processed in the tab and are never uploaded.</td></tr>
-                        <tr><td>Every page</td><td>Microsoft Azure</td><td>Hosting, and the analytics described above.</td></tr>
+                        <tr><td>Every page</td><td>Microsoft Azure</td><td>Hosting. The configuration redactor excludes analytics. Other pages use the analytics described above.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -96,7 +96,8 @@
         <section class="box prose" aria-labelledby="storage-heading">
             <div class="box-head"><h2 id="storage-heading">what stays on your device</h2></div>
             <div class="box-body">
-                <p>Tools save preferences and form entries in your browser's local storage, under keys that start with <code>owt_</code>. This includes your pinned tools and your theme choice. It never leaves your browser. Each tool that saves entries has a <em>Clear Saved Data</em> button, and clearing your browser's site data removes the rest.</p>
+                <p>The <a href="nettools/config-redactor.html">Network Config Redactor</a> keeps configuration data in memory only. It does not save configuration data in browser storage. It clears the source and preview when you select Clear page or leave the page.</p>
+                  <p>Other tools save preferences and form entries in your browser's local storage, under keys that start with <code>owt_</code>. This includes your pinned tools and your theme choice. It never leaves your browser. Each tool that saves entries has a <em>Clear Saved Data</em> button, and clearing your browser's site data removes the rest.</p>
             </div>
         </section>
 
