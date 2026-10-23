@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; worker-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Network Config Redactor - OldWeb.tech</title>
+<meta name="description" content="Redact a supported network device configuration in your browser. Review passwords, names, and address replacements before sharing. No configuration uploads.">
+<link rel="canonical" href="https://oldweb.tech/nettools/config-redactor.html">
+<link rel="icon" href="../logo/favicon-32x32.png">
+<link rel="stylesheet" href="../a11y.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="config-redactor/style.css">
+<script src="../a11y-utils.js" defer></script>
+<script src="../storage-utils.js" defer></script>
+<script src="../navigationv2.js" defer></script>
+<script type="module" src="config-redactor/page.js"></script>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<main id="main-content">
+<div class="page-head"><h1>Network Config Redactor</h1>
+<p class="lede">Prepare a supported network device configuration for review.</p></div>
+<section class="box" aria-labelledby="privacy-title">
+<div class="box-head"><h2 id="privacy-title">Your configuration stays in this browser</h2></div>
+<div class="box-body">
+<p>This page does not upload or save configuration data. It uses no analytics. Copy or download requires your review. Clear the page when you finish.</p>
+<p>Unknown sensitive content can remain. Review the full output before sharing it. The output is review text. Do not deploy it to a device.</p>
+</div></section>
+<section class="box" aria-labelledby="input-title">
+<div class="box-head"><h2 id="input-title">1. Add one configuration</h2></div>
+<div class="box-body">
+<div class="toolbar">
+<label for="file">Open a local text file (maximum 5 MiB)</label>
+<input id="file" type="file" accept=".txt,.cfg,.conf,.ios,.xml,.set,text/plain,application/xml" disabled>
+<button class="btn" id="demo" type="button" disabled>Load demo</button>
+<button class="btn" id="clear" type="button">Clear page</button>
+</div>
+<label for="profile">Vendor and configuration format</label>
+<select id="profile" disabled></select>
+<p>Choose the exact format. A profile change requires a new scan and review. XML mode masks text values and attributes conservatively. It produces review text, not an importable configuration.</p>
+<label for="mode">Address format</label>
+<select id="mode" disabled>
+<option value="labels">Named labels — &lt;IP_001&gt;</option>
+<option value="addresses">New IP addresses — preserve observed subnets</option>
+</select>
+<p id="address-note">New addresses preserve public or private classes and observed network relationships. This discloses some network structure. New public addresses can belong to other networks. Address mapping supports 2,048 distinct addresses.</p>
+<div class="toolbar">
+<button class="btn" id="scan" type="button" disabled>Preview redaction</button>
+<button class="btn" id="cancel" type="button" disabled>Cancel scan</button>
+<button class="btn" id="mask" type="button" disabled>Mask selected source text</button>
+</div>
+<p id="status" role="status" aria-live="polite">Loading the local scanner…</p>
+<p id="error" role="alert" hidden></p>
+</div></section>
+<section class="box" aria-labelledby="review-title">
+<div class="box-head"><h2 id="review-title">2. Compare the full text</h2></div>
+<div class="box-body">
+<p>Select text in the source to mask it. The tool also masks identical occurrences. Source edits clear manual masks and require a new scan.</p>
+<div class="comparison">
+<div><label for="source">Original configuration</label>
+<textarea id="source" rows="22" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off" placeholder="Paste a configuration here." aria-describedby="address-note"></textarea></div>
+<div><label for="output">Redacted preview</label>
+<textarea id="output" rows="22" readonly spellcheck="false" wrap="off" aria-describedby="summary"></textarea></div>
+</div>
+<p id="summary">No preview yet.</p>
+<div id="findings" aria-label="Sections that block export"></div>
+</div></section>
+<section class="box" aria-labelledby="export-title">
+<div class="box-head"><h2 id="export-title">3. Review before export</h2></div>
+<div class="box-body">
+<label class="review-check"><input id="reviewed" type="checkbox" disabled> I reviewed the full output for sensitive content.</label>
+<div class="toolbar">
+<button class="btn" id="copy" type="button" disabled>Copy redacted text</button>
+<button class="btn" id="download" type="button" disabled>Download redacted copy</button>
+</div>
+<p>Supported replacements include passwords, keys, hostnames, domains, usernames, declared names, comments, banners, and addresses. Unknown or incomplete sensitive forms can block export.</p>
+<p>Use the local VS Code extensions: <a href="https://marketplace.visualstudio.com/items?itemName=DerickL.lawson-config-redactor" target="_blank" rel="noopener noreferrer">Network Config Redactor</a> or <a href="https://marketplace.visualstudio.com/items?itemName=DerickL.CiscoHighlighter" target="_blank" rel="noopener noreferrer">Cisco IOS Highlighter</a>.</p>
+<p>Based on <a href="https://github.com/palthainon/lawson-config-redactor" rel="noopener noreferrer" target="_blank">Network Config Redactor by Lawson Cyber LLC</a>. <a href="config-redactor/LICENSE.txt">MIT license</a>.</p>
+</div></section>
+<noscript><p>Enable JavaScript to run the redactor in this browser.</p></noscript>
+</main>
+</body>
+</html>

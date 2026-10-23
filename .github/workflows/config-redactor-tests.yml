@@ -1,0 +1,24 @@
+name: Browser config redactor tests
+on:
+  pull_request:
+    paths:
+      - 'tools/config-redactor/**'
+      - 'nettools/config-redactor.html'
+      - 'nettools/config-redactor/**'
+      - '.github/workflows/config-redactor-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mcp-experiment/package-lock.json
+      - run: npm ci --ignore-scripts --prefix mcp-experiment
+      - run: node tools/config-redactor/build.mjs --check
+      - run: node --test tools/config-redactor/test/core.test.mjs

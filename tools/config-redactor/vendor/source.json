@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/palthainon/lawson-config-redactor",
+  "version": "0.4.0",
+  "hashes": {
+    "types.ts": "d104e8ed4f75349d5204ac1a71b771b51b3b53df84dc54c01beabefdea059c25",
+    "scanner.ts": "803c3893ac490df257f9e80b745e7cccc5b6451c187fdf900984dee58c70d5b5",
+    "cisco.ts": "2c8a4b5c965bb18f46370bd6518ef3bfd7d4dc506b969c58aad66435397210ff",
+    "profiles.ts": "0fbb4a395aa8e6abdcaf621d229d14acf542ce800ad753c73070b8d68da9b662",
+    "vendors.ts": "51b3b5324c4a4006b914e5939e826f387211b746206d1ebb9db48535d4f65c92",
+    "addresses.ts": "9dbc2dda1452dbdeac5d2b371502a01b313e079e7c1411e19d57218659a7e59c",
+    "replacements.ts": "aaa9c503eb3e225bd6054220b017cc7b01ddd514df9ad79b64bd056c367d23e5"
+  }
+}
