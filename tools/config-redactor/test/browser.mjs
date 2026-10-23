@@ -1,0 +1,132 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const root=fileURLToPath(new URL('../../../',import.meta.url));
+const server=http.createServer((req,res)=>{
+  const file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));
+  if(!file.startsWith(root)) {res.writeHead(403).end();return;}
+  try {
+    res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.woff2':'font/woff2','.png':'image/png'})[path.extname(file)]||'text/plain');
+    res.setHeader('Cache-Control','public,max-age=3600');
+    res.end(fs.readFileSync(file));
+  } catch {res.writeHead(404).end();}
+});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+const origin='http://127.0.0.1:'+server.address().port;
+let browser;
+const checks=[];
+try {
+  browser=await chromium.launch({channel:process.env.TEST_BROWSER || 'msedge',headless:true});
+  const context=await browser.newContext({viewport:{width:1440,height:1100},permissions:['clipboard-read','clipboard-write'],acceptDownloads:true});
+  const page=await context.newPage(),requests=[],errors=[]; page.setDefaultTimeout(15000);
+  const record=checks.push.bind(checks); checks.push=(value)=>{console.log(value);return record(value);};
+  page.on('request',r=>requests.push({url:r.url(),method:r.method()}));
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(origin+'/nettools/config-redactor.html');
+  await page.waitForFunction(()=>!document.getElementById('scan').disabled);
+  assert.ok(await page.locator('nav').count());
+  await page.getByRole('button',{name:'Load demo',exact:true}).click();
+  await page.waitForFunction(()=>document.getElementById('output').value.includes('<SECRET_'));
+  assert.equal(await page.locator('#copy').isDisabled(),true);
+  await page.locator('#reviewed').check();
+  await page.locator('#copy').click();
+  assert.equal((await page.evaluate(()=>navigator.clipboard.readText())).replaceAll('\r\n','\n'),await page.locator('#output').inputValue());
+  checks.push('demo, review gate, clipboard');
+  const download=page.waitForEvent('download'); await page.locator('#download').click();
+  const item=await download; assert.equal(item.suggestedFilename(),'redacted-config.txt');
+  assert.equal(fs.readFileSync(await item.path(),'utf8'),await page.locator('#output').inputValue());
+  checks.push('download content and neutral filename');
+  await page.locator('#mode').selectOption('addresses');
+  await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+  assert.equal(await page.locator('#copy').isDisabled(),true);
+  assert.ok(!(await page.locator('#output').inputValue()).includes('<IP_'));
+  checks.push('address mode resets review');
+  await page.locator('#source').fill('crypto private-key unsupported DEMO-SECRET');
+  assert.equal(await page.locator('#output').inputValue(),'');
+  assert.equal(await page.locator('#download').isDisabled(),true);
+  await page.locator('#scan').click();
+  await page.getByRole('button',{name:'Mask section at line 1',exact:true}).waitFor();
+  assert.equal(await page.locator('#reviewed').isDisabled(),true);
+  await page.getByRole('button',{name:'Mask section at line 1',exact:true}).click();
+  await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+  assert.ok(!(await page.locator('#output').inputValue()).includes('DEMO-SECRET'));
+  checks.push('source invalidation, unknown block, full-section mask');
+  await page.locator('#source').fill('unrecognized DEMO-MANUAL\nunrecognized DEMO-MANUAL');
+  await page.locator('#scan').click();
+  await page.waitForFunction(()=>!document.getElementById('mask').disabled);
+  await page.locator('#source').evaluate(e=>{e.focus();e.setSelectionRange(13,24);});
+  await page.locator('#mask').click();
+  await page.waitForFunction(()=>document.getElementById('output').value.includes('<MANUAL_'));
+  assert.ok(!(await page.locator('#output').inputValue()).includes('DEMO-MANUAL'));
+  checks.push('manual selection masks repeated text');
+  await page.locator('#file').setInputFiles(path.join(root,'tools/config-redactor/test/fixtures/large-cisco.ios'));
+  await page.waitForFunction(()=>document.getElementById('source').value.length>20000);
+  const before=requests.length;
+  await page.locator('#scan').click();
+  await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+  assert.ok(!(await page.locator('#output').inputValue()).includes('SEED-'));
+  assert.equal(requests.length,before);
+  checks.push('large file, no seeded secrets, no requests during scan');
+  await page.screenshot({path:path.join(root,'tmp/config-redactor-desktop.png'),fullPage:true});
+  await context.setOffline(true);
+  await page.locator('#mode').selectOption('labels');
+  await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+  assert.ok((await page.locator('#output').inputValue()).includes('<IP_'));
+  checks.push('offline scan after page load');
+  await context.setOffline(false);
+  await page.locator('#source').evaluate(e=>{e.value='! X\n'.repeat(10000);e.dispatchEvent(new Event('input',{bubbles:true}));});
+  await page.evaluate(()=>{document.getElementById('scan').click();document.getElementById('cancel').click();});
+  assert.equal(await page.locator('#output').inputValue(),'');
+  assert.equal(await page.locator('#copy').isDisabled(),true);
+  await page.waitForFunction(()=>!document.getElementById('scan').disabled);
+  checks.push('cancel leaves no exportable result');
+  await page.locator('#file').setInputFiles({name:'oversized.cfg',mimeType:'text/plain',buffer:Buffer.alloc(5242881,65)});
+  await page.locator('#error').waitFor({state:'visible'});
+  assert.match(await page.locator('#error').textContent(),/5 MiB/);
+  checks.push('file size limit');
+  await page.locator('#demo').click();
+  await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+  await page.setViewportSize({width:390,height:844});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.screenshot({path:path.join(root,'tmp/config-redactor-mobile.png'),fullPage:true});
+  checks.push('mobile layout has no page overflow');
+
+  const vendorCases=JSON.parse(fs.readFileSync(path.join(root,'tools/config-redactor/test/fixtures/vendor-cases.json'),'utf8'));
+  assert.equal(await page.locator('#profile option').count(),vendorCases.length);
+  for(const item of vendorCases) {
+    await page.locator('#source').fill(item.source);
+    await page.locator('#profile').selectOption(item.profile);
+    if(await page.locator('#scan').isEnabled())await page.locator('#scan').click();
+    await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+    for(const mode of ['labels','addresses']) {
+      await page.locator('#mode').selectOption(mode);
+      await page.waitForFunction(()=>!document.getElementById('reviewed').disabled);
+      assert.equal(await page.locator('#copy').isDisabled(),true);
+      for(const seed of item.remove)assert.ok(!(await page.locator('#output').inputValue()).includes(seed));
+      await page.locator('#reviewed').check();assert.equal(await page.locator('#download').isEnabled(),true);
+    }
+  }
+  checks.push('eight profiles, both address modes, and required review');
+  await page.locator('#source').fill(vendorCases.find(c=>c.profile==='panos-set').source);
+  await page.locator('#profile').selectOption('cisco-ios');
+  await page.waitForFunction(()=>document.getElementById('findings').children.length>0);
+  assert.equal(await page.locator('#copy').isDisabled(),true);
+  checks.push('wrong format blocks browser export');
+  for(const name of ['DerickL.lawson-config-redactor','DerickL.CiscoHighlighter'])assert.equal(await page.locator('a[href="https://marketplace.visualstudio.com/items?itemName='+name+'"]').count(),1);
+  checks.push('both Marketplace links are present');
+
+  await page.locator('#clear').click();
+  assert.equal(await page.locator('#source').inputValue(),'');
+  assert.equal(await page.locator('#output').inputValue(),'');
+  const stored=await page.evaluate(()=>({local:{...localStorage},session:{...sessionStorage}}));
+  assert.doesNotMatch(JSON.stringify(stored),/SEED-|DEMO-|CLIENT-A|redactor/i);
+  assert.ok(requests.every(r=>r.url.startsWith(origin)&&r.method==='GET'));
+  assert.deepEqual(errors,[]);
+  checks.push('clear page, no configuration storage, no external requests, no page errors');
+  console.log(JSON.stringify({browser:await browser.version(),channel:process.env.TEST_BROWSER||'msedge',checks},null,2));
+} finally {await browser?.close();server.close();}
