@@ -112,6 +112,19 @@ try {
     }
   }
   checks.push('eight profiles, both address modes, and required review');
+  for(const profile of ['junos-set','junos-hierarchical'])for(const mode of ['labels','addresses']) {
+    const source=profile==='junos-set'
+      ?'set snmp v3 usm local-engine user LAB-USER privacy-aes128 privacy-key [ SEED-UNSUPPORTED ]'
+      :'snmp { v3 { usm { local-engine { user LAB-USER { privacy-aes128 { privacy-key [ SEED-UNSUPPORTED ]; } } } } } }';
+    await page.locator('#source').fill(source);
+    await page.locator('#profile').selectOption(profile);
+    if(await page.locator('#scan').isEnabled())await page.locator('#scan').click();
+    await page.waitForFunction(()=>document.getElementById('findings').children.length>0);
+    await page.locator('#mode').selectOption(mode);
+    await page.waitForFunction(()=>document.getElementById('findings').children.length>0);
+    for(const control of ['reviewed','copy','download'])assert.equal(await page.locator('#'+control).isDisabled(),true);
+  }
+  checks.push('unsupported Junos privacy values block both export controls in both modes');
   await page.locator('#source').fill(vendorCases.find(c=>c.profile==='panos-set').source);
   await page.locator('#profile').selectOption('cisco-ios');
   await page.waitForFunction(()=>document.getElementById('findings').children.length>0);

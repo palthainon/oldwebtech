@@ -30,9 +30,9 @@ For browser checks, install Playwright in a test environment. Set `PLAYWRIGHT_MO
 
 ## Verification on 2026-10-23
 
-All 29 core tests passed. Both address modes match the original implementation. Ten mapping keys also produce identical results. Independent checks cover 161 secrets, 544 addresses, and 151 network relationships in the 1,567-line fixture.
+All 35 core tests passed. Both address modes match the original implementation. Ten mapping keys also produce identical results. Independent checks cover 161 secrets, 544 addresses, and 151 network relationships in the 1,567-line fixture.
 
-All fourteen browser check groups passed in Edge 155.0.4283.62 and Chrome 156.0.8078.47. Checks cover review controls, copy, download, manual masks, blocked sections, source changes, cancellation, file size, offline processing after load, mobile layout, browser storage, and request destinations. Desktop and mobile screenshots received visual review.
+All fifteen browser check groups passed in Edge 155.0.4283.62 and Chrome 156.0.8078.47. Checks include Junos privacy key removal and blocked export for unsupported privacy values. Checks cover review controls, copy, download, manual masks, blocked sections, source changes, cancellation, file size, offline processing after load, mobile layout, browser storage, and request destinations. Desktop and mobile screenshots received visual review.
 
 Firefox and Safari checks remain untested because their test engines are not installed. These tests do not establish complete detection of sensitive content.
 
