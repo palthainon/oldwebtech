@@ -65,6 +65,37 @@ privacy, quota, and operating details. Apply the client-side and offline
 guidelines above to website tools; review MCP changes against the service's
 documented network and data-handling behavior.
 
+### Hosting and DNS
+
+Azure Static Web Apps serves `oldweb.tech` and `www.oldweb.tech`. Hostinger holds
+only the domain, the DNS zone, and `@oldweb.tech` mail. Use the Hostinger API CLI
+(`hostinger`) for DNS work. Use hPanel only if the CLI cannot do the task.
+
+If the CLI is missing, get the Windows archive from
+https://github.com/hostinger/api-cli/releases, verify the checksum, and put
+`hostinger.exe` on `PATH`. Sign in with `hostinger auth login`.
+
+```bash
+hostinger dns records list oldweb.tech -o json --no-input
+hostinger dns snapshots list oldweb.tech
+hostinger dns records validate oldweb.tech --zone @zone.json
+hostinger dns records update oldweb.tech --zone @zone.json
+```
+
+Expected web records: `www` CNAME to `polite-coast-086d7a90f.2.azurestaticapps.net`
+and `@` A to `20.36.155.201`.
+
+- Confirm a DNS change with the operator before you run `update`.
+- Do not run `hostinger dns records reset`. It removes the web records and the
+  mail records.
+- `update` overwrites by default. It replaces all records with the same name and
+  type. An `@` TXT update must include the SPF record and the verification token.
+- Do not change the MX, SPF, DMARC, DKIM, `autodiscover`, or `autoconfig` records.
+- If the site shows the old blue theme, or `/theme.css` returns 404, run
+  `hostinger dns snapshots list oldweb.tech` first. On 2026-11-03 an automatic
+  Hostinger CDN change moved the web records away from Azure. The site footer does
+  not identify the host.
+
 ### Error Handling Patterns
 When implementing form validation with error states:
 
