@@ -81,7 +81,7 @@ Future publication/review work is scheduled in the associated Codex task after l
 
 The implementation is published on `main`. The OldWeb landing page and privacy disclosure are live. GitHub MCP tests, static-site deployment, and the OIDC cost-guard run passed. The six-hour guard is scheduled on main; a separate Codex review reports usage every Friday at 09:00 America/New_York.
 
-Hostinger DNS is verified (TTL 300):
+Hostinger DNS is verified (TTL 300). Use `hostinger dns records list oldweb.tech` to read these records. The Hosting and DNS section of `.claude/CLAUDE.md` holds the change procedure:
 
 | Type | Host | Value |
 |---|---|---|
