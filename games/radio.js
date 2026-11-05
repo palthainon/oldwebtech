@@ -560,7 +560,99 @@
         }
     }
 
+    // Rotary station dial. host is an empty element; opts.order lists station ids
+    // around the dial (default: engine order); opts.onPick(stationIndex) runs after a
+    // user turn, click or key. The dial is a slider for keyboards and screen readers.
+    function mountTuner(host, opts) {
+        opts = opts || {};
+        const order = (opts.order || STATIONS.map(st => st.id)).map(id => STATIONS.findIndex(st => st.id === id));
+        const n = order.length, MIN = -120, SPAN = 240, STEP = SPAN / (n - 1);
+        const angle = k => MIN + k * STEP;
+
+        host.textContent = '';
+        const spacer = document.createElement('span');
+        spacer.className = 'led';
+        spacer.setAttribute('aria-hidden', 'true');
+        spacer.style.visibility = 'hidden';
+        const face = document.createElement('div');
+        face.className = 'tuner-face';
+        const ticks = order.map((_, k) => {
+            const t = document.createElement('span');
+            t.className = 'tuner-tick';
+            t.style.setProperty('--a', angle(k) + 'deg');
+            face.appendChild(t);
+            return t;
+        });
+        const dial = document.createElement('div');
+        dial.className = 'tuner-dial';
+        dial.tabIndex = 0;
+        dial.setAttribute('role', 'slider');
+        dial.setAttribute('aria-label', 'Station');
+        dial.setAttribute('aria-valuemin', '0');
+        dial.setAttribute('aria-valuemax', String(n - 1));
+        dial.title = 'Station: drag, click or use arrow keys';
+        face.appendChild(dial);
+        const name = document.createElement('span');
+        name.className = 'tuner-name';
+        name.setAttribute('aria-hidden', 'true');
+        host.append(spacer, face, name);
+
+        const current = () => Math.max(0, order.indexOf(music.station));
+        function paint() {
+            const k = current();
+            const label = STATIONS[order[k]].label;
+            dial.style.setProperty('--a', angle(k) + 'deg');
+            dial.setAttribute('aria-valuenow', String(k));
+            dial.setAttribute('aria-valuetext', label);
+            name.textContent = label;
+            ticks.forEach((t, j) => t.classList.toggle('on', j === k));
+        }
+        function pick(k) {
+            k = Math.max(0, Math.min(n - 1, k));
+            if (k !== current()) setStation(order[k]);
+            if (opts.onPick) opts.onPick(order[k]);
+        }
+
+        let dragging = false, moved = false, startX = 0, startY = 0, lastDeg = null;
+        dial.addEventListener('pointerdown', e => {
+            dragging = true; moved = false; lastDeg = null;
+            startX = e.clientX; startY = e.clientY;
+            dial.setPointerCapture(e.pointerId);
+        });
+        dial.addEventListener('pointermove', e => {
+            if (!dragging) return;
+            if (Math.hypot(e.clientX - startX, e.clientY - startY) > 5) moved = true;
+            if (!moved) return;
+            const r = dial.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+            if (Math.hypot(dx, dy) < 6) return;
+            const deg = Math.atan2(dx, -dy) * 180 / Math.PI;   // 0 = up, clockwise positive
+            // The dial has a stop at the bottom: ignore a jump across it
+            if (lastDeg !== null && Math.abs(deg - lastDeg) > 180) return;
+            lastDeg = deg;
+            const k = Math.round((Math.max(MIN, Math.min(MIN + SPAN, deg)) - MIN) / STEP);
+            if (k !== current()) pick(k);
+        });
+        const endDrag = e => {
+            if (!dragging) return;
+            dragging = false;
+            if (e.type === 'pointerup' && !moved) pick((current() + 1) % n);   // a click steps to the next station
+        };
+        dial.addEventListener('pointerup', endDrag);
+        dial.addEventListener('pointercancel', endDrag);
+        dial.addEventListener('keydown', e => {
+            const k = current();
+            const next = { ArrowRight: k + 1, ArrowUp: k + 1, ArrowLeft: k - 1, ArrowDown: k - 1, Home: 0, End: n - 1 }[e.key];
+            if (next !== undefined) { e.preventDefault(); pick(next); }
+            else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(k); }
+        });
+
+        listeners.push(paint);
+        paint();
+    }
+
     window.OWTRadio = {
+        mountTuner,
         stations: STATIONS.map(st => ({ id: st.id, label: st.label })),
         setOn,
         isOn: () => music.on,

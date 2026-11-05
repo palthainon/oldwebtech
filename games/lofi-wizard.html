@@ -159,13 +159,6 @@
                     <span id="now-playing">♪ radio off</span>
                     <span class="status" id="status-line">wizard: typing · cat: loafing</span>
                 </div>
-                <div class="presets" role="radiogroup" aria-label="Station">
-                    <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0">lo-fi</button>
-                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">tavern</button>
-                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">enchanted</button>
-                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit quest</button>
-                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit dungeon</button>
-                </div>
                 <div class="pickers">
                     <div class="picker">
                         <span class="pick-label" aria-hidden="true">scene</span>
@@ -215,6 +208,7 @@
                     </button>
                     <span aria-hidden="true">music</span>
                 </div>
+                <div class="knob-wrap" id="tuner"></div>
                 <label class="volume-field" for="volume">
                     <span class="led on" aria-hidden="true" style="visibility:hidden"></span>
                     <input type="range" id="volume" min="0" max="100" value="60" aria-label="Music volume">
@@ -970,18 +964,12 @@
         const music = { get on() { return radio.isOn(); } };   // the scene only reads music.on
         const nowPlayingEl = document.getElementById('now-playing');
         const musicBtn = document.getElementById('btn-music');
-        const stationKeys = [...document.querySelectorAll('.radio-left > .presets .preset')];
         function stationLabel() { return radio.stations[radio.station()].label; }
 
         radio.onChange(() => {
             nowPlayingEl.textContent = radio.isOn() ? `♪ ${stationLabel()}: ${radio.trackName()}` : '♪ radio off';
             musicBtn.setAttribute('aria-pressed', String(radio.isOn()));
             document.getElementById('led-music').classList.toggle('on', radio.isOn());
-            stationKeys.forEach((k, j) => {
-                const on = j === radio.station();
-                k.setAttribute('aria-checked', String(on));
-                k.tabIndex = on ? 0 : -1;
-            });
         });
 
         function setMusic(on) {
@@ -992,22 +980,12 @@
             A11yUtils.announce(on ? `Music on. ${stationLabel()}: ${radio.trackName()}` : 'Music off', 'polite');
         }
 
-        // Preset keys behave as a radio group: arrows move between stations
-        function pickStation(i) {
-            radio.setStation(i);
-            if (!radio.isOn()) setMusic(true);
-            else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
-        }
-        stationKeys.forEach((k, i) => {
-            k.addEventListener('click', () => pickStation(i));
-            k.addEventListener('keydown', e => {
-                const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
-                if (!dir) return;
-                e.preventDefault();
-                const next = (i + dir + stationKeys.length) % stationKeys.length;
-                stationKeys[next].focus();
-                pickStation(next);
-            });
+        // The station dial sets the station itself; this runs after each turn
+        radio.mountTuner(document.getElementById('tuner'), {
+            onPick: () => {
+                if (!radio.isOn()) setMusic(true);
+                else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
+            }
         });
 
         // ---------- Controls ----------
