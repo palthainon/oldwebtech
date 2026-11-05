@@ -202,10 +202,6 @@
                     <span id="now-playing">♪ radio off</span>
                 </div>
                 <div class="preset-row">
-                    <span class="row-label" aria-hidden="true">station</span>
-                    <div class="presets" role="radiogroup" aria-label="Music station" id="station-keys"></div>
-                </div>
-                <div class="preset-row">
                     <span class="row-label" aria-hidden="true">words</span>
                     <div class="presets" role="radiogroup" aria-label="Word set" id="word-keys">
                         <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-set="it">it terms</button>
@@ -267,6 +263,7 @@
                     </button>
                     <span aria-hidden="true">music</span>
                 </div>
+                <div class="knob-wrap" id="tuner"></div>
                 <div class="knob-wrap">
                     <span class="led on" id="led-sfx" aria-hidden="true"></span>
                     <button type="button" class="knob" id="btn-sfx" aria-pressed="true" aria-label="Sound effects" title="Sound effects on / off">
@@ -1386,30 +1383,12 @@
         const nowPlayingEl = document.getElementById('now-playing');
         const musicBtn = document.getElementById('btn-music');
         const stationOrder = ['chip-quest', 'chip-dungeon', 'tavern', 'forest', 'lofi'];
-        const stationBox = document.getElementById('station-keys');
-        const stationKeys = stationOrder.map((id, i) => {
-            const st = radio.stations.find(s => s.id === id);
-            const b = document.createElement('button');
-            b.type = 'button';
-            b.className = 'preset';
-            b.setAttribute('role', 'radio');
-            b.textContent = st.label;
-            b.dataset.id = id;
-            stationBox.appendChild(b);
-            return b;
-        });
         radio.setStation('chip-quest');
         function stationLabel() { return radio.stations[radio.station()].label; }
         function syncRadio() {
             nowPlayingEl.textContent = radio.isOn() ? `♪ ${stationLabel()}: ${radio.trackName()}` : '♪ radio off';
             musicBtn.setAttribute('aria-pressed', String(radio.isOn()));
             document.getElementById('led-music').classList.toggle('on', radio.isOn());
-            const current = radio.stations[radio.station()].id;
-            stationKeys.forEach(k => {
-                const on = k.dataset.id === current;
-                k.setAttribute('aria-checked', String(on));
-                k.tabIndex = on ? 0 : -1;
-            });
         }
         radio.onChange(syncRadio);
         syncRadio();
@@ -1433,10 +1412,12 @@
                 });
             });
         }
-        radioGroup(stationKeys, i => {
-            radio.setStation(stationKeys[i].dataset.id);
-            if (!radio.isOn()) setMusic(true);
-            else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
+        radio.mountTuner(document.getElementById('tuner'), {
+            order: stationOrder,
+            onPick: () => {
+                if (!radio.isOn()) setMusic(true);
+                else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
+            }
         });
 
         const paceKeys = [...document.querySelectorAll('#pace-keys .preset')];
