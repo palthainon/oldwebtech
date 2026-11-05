@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Spellcheck: an 8-bit typing game. A wizard defends the datacenter from bugs, phishing emails, jammed printers, 404 ghosts and ransomware by typing IT words. Tracks your WPM and accuracy.">
-    <meta name="keywords" content="typing game, typing test, wpm test, 8-bit game, pixel art, wizard, sysadmin game, it typing practice, browser game">
+    <meta name="description" content="Spellcheck: an 8-bit typing game. A wizard defends the datacenter from bugs, phishing emails, jammed printers, 404 ghosts and ransomware by typing IT words, Linux, PowerShell, Cisco IOS, git, Docker, SQL and security terms at three levels. Tracks your WPM and accuracy.">
+    <meta name="keywords" content="typing game, linux commands typing, cisco ios practice,typing test, wpm test, 8-bit game, pixel art, wizard, sysadmin game, it typing practice, browser game">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://oldweb.tech/games/spellcheck.html">
@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="radio.css">
     <script src="radio.js"></script>
     <script src="spellcheck-words.js"></script>
+    <script src="spellcheck-words-more.js"></script>
     <style>
         /* Full-viewport stage; the game screen keeps its own night palette in both themes */
         body {
@@ -176,8 +177,9 @@
     <a href="#stage" class="skip-link">Skip to main content</a>
     <main id="stage" class="stage">
         <h1 class="sr-only">Spellcheck: a wizard typing game</h1>
-        <p class="sr-only" id="how-to">Enemies walk toward the wizard, each carrying an IT word, Linux command or PowerShell cmdlet depending on the word set you pick. Type a word to cast a spell at that enemy. Press Enter to start, Escape to pause. The game area takes keyboard input once you click it or start typing.</p>
+        <p class="sr-only" id="how-to">Enemies walk toward the wizard, each carrying a word or command from the word set you pick: IT terms, Linux, PowerShell, Cisco IOS, git and Docker, SQL or security terms. The level sets how hard the words are. The pace sets how fast the enemies walk. Each new enemy and its word is read out as it appears. The run type picks endless, a 10 wave sprint, or practice with no hearts lost. Scores save only when you start on wave 1 and do not use practice. Type a word to cast a spell at that enemy. Press Enter to start, Escape to pause, and Q while paused to end the run. The game area takes keyboard input once you click it or start typing.</p>
 
+        <div class="sr-only" id="sr-enemy" role="status" aria-live="polite" aria-atomic="true"></div>
         <div class="play-area" id="play-area">
             <div class="game-wrap" id="game-wrap">
                 <canvas id="game" width="320" height="180" aria-hidden="true"></canvas>
@@ -209,14 +211,42 @@
                         <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-set="it">it terms</button>
                         <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="linux">linux</button>
                         <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="powershell">powershell</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="cisco">cisco ios</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="git">git &amp; docker</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="sql">sql</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="security">security</button>
+                    </div>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">level</span>
+                    <div class="presets" role="radiogroup" aria-label="Word level" id="level-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-level="trainee">trainee</button>
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-level="admin">admin</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-level="architect">architect</button>
+                    </div>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">run</span>
+                    <div class="presets" role="radiogroup" aria-label="Run type" id="run-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-run="endless">endless</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-run="sprint">sprint (10 waves)</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-run="practice">practice (no hearts)</button>
+                    </div>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">start</span>
+                    <div class="presets" role="radiogroup" aria-label="Starting wave" id="start-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-start="1">wave 1</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-start="5">wave 5</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-start="10">wave 10</button>
                     </div>
                 </div>
                 <div class="preset-row">
                     <span class="row-label" aria-hidden="true">pace</span>
-                    <div class="presets" role="radiogroup" aria-label="Difficulty" id="pace-keys">
-                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="0.6" data-advanced="0">relaxed</button>
-                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-pace="1" data-advanced="0.55">normal</button>
-                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="1.45" data-advanced="0.85">on-call</button>
+                    <div class="presets" role="radiogroup" aria-label="Speed" id="pace-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="0.6">relaxed</button>
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-pace="1">normal</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="1.45">on-call</button>
                     </div>
                     <button type="button" class="reset-best" onclick="clearAllSavedData()" aria-label="Clear your saved best score from this page">reset best</button>
                 </div>
@@ -529,10 +559,25 @@
                 label: set.label,
                 prompt: set.prompt,
                 verb: set.verb,
-                entries: set.basic.map(toEntry('basic')).concat(set.advanced.map(toEntry('advanced'))),
-                boss: set.boss.map(toEntry('boss'))
+                entries: set.basic.map(toEntry('basic')).concat(set.advanced.map(toEntry('advanced')), (set.expert || []).map(toEntry('expert'))),
+                boss: set.boss.map(toEntry('boss')).concat((set.expert || []).filter(e => e[0].length >= 12).map(toEntry('boss')))
             };
         });
+
+        // Level decides which word tiers appear (share of each) and how often an enemy
+        // carries a word one length bucket up from its usual
+        const LEVELS = {
+            trainee:   { tiers: { basic: 1 }, bump: 0 },
+            admin:     { tiers: { basic: 0.45, advanced: 0.55 }, bump: 0.33 },
+            architect: { tiers: { basic: 0.1, advanced: 0.4, expert: 0.5 }, bump: 0.5 }
+        };
+        function rollTier(level) {
+            let r = Math.random();
+            for (const [tier, share] of Object.entries(LEVELS[level].tiers)) {
+                if ((r -= share) < 0) return tier;
+            }
+            return 'basic';
+        }
 
         // ---------- Enemy kinds ----------
         const KINDS = {
@@ -566,7 +611,13 @@
             missFlash: 0,
             t: 0,
             pace: 1,
-            advanced: 0.55,         // share of advanced commands; set by the pace keys
+            level: 'admin',         // word difficulty; set by the level keys
+            runMode: 'endless',     // endless | sprint | practice
+            start: 1,               // first wave of a run
+            combo: 0,
+            bestCombo: 0,
+            wordStats: [],
+            missKeys: {},
             words: 'it',
             flash: 0,
             rings: []
@@ -575,7 +626,9 @@
         const EMPTY_BEST = { score: 0, wpm: 0, wave: 0 };
         let bests = StorageUtils.load('spellcheck', {});
         if (!bests || typeof bests !== 'object') bests = {};
-        const bestFor = set => bests[set] || EMPTY_BEST;
+        // Admin keeps the plain set id, so scores saved before levels existed still count
+        const bestKey = () => (game.level === 'admin' ? game.words : `${game.words}:${game.level}`) + (game.runMode === 'sprint' ? ':sprint' : '');
+        const bestFor = () => bests[bestKey()] || EMPTY_BEST;
 
         const stars = Array.from({ length: 40 }, () => ({
             x: Math.random() * W, y: Math.random() * 90, p: Math.random() * 6
@@ -599,24 +652,34 @@
             return total ? Math.round(game.correct / total * 100) : 100;
         }
 
+        const recent = [];   // last words used, so the same one does not come back at once
         function pickWord(pool) {
-            // Pace decides how often the advanced entries (pipelines, flags) show up, and how
-            // often an enemy carries a word one size up from its usual
-            if (Math.random() < game.advanced * 0.6) pool = pool === 'short' ? 'medium' : 'long';
-            const tier = Math.random() < game.advanced ? 'advanced' : 'basic';
+            if (Math.random() < LEVELS[game.level].bump) pool = pool === 'short' ? 'medium' : 'long';
+            const tier = rollTier(game.level);
             const all = WORD_SETS[game.words].entries;
             let list = all.filter(e => e.bucket === pool && e.tier === tier);
             if (!list.length) list = all.filter(e => e.bucket === pool);
             if (!list.length) list = all;
+            const unseen = list.filter(e => !recent.includes(e.c));
+            if (unseen.length) list = unseen;
             // Prefer a word whose first letter no live enemy is using, so the first keystroke picks one target
             const used = new Set(game.enemies.filter(e => !e.dead).map(e => e.match[e.typed] || ''));
             const fresh = list.filter(e => !used.has(e.c[0].toLowerCase()));
             const from = fresh.length ? fresh : list;
-            return from[Math.floor(Math.random() * from.length)];
+            const pick = from[Math.floor(Math.random() * from.length)];
+            recent.push(pick.c);
+            if (recent.length > 24) recent.shift();
+            return pick;
         }
 
         function wordFields(entry) {
             return { entry, word: entry.c, match: entry.c.toLowerCase() };
+        }
+
+        // Screen readers cannot see the canvas, so each new word is read out as it appears
+        const srEnemyEl = document.getElementById('sr-enemy');
+        function srEnemy(word, boss) {
+            srEnemyEl.textContent = (boss ? 'Boss. Type: ' : 'Enemy. Type: ') + word;
         }
 
         function spawn(kindName) {
@@ -626,6 +689,7 @@
             const entry = pickWord(k.words);
             // Long commands walk slower so they stay typeable
             const lengthFactor = entry.c.length > 12 ? Math.max(0.4, 12 / entry.c.length) : 1;
+            srEnemy(entry.c, false);
             game.enemies.push({
                 kind: kindName, k, x: W + 4, y, baseY: y, w: sprite.width, h: sprite.height,
                 ...wordFields(entry), typed: 0, dead: false, doomed: false,
@@ -640,6 +704,7 @@
                 const w = pool[Math.floor(Math.random() * pool.length)];
                 if (!words.includes(w)) words.push(w);
             }
+            srEnemy(words[0].c, true);
             game.enemies.push({
                 kind: 'boss', k: { points: 200, speed: 5, fly: false }, x: W + 4, y: GROUND - 34, baseY: GROUND - 34, w: 30, h: 34,
                 words, ...wordFields(words[0]), typed: 0, hp: words.length, dead: false, doomed: false, phase: 0, speed: 5
@@ -649,7 +714,7 @@
         function startWave(n) {
             game.wave = n;
             logNote(`--- wave ${n}${n % 5 === 0 ? ' · the legacy mainframe wakes' : ''} ---`);
-            game.toSpawn = 4 + n * 2;
+            game.toSpawn = Math.min(40, 4 + n * 2);
             game.spawnTimer = 1.2;
             game.bossPending = n % 5 === 0;
             game.mode = 'playing';
@@ -659,11 +724,12 @@
 
         function newGame() {
             logBody.textContent = '';
+            recent.length = 0;
             Object.assign(game, {
                 score: 0, hearts: 3, enemies: [], shots: [], parts: [], rings: [], target: null,
-                correct: 0, errors: 0, playTime: 0, shake: 0
+                correct: 0, errors: 0, playTime: 0, shake: 0, combo: 0, bestCombo: 0, wordStats: [], missKeys: {}
             });
-            startWave(1);
+            startWave(game.start);
             setPlayingUi();
         }
 
@@ -716,13 +782,13 @@
             if (!game.target || game.target.dead || game.target.doomed) {
                 game.target = null;
                 const candidates = live.filter(e => e.match[e.typed] === ch).sort((a, b) => a.x - b.x);
-                if (!candidates.length) return miss();
+                if (!candidates.length) return miss('');
                 game.target = candidates[0];
             } else if (game.target.match[game.target.typed] !== ch) {
                 // Several words can share a prefix (Get-...): hop to one that fits what's been typed
                 const prefix = game.target.match.slice(0, game.target.typed) + ch;
                 const other = live.filter(e => e !== game.target && e.match.startsWith(prefix)).sort((a, b) => a.x - b.x)[0];
-                if (!other) return miss();
+                if (!other) return miss(game.target.match[game.target.typed]);
                 game.target.typed = 0;
                 other.typed = prefix.length - 1;
                 game.target = other;
@@ -730,12 +796,18 @@
 
             const e = game.target;
             e.typed++;
+            if (e.t0 === undefined || e.typed === 1) e.t0 = game.playTime;
             game.correct++;
             game.castTimer = 0.15;
             radio.sfx('key');
             spark(GEM.x, GEM.y, 2, '#e9fffb');
 
             if (e.typed >= e.match.length) {
+                const secs = Math.max(0.3, game.playTime - e.t0);
+                if (e.match.length >= 4) game.wordStats.push({ c: e.word, wpm: Math.round(e.match.length / 5 / (secs / 60)) });
+                e.t0 = undefined;
+                game.combo++;
+                game.bestCombo = Math.max(game.bestCombo, game.combo);
                 logCommand(e.entry, e.kind === 'boss');
                 game.shots.push({ x: GEM.x, y: GEM.y, target: e, big: e.kind === 'boss' });
                 radio.sfx('fire');
@@ -751,8 +823,10 @@
             }
         }
 
-        function miss() {
+        function miss(expected) {
             game.errors++;
+            game.combo = 0;
+            if (expected) game.missKeys[expected] = (game.missKeys[expected] || 0) + 1;
             game.missFlash = 0.2;
             radio.sfx('miss');
         }
@@ -776,9 +850,11 @@
             ransom: ['#e8e2d0', '#d9a400', '#ff4d3d'], boss: ['#9aa0ad', '#5ab8ff', '#ffb000', '#ff4d3d']
         };
 
+        const comboMult = () => 1 + Math.min(game.combo, 20) * 0.05;
+
         function kill(e) {
             e.dead = true;
-            game.score += e.k.points * game.wave;
+            game.score += Math.round(e.k.points * game.wave * (1 + e.word.length / 24) * comboMult());
             const cx = e.x + e.w / 2, cy = e.y + e.h / 2;
             explode(cx, cy, KIND_COLORS[e.kind].concat(['#ffd23f', '#ff7a1a']), e.kind === 'boss' ? 90 : 34);
             game.rings.push({ x: cx, y: cy, r: 2, max: e.kind === 'boss' ? 46 : 22, life: 1 });
@@ -794,6 +870,13 @@
         function hurt(e) {
             e.dead = true;
             if (game.target === e) game.target = null;
+            game.combo = 0;
+            if (game.runMode === 'practice') {
+                game.errors++;
+                radio.sfx('hurt');
+                explode(e.x, e.y + e.h / 2, ['#8fd3c7', '#ffffff'], 10);
+                return;
+            }
             game.hearts--;
             if (!reduceMotion) game.shake = 0.35;
             explode(e.x, e.y + e.h / 2, ['#ff4d3d', '#ffb000'], 16);
@@ -802,22 +885,39 @@
             A11yUtils.announce(`Hit. ${game.hearts} ${game.hearts === 1 ? 'heart' : 'hearts'} left`, 'polite');
         }
 
-        function gameOver() {
-            game.mode = 'over';
+        function gameOver() { finishRun(false); }
+
+        // Slowest words and most-missed keys, so a run tells you what to practice
+        function logRunSummary() {
+            const slow = game.wordStats.slice().sort((a, b) => a.wpm - b.wpm).slice(0, 3);
+            if (slow.length) logNote('slowest: ' + slow.map(w => `${w.c} (${w.wpm} wpm)`).join(', '));
+            const keys = Object.entries(game.missKeys).sort((a, b) => b[1] - a[1]).slice(0, 4);
+            if (keys.length) logNote('most missed keys: ' + keys.map(([k, n]) => `${k === ' ' ? 'space' : k} x${n}`).join(', '));
+            if (game.bestCombo > 1) logNote(`best streak: ${game.bestCombo} words`);
+        }
+
+        function finishRun(won) {
+            game.mode = won ? 'won' : 'over';
             game.target = null;
-            logNote(`--- system down on wave ${game.wave} · ${game.score} pts · ${wpm()} wpm ---`);
-            radio.sfx('over');
+            logNote(won
+                ? `--- sprint complete · wave ${game.wave} · ${game.score} pts · ${wpm()} wpm ---`
+                : `--- system down on wave ${game.wave} · ${game.score} pts · ${wpm()} wpm ---`);
+            logRunSummary();
+            radio.sfx(won ? 'wave' : 'over');
             const result = { score: game.score, wpm: wpm(), wave: game.wave };
-            const prev = bestFor(game.words);
-            game.newBest = result.score > prev.score;
-            bests[game.words] = {
-                score: Math.max(prev.score, result.score),
-                wpm: Math.max(prev.wpm, result.wpm),
-                wave: Math.max(prev.wave, result.wave)
-            };
-            StorageUtils.save('spellcheck', bests);
+            const saves = game.runMode !== 'practice' && game.start === 1;
+            const prev = bestFor();
+            game.newBest = saves && result.score > prev.score;
+            if (saves) {
+                bests[bestKey()] = {
+                    score: Math.max(prev.score, result.score),
+                    wpm: Math.max(prev.wpm, result.wpm),
+                    wave: Math.max(prev.wave, result.wave)
+                };
+                StorageUtils.save('spellcheck', bests);
+            }
             setPlayingUi();
-            A11yUtils.announce(`Game over on wave ${result.wave}. Score ${result.score}. ${result.wpm} words per minute, ${accuracy()} percent accuracy. Press Enter to play again.`, 'assertive');
+            A11yUtils.announce(`${won ? 'Sprint complete' : 'Game over'} on wave ${result.wave}. Score ${result.score}. ${result.wpm} words per minute, ${accuracy()} percent accuracy. Press Enter to play again.`, 'assertive');
         }
 
         // ---------- Update ----------
@@ -861,7 +961,7 @@
             }
 
             // Enemies advance
-            const speedUp = game.pace * (1 + (game.wave - 1) * 0.07);
+            const speedUp = game.pace * Math.min(2.2, 1 + (game.wave - 1) * 0.07);
             game.enemies.forEach(e => {
                 if (e.dead) return;
                 e.x -= e.speed * speedUp * dt;
@@ -903,6 +1003,7 @@
                 game.bannerTimer = 2.4;
                 game.score += 50 * game.wave;
                 A11yUtils.announce(`Wave ${game.wave} cleared`, 'polite');
+                if (game.runMode === 'sprint' && game.wave >= game.start + 9) finishRun(true);
             }
         }
 
@@ -1042,6 +1143,8 @@
             text(`WAVE ${game.wave}`, W / 2, 2, '#c9c2e6', 10, 'center');
             text(`${game.score}`, W - 4, 2, '#ffb000', 10, 'right');
             text(`${wpm()} WPM`, W - 4, 11, '#8fd3c7', 9, 'right');
+            if (game.combo >= 3 && game.mode !== 'title') text(`x${comboMult().toFixed(2)} streak ${game.combo}`, W / 2, 11, '#ffd23f', 9, 'center');
+            if (game.runMode === 'practice' && game.mode !== 'title') text('PRACTICE', 4, 4, '#8fd3c7', 9);
         }
 
         function panel(lines, y) {
@@ -1059,20 +1162,27 @@
                 panel([
                     ['SPELLCHECK', '#ffb000', 16],
                     ['', '#fff'],
-                    [`type to defend the datacenter · words: ${WORD_SETS[game.words].label}`, '#c9c2e6'],
-                    [`best: ${bestFor(game.words).score} pts · ${bestFor(game.words).wpm} wpm · wave ${bestFor(game.words).wave}`, '#8fd3c7'],
+                    [`${WORD_SETS[game.words].label} · ${game.level} level · ${game.runMode}${game.start > 1 ? ' from wave ' + game.start : ''}`, '#c9c2e6'],
+                    [`best: ${bestFor().score} pts · ${bestFor().wpm} wpm · wave ${bestFor().wave}`, '#8fd3c7'],
                     [blink ? 'press ENTER or tap to start' : '', '#ffffff']
                 ], 40);
             } else if (game.mode === 'paused') {
-                panel([['PAUSED', '#ffb000', 14], ['press ESC or ENTER to resume', '#c9c2e6']], 60);
+                panel([['PAUSED', '#ffb000', 14], ['ESC or ENTER resumes · Q ends the run', '#c9c2e6']], 60);
             } else if (game.mode === 'waveclear') {
                 panel([[`WAVE ${game.wave} CLEARED`, '#5fc24f', 14], [`+${50 * game.wave} bonus · ${accuracy()}% accuracy`, '#c9c2e6']], 55);
+            } else if (game.mode === 'won') {
+                panel([
+                    ['SPRINT COMPLETE', '#5fc24f', 16],
+                    [`${game.score} pts${game.newBest ? ' · NEW BEST' : ''} · ${wpm()} wpm`, '#ffb000'],
+                    [`${accuracy()}% accuracy · best streak ${game.bestCombo}`, '#8fd3c7'],
+                    [blink ? 'press ENTER or tap to play again' : '', '#ffffff']
+                ], 44);
             } else if (game.mode === 'over') {
                 panel([
                     ['SYSTEM DOWN', '#ff4d3d', 16],
                     [`wave ${game.wave} · ${game.score} pts${game.newBest ? ' · NEW BEST' : ''}`, '#ffb000'],
                     [`${wpm()} wpm · ${accuracy()}% accuracy`, '#8fd3c7'],
-                    [`best (${WORD_SETS[game.words].label}): ${bestFor(game.words).score} pts · ${bestFor(game.words).wpm} wpm`, '#c9c2e6'],
+                    [`best (${WORD_SETS[game.words].label}, ${game.level}): ${bestFor().score} pts · ${bestFor().wpm} wpm`, '#c9c2e6'],
                     [blink ? 'press ENTER or tap to reboot' : '', '#ffffff']
                 ], 36);
             }
@@ -1180,14 +1290,14 @@
         typer.addEventListener('blur', () => wrap.classList.remove('typing'));
 
         function primaryAction() {
-            if (game.mode === 'title' || game.mode === 'over') newGame();
+            if (game.mode === 'title' || game.mode === 'over' || game.mode === 'won') newGame();
             else if (game.mode === 'paused') setPaused(false);
         }
 
         canvas.addEventListener('pointerdown', e => {
             e.preventDefault();
             focusTyper();
-            if (game.mode === 'title' || game.mode === 'over') primaryAction();
+            if (game.mode === 'title' || game.mode === 'over' || game.mode === 'won') primaryAction();
         });
 
         typer.addEventListener('keydown', e => {
@@ -1198,6 +1308,9 @@
                 e.preventDefault();
                 if (game.mode === 'playing') setPaused(true);
                 else if (game.mode === 'paused') setPaused(false);
+            } else if ((e.key === 'q' || e.key === 'Q') && game.mode === 'paused') {
+                e.preventDefault();
+                finishRun(false);   // end the run from the pause screen: shows the summary, restarts with Enter
             }
         });
         // 'input' works for hardware and on-screen keyboards alike
@@ -1205,6 +1318,21 @@
             for (const ch of typer.value) typeChar(ch);
             typer.value = '';
         });
+
+        // 't' (theme) and '/' (search) are site shortcuts. While a run is going they are letters
+        // like any other, so take them before the navigation handler sees them.
+        document.addEventListener('keydown', e => {
+            if ((e.key !== 't' && e.key !== '/') || e.metaKey || e.ctrlKey || e.altKey || game.mode !== 'playing') return;
+            const t = e.target;
+            if (t === typer) return;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+            if (t && t.closest && t.closest('button, a')) return;
+            if (document.querySelector('.search-overlay:not([hidden])')) return;
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            focusTyper();
+            typeChar(e.key);
+        }, true);
 
         // Typing anywhere on the page (outside other controls) goes to the game
         document.addEventListener('keydown', e => {
@@ -1314,7 +1442,6 @@
         const paceKeys = [...document.querySelectorAll('#pace-keys .preset')];
         function setPace(i) {
             game.pace = Number(paceKeys[i].dataset.pace);
-            game.advanced = Number(paceKeys[i].dataset.advanced);
             paceKeys.forEach((k, j) => {
                 k.setAttribute('aria-checked', String(j === i));
                 k.tabIndex = j === i ? 0 : -1;
@@ -1326,6 +1453,51 @@
             A11yUtils.announce(`Pace: ${paceKeys[i].textContent}`, 'polite');
         });
         setPace(Math.min(paceKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-pace', 1)) || 0)));
+
+        const levelKeys = [...document.querySelectorAll('#level-keys .preset')];
+        function setLevel(i) {
+            game.level = levelKeys[i].dataset.level;
+            levelKeys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === i));
+                k.tabIndex = j === i ? 0 : -1;
+            });
+            StorageUtils.save('spellcheck-level', i);
+        }
+        radioGroup(levelKeys, i => {
+            setLevel(i);
+            A11yUtils.announce(`Level: ${levelKeys[i].textContent}`, 'polite');
+        });
+        setLevel(Math.min(levelKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-level', 1)) || 0)));
+
+        const runKeys = [...document.querySelectorAll('#run-keys .preset')];
+        function setRun(i) {
+            game.runMode = runKeys[i].dataset.run;
+            runKeys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === i));
+                k.tabIndex = j === i ? 0 : -1;
+            });
+            StorageUtils.save('spellcheck-run', i);
+        }
+        radioGroup(runKeys, i => {
+            setRun(i);
+            A11yUtils.announce(`Run: ${runKeys[i].textContent}. Applies to the next game.`, 'polite');
+        });
+        setRun(Math.min(runKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-run', 0)) || 0)));
+
+        const startKeys = [...document.querySelectorAll('#start-keys .preset')];
+        function setStart(i) {
+            game.start = Number(startKeys[i].dataset.start);
+            startKeys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === i));
+                k.tabIndex = j === i ? 0 : -1;
+            });
+            StorageUtils.save('spellcheck-start', i);
+        }
+        radioGroup(startKeys, i => {
+            setStart(i);
+            A11yUtils.announce(`Start: ${startKeys[i].textContent}. Applies to the next game.`, 'polite');
+        });
+        setStart(Math.min(startKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-start', 0)) || 0)));
 
         // Word set applies to new spawns right away and picks which best score is shown
         const wordKeys = [...document.querySelectorAll('#word-keys .preset')];
@@ -1374,7 +1546,13 @@
             StorageUtils.remove('spellcheck');
             StorageUtils.remove('spellcheck-pace');
             StorageUtils.remove('spellcheck-words');
+            StorageUtils.remove('spellcheck-level');
+            StorageUtils.remove('spellcheck-run');
+            StorageUtils.remove('spellcheck-start');
             bests = {};
+            setRun(0);
+            setStart(0);
+            setLevel(1);
             setPace(1);
             setWords(0);
             A11yUtils.announce('Best score cleared', 'polite');
@@ -1383,7 +1561,7 @@
         // Stats readout on the radio display
         const statsEl = document.getElementById('stats');
         setInterval(() => {
-            statsEl.textContent = `${WORD_SETS[game.words].label} · wave ${game.wave} · ${game.score} pts · ${wpm()} wpm · ${accuracy()}% acc`;
+            statsEl.textContent = `${WORD_SETS[game.words].label} · ${game.level} · wave ${game.wave} · ${game.score} pts · ${wpm()} wpm · ${accuracy()}% acc`;
         }, 250);
 
         // Pause when the tab is hidden
