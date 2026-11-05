@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="An ASCII lo-fi scene for your maintenance window: a wizard types at his terminal, sips coffee, pets his cat and keeps an eye on the blinking racks behind him. Optional generated lo-fi beats.">
+    <meta name="description" content="An ASCII lo-fi scene for your maintenance window: a wizard types at his terminal, sips coffee and pets his cat. Pick the server room, a library, a tavern or an alchemy lab, in clear, rain or snow. Optional generated lo-fi beats.">
     <meta name="keywords" content="lofi, lo-fi beats, ascii art, ascii animation, wizard, cat, datacenter, maintenance window, ambient, relax">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -113,6 +113,30 @@
         .c-wood  { color: var(--art-staff); }
         .c-heart { color: var(--err); }
 
+        .pickers { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+        .picker { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+        .picker .presets { padding-bottom: 4px; }
+        .pick-label {
+            color: var(--dim);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .narrow-only { display: none; }
+        .match-field { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .match-field input { accent-color: var(--hi); }
+        .keys-note {
+            margin: 0;
+            color: var(--dim);
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .narrow-only { display: flex; }
+            .keys-note { display: none; }   /* a phone has no keyboard */
+        }
+
         .motion-note {
             color: var(--dim);
             font-size: 0.85rem;
@@ -141,6 +165,38 @@
                     <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">enchanted</button>
                     <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit quest</button>
                     <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit dungeon</button>
+                </div>
+                <div class="pickers">
+                    <div class="picker">
+                        <span class="pick-label" aria-hidden="true">scene</span>
+                        <div class="presets" id="scene-keys" role="radiogroup" aria-label="Scene (s)">
+                            <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0">server room</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">library</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">tavern</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">alchemy lab</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">observatory</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">incident</button>
+                        </div>
+                    </div>
+                    <div class="picker">
+                        <span class="pick-label" aria-hidden="true">sky</span>
+                        <div class="presets" id="sky-keys" role="radiogroup" aria-label="Sky (w)">
+                            <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0">clear</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">rain</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">snow</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">dawn</button>
+                        </div>
+                    </div>
+                    <div class="picker narrow-only">
+                        <span class="pick-label" aria-hidden="true">view</span>
+                        <div class="presets" id="view-keys" role="radiogroup" aria-label="View">
+                            <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0">room</button>
+                            <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">desk</button>
+                        </div>
+                    </div>
+                    <label class="pick-label match-field">
+                        <input type="checkbox" id="match-music"> match music to scene
+                    </label>
                 </div>
             </div>
             <div class="radio-controls">
@@ -174,6 +230,7 @@
                 </div>
             </div>
         </div>
+        <p class="keys-note">keys: space pause · m music · f full screen · s scene · w sky · c coffee · p pet the cat · r look around</p>
         <p class="motion-note" id="motion-note" hidden>Your system asks for reduced motion, so the scene starts paused. Press the scene button to start it.</p>
     </main>
 
@@ -216,6 +273,7 @@
         // Remote-browser isolation (e.g. Menlo) streams every DOM mutation to the
         // viewer, so rewriting the whole <pre> 10x a second looks like jitter.
         // Keep one element per row and only touch rows whose markup changed.
+        let viewX = 0, viewW = W;   // phones show a 58-column slice of the 88-column scene
         let rowEls = null;
         const rowHtml = new Array(H).fill(null);
         function paintScene() {
@@ -244,7 +302,7 @@
                     out += runCls ? `<span class="${runCls}">${run}</span>` : run;
                     run = '';
                 };
-                for (let x = 0; x < W; x++) {
+                for (let x = viewX; x < viewX + viewW; x++) {
                     const ch = chars[y][x], cls = colors[y][x];
                     if (cls !== runCls) { flush(); runCls = cls; }
                     run += ch.charCodeAt(0) > 126 ? `<span class="g">${ch}</span>` : escapeHtml(ch);
@@ -280,22 +338,8 @@
         const RACK_XS = [1, 14];
         const RACK_Y = 2;
 
-        // Every '*' in a rack is an LED. Most are green; a few run amber or blue.
-        const leds = [];
-        RACK_XS.forEach(rx => {
-            RACK.forEach((line, dy) => {
-                [...line].forEach((ch, dx) => {
-                    if (ch !== '*') return;
-                    const r = Math.random();
-                    leds.push({
-                        x: rx + dx, y: RACK_Y + dy,
-                        cls: r < 0.7 ? 'c-ok' : r < 0.88 ? 'c-blue' : 'c-amber',
-                        on: Math.random() < 0.7,
-                        rate: 0.03 + Math.random() * 0.25   // chance to flip each tick
-                    });
-                });
-            });
-        });
+        // Every '*' in a scene's art is a blinking light (see buildLeds).
+        let leds = [];
 
         const UPS_X = 27, UPS_Y = 14;
         const UPS = [
@@ -337,34 +381,224 @@
         const KB_X = 55, KB_Y = 10;
         const MUG_X = 64, MUG_Y = 9;
 
-        // ---------- Terminal script ----------
-        const SCRIPT = [
-            '$ ssh core-sw01',
-            'sw01# conf t',
-            '(config)# int te1/1',
-            '(config-if)# shut',
-            '(config-if)# no sh',
-            '(config-if)# end',
-            'sw01# wr mem',
-            '[OK]',
-            'sw01# exit',
-            '$ uptime',
-            ' 03:12 up 412 days',
-            '$ systemctl restart',
-            '   nginx',
-            '$ curl -sI :443',
-            'HTTP/2 200',
-            '$ df -h /var',
-            '/var  38%',
-            '$ tail -f syslog',
-            '...quiet. good.',
-            '$ ping -c3 gw',
-            '0% packet loss',
-            '$ # rollback? nah',
-            '$ apt upgrade',
-            '0 upgraded. nice.'
+        // ---------- Scenes ----------
+        // A scene is the room on the left (art), the perch under the cat, a terminal
+        // script and some mood text. Art is { x, y, lines, cls }. Rules for a script:
+        // each line fits SCREEN_W; a line is typed if isOutputLine says it is a command,
+        // and lands at once otherwise.
+        const pick = list => list[Math.floor(Math.random() * list.length)];
+        const perch = word => ['.-------.', `| ${word} |`, '|=======|', "'-------'"];
+
+        function bookRow() {
+            let s = '';
+            while (s.length < 10) s += Math.random() < 0.06 ? '*' : pick(['|', '||', '[]', 'I', 'H', '#|', '|I|']);
+            return '|' + s.slice(0, 10) + '|';
+        }
+        function bookshelf() {
+            const lines = ['.==========.'];
+            for (let i = 0; i < 4; i++) lines.push(bookRow(), bookRow(), '|----------|');
+            lines.push(bookRow(), bookRow(), "'=========='");
+            return lines;
+        }
+        function potionShelf() {
+            const tops = '| * * * * |', bodies = '| U U U U |', board = '|=========|';
+            return ['.=========.', tops, bodies, board, tops, bodies, board, tops, bodies, "'========='"];
+        }
+
+        // Particles for the alchemy lab's cauldron
+        let bubbles = [];
+
+        const SCENES = [
+            {
+                id: 'server', label: 'server room',
+                desc: 'Behind him, two server racks blink with green, amber and blue lights.',
+                perchDesc: 'a UPS', perchLines: UPS, perchLed: true,
+                lookLabel: 'checking the racks', lookAria: 'turns to check the racks',
+                art: RACK_XS.map(x => ({ x, y: RACK_Y, lines: RACK, cls: 'c-dim' })),
+                blink: { on: '•', off: '·', rate: [0.03, 0.25], colors: [[0.7, 'c-ok'], [0.88, 'c-blue'], [1, 'c-amber']] },
+                thought: () => leds.some(l => l.on && l.cls === 'c-amber') ? "amber? ...it's fine" : 'all green. nice.',
+                watch: () => {
+                    const n = leds.filter(l => l.on && l.cls === 'c-amber').length;
+                    return 'racks: ' + (n > 2 ? `${n} amber` : 'all green');
+                },
+                script: [
+                    '$ ssh core-sw01', 'sw01# conf t', '(cfg)# int te1/1', '(cfg-if)# shut',
+                    '(cfg-if)# no sh', '(cfg-if)# end', 'sw01# wr mem', '[OK]', 'sw01# exit',
+                    '$ uptime', '03:12 up 412 days', '$ systemctl start', '   nginx',
+                    '$ curl -sI :443', 'HTTP/2 200', '$ df -h /var', '/var  38%',
+                    '$ tail -f syslog', '...quiet. good.', '$ ping -c3 gw', '0% packet loss',
+                    '$ # rollback? nah', '$ apt upgrade', '0 upgraded. nice.'
+                ]
+            },
+            {
+                id: 'library', label: 'library',
+                desc: 'Behind him, two tall bookshelves hold glowing tomes, and candles float in the air.',
+                perchDesc: 'a stack of tomes', perchLines: perch('TOMES'), perchLed: false,
+                lookLabel: 'scanning the shelves', lookAria: 'turns to scan the shelves',
+                art: RACK_XS.map(x => ({ x, y: RACK_Y, lines: bookshelf(), cls: 'c-wood' })),
+                blink: { on: '✦', off: '·', rate: [0.01, 0.05], colors: [[0.5, 'c-hi'], [0.8, 'c-blue'], [1, 'c-ok']] },
+                thought: p => p < 0.5 ? 'the books are fine' : 'one candle flickers',
+                watch: () => `tomes: ${leds.filter(l => l.on).length} glowing`,
+                draw: () => {
+                    [[28, 5], [34, 7], [31, 3]].forEach(([cx, cy], i) => {
+                        const y = cy + Math.round(Math.sin(state.t / 12 + i * 2));
+                        put(cx, y, ['(', ')', '*', ')'][(Math.floor(state.t / 3) + i) % 4], 'c-amber');
+                        put(cx, y + 1, '|', 'c-fg');
+                    });
+                },
+                script: [
+                    '$ grimoire -s zzz', '3 spells found', '$ cast --dry-run', 'fizzle. no mana.',
+                    '$ git commit -m', '  "fix typo in"', '  "runes"', '$ ls scrolls/',
+                    'ritual.md  TODO', '$ tail -f aether', '...all quiet.', '$ man dragon',
+                    'No entry. brave.', '$ sudo make tea', 'tea ready.'
+                ]
+            },
+            {
+                id: 'tavern', label: 'tavern',
+                desc: 'Behind him, a stone hearth crackles under a hanging sign for The Old Rack, with an ale barrel and a lantern beside it.',
+                perchDesc: 'a crate', perchLines: perch('CRATE'), perchLed: false,
+                lookLabel: 'warming by the fire', lookAria: 'turns toward the fire',
+                art: [
+                    { x: 0, y: 1, lines: ['='.repeat(26)], cls: 'c-wood' },
+                    { x: 3, y: 2, lines: ['|', '|'], cls: 'c-line' },
+                    { x: 12, y: 2, lines: ['|', '|'], cls: 'c-line' },
+                    { x: 1, y: 4, lines: ['.------------.', '|THE OLD RACK|', "'------------'"], cls: 'c-wood' },
+                    { x: 20, y: 2, lines: ['|', '|'], cls: 'c-line' },
+                    { x: 19, y: 4, lines: ['.-.', '|*|', "'-'"], cls: 'c-dim' },
+                    { x: 3, y: 8, lines: ['><(((">'], cls: 'c-dim' },
+                    { x: 3, y: 11, lines: ['u u u u'], cls: 'c-fg' },
+                    { x: 1, y: 12, lines: ['.============.', '|  .------.  |', '| /        \\ |', '| |        | |', '| |        | |', '|_|________|_|'], cls: 'c-dim' },
+                    { x: 16, y: 13, lines: [' .-----. ', '(  ALE  )', ' |=====| ', '(       )', " '-----' "], cls: 'c-wood' }
+                ],
+                blink: { on: '•', off: '·', rate: [0.04, 0.1], colors: [[1, 'c-amber']] },
+                thought: p => p < 0.5 ? 'fire is warm. good.' : 'last call soon...',
+                watch: () => 'hearth: crackling',
+                draw: () => {
+                    // Fire: hotter and denser toward the bottom of the grate
+                    [['.', '^', "'"], ['^', '(', ')'], ['(', ')', '&', '*']].forEach((glyphs, row) => {
+                        for (let x = 4; x <= 11; x++) {
+                            if (Math.random() < [0.25, 0.55, 0.85][row]) put(x, 14 + row, pick(glyphs), ['c-hi', 'c-amber', 'c-heart'][row]);
+                        }
+                    });
+                },
+                script: [
+                    '$ ssh tavern-pos', 'pos# tab list', 'pos# close 4', 'paid. tip: 2cp',
+                    'pos# exit', '$ df -h /cellar', '/cellar 61%', '$ systemctl stat',
+                    '  brewd: active', '$ ping -c3 keg', '0% keg loss', '$ tail -f door',
+                    '...no one drunk.', '$ ./last_call.sh', 'bell rung. bye.'
+                ]
+            },
+            {
+                id: 'lab', label: 'alchemy lab',
+                desc: 'Behind him, a cauldron bubbles over a fire beside a shelf of glowing potions.',
+                perchDesc: 'a crate of roots', perchLines: perch('ROOTS'), perchLed: false,
+                lookLabel: 'checking the cauldron', lookAria: 'turns to check the cauldron',
+                art: [
+                    { x: 2, y: 13, lines: [' .---------. ', '(           )', ' \\         / ', '  \\_______/  ', '  /|     |\\  '], cls: 'c-dim' },
+                    { x: 15, y: 3, lines: potionShelf(), cls: 'c-wood' }
+                ],
+                blink: { on: '◆', off: '◇', rate: [0.01, 0.06], colors: [[0.4, 'c-ok'], [0.7, 'c-blue'], [0.9, 'c-heart'], [1, 'c-amber']] },
+                thought: p => p < 0.5 ? 'cauldron: bubbling.' : 'smells fine. fine.',
+                watch: () => 'cauldron: bubbling',
+                tick: () => {
+                    if (Math.random() < 0.3) bubbles.push({ x: 4 + Math.random() * 9, y: 13, ch: pick(['o', 'O', '.']) });
+                    bubbles.forEach(b => { b.y -= 0.35; });
+                    bubbles = bubbles.filter(b => b.y >= 8);
+                },
+                draw: () => {
+                    for (let x = 3; x <= 13; x++) put(x, 14, Math.random() < 0.15 ? 'o' : '~', 'c-ok');
+                    bubbles.forEach(b => put(Math.round(b.x), Math.round(b.y), b.ch, 'c-ok'));
+                    for (let x = 6; x <= 10; x++) if (Math.random() < 0.8) put(x, 17, pick(['(', ')', '^', '*']), 'c-amber');
+                },
+                script: [
+                    '$ brew --status', 'cauldron: 98C', '$ add newt.eye', 'ok. stirring..',
+                    '$ stir -cw 40', 'done. green.', '$ taste --safe', 'refused. wise.',
+                    '$ ls potions/', 'heal  mana  wip', '$ cat label.txt', 'DO NOT DRINK',
+                    '$ tail -f fumes', '...mildly toxic.', '$ rollback? nah'
+                ]
+            },
+            {
+                id: 'observatory', label: 'observatory',
+                desc: 'Behind him, a star chart twinkles on the wall and a brass orrery turns on its stand.',
+                perchDesc: 'a stack of atlases', perchLines: perch('ATLAS'), perchLed: false,
+                lookLabel: 'checking the orrery', lookAria: 'turns to check the orrery',
+                art: [
+                    { x: 1, y: 3, lines: ['.----------.', '|  *   .   |', '| .   *   .|', '|   *    * |', '| .    .   |', '|  *   .  *|', "'--- SKY --'"], cls: 'c-wood' },
+                    { x: 19, y: 16, lines: ['|', '|'], cls: 'c-wood' },
+                    { x: 16, y: 17, lines: ['/=====\\'], cls: 'c-wood' }
+                ],
+                blink: { on: '✦', off: '·', rate: [0.03, 0.12], colors: [[0.6, 'c-fg'], [0.85, 'c-hi'], [1, 'c-blue']] },
+                thought: p => p < 0.5 ? 'stars aligned. nice.' : 'jupiter is up. hi.',
+                watch: () => 'orrery: turning',
+                draw: () => {
+                    for (let k = 0; k < 16; k++) {
+                        const a = k / 16 * Math.PI * 2;
+                        put(Math.round(19 + Math.cos(a) * 4.5), Math.round(13 + Math.sin(a) * 2), '.', 'c-line');
+                    }
+                    draw(18, 13, ['(@)'], 'c-amber');
+                    const a1 = state.t / 18, a2 = state.t / 9 + 2;
+                    put(Math.round(19 + Math.cos(a1) * 4.5), Math.round(13 + Math.sin(a1) * 2), 'O', 'c-blue');
+                    put(Math.round(19 + Math.cos(a2) * 3), Math.round(13 + Math.sin(a2) * 1.2), 'o', 'c-ok');
+                },
+                script: [
+                    '$ stellarium -now', 'jupiter: visible', '$ calc orbit', 'drift: 0.2 sec',
+                    '$ tail -f sky', '...clear. good.', '$ ls comets/', 'halley  TODO',
+                    '$ date -u', 'late. very late.'
+                ]
+            },
+            {
+                id: 'incident', label: 'incident',
+                desc: 'Behind him, two server racks flash amber and red while an alarm beacon spins.',
+                perchDesc: 'a UPS', perchLines: UPS, perchLed: true,
+                lookLabel: 'watching the alarms', lookAria: 'turns to watch the alarms',
+                art: RACK_XS.map(x => ({ x, y: RACK_Y, lines: RACK, cls: 'c-dim' })),
+                blink: { on: '•', off: '·', rate: [0.1, 0.4], colors: [[0.15, 'c-ok'], [0.5, 'c-amber'], [1, 'c-heart']] },
+                thought: () => 'this is fine.',
+                watch: () => `alerts: ${leds.filter(l => l.on && l.cls !== 'c-ok').length}`,
+                draw: () => {
+                    draw(12, 1, [state.t % 8 < 4 ? '(!)' : '( )'], state.t % 8 < 4 ? 'c-heart' : 'c-dim');
+                },
+                script: [
+                    '$ ssh core-sw01', 'sw01# sh int stat', 'Te1/1 down', 'sw01# sh log',
+                    '%LINK-3-UPDOWN', 'sw01# no sh', 'Te1/1 up', '$ page oncall',
+                    'ack. 3 min.', '$ tail -f syslog', '...settling.', '$ echo postmortem',
+                    'postmortem', '$ coffee --double'
+                ]
+            }
         ];
-        const isOutputLine = line => !line.startsWith('$') && !line.includes('#');
+        const SCENE_STATION = { server: 'lofi', library: 'forest', tavern: 'tavern', lab: 'chip-dungeon', observatory: 'lofi', incident: 'chip-quest' };
+        let room = SCENES[0];
+
+        const SKIES = [
+            { id: 'clear', aria: 'a crescent moon shows through the window.' },
+            { id: 'rain', aria: 'rain streaks down the window.' },
+            { id: 'snow', aria: 'snow drifts past the window.' },
+            { id: 'dawn', aria: 'the sun rises over the horizon in the window.' }
+        ];
+
+        function buildLeds(scene) {
+            const out = [];
+            scene.art.forEach(({ x, y, lines }) => lines.forEach((line, dy) => [...line].forEach((ch, dx) => {
+                if (ch !== '*') return;
+                const r = Math.random();
+                out.push({
+                    x: x + dx, y: y + dy,
+                    cls: scene.blink.colors.find(c => r < c[0])[1],
+                    on: Math.random() < 0.7,
+                    rate: scene.blink.rate[0] + Math.random() * scene.blink.rate[1]   // chance to flip each tick
+                });
+            })));
+            return out;
+        }
+
+        // ---------- Terminal script ----------
+        let script = room.script;
+        // A command is "$ ..." or a device prompt such as "sw01# ..." or "(config)# ...".
+        // Anything else is output, so output text may contain a '#'.
+        const isOutputLine = line => !/^(\$ |[\w()-]+# )/.test(line);
+        SCENES.forEach(sc => sc.script.forEach(line => {
+            if (line.length > SCREEN_W) console.warn(`lofi-wizard: "${line}" in ${sc.id} is wider than the screen`);
+        }));
         let screenLines = [''];
         let scriptLine = 0, scriptCol = 0;
         let typeDelay = 0;
@@ -372,7 +606,7 @@
         // Advance the terminal one tick. Returns true when a key was pressed.
         function typeStep() {
             if (typeDelay > 0) { typeDelay--; return false; }
-            const line = SCRIPT[scriptLine];
+            const line = script[scriptLine];
             if (scriptCol < line.length) {
                 if (isOutputLine(line)) {
                     // Output lands all at once; commands are typed
@@ -385,7 +619,7 @@
                 typeDelay = Math.random() < 0.12 ? 3 + Math.floor(Math.random() * 5) : Math.floor(Math.random() * 2);
                 return true;
             }
-            scriptLine = (scriptLine + 1) % SCRIPT.length;
+            scriptLine = (scriptLine + 1) % script.length;
             scriptCol = 0;
             screenLines.push('');
             if (screenLines.length > SCREEN_H) screenLines.shift();
@@ -450,6 +684,9 @@
             action: 'type',     // type | sip | pet | look
             actionLeft: 0,
             nextAction: 80,     // ticks until he idles into something else
+            weather: 'clear',
+            flash: 0,           // lightning ticks left (rain only)
+            thoughtPick: 0,     // fixed per 'look' so the thought does not flicker
             blink: 0,
             catBlink: 0,
             hearts: [],
@@ -465,6 +702,7 @@
             state.action = name;
             state.actionLeft = ACTION_TICKS[name] || 0;
             if (name === 'pet') state.hearts = [];
+            if (name === 'look') state.thoughtPick = Math.random();
         }
 
         function pickIdleAction() {
@@ -477,17 +715,12 @@
             for (let x = 0; x < W; x++) put(x, FLOOR_Y, '_', 'c-line');
             for (let x = 3; x < W; x += 7) put(x, FLOOR_Y + 1, '.', 'c-line');
 
-            // Racks and their LEDs
-            RACK_XS.forEach(rx => draw(rx, RACK_Y, RACK, 'c-dim'));
-            leds.forEach(led => put(led.x, led.y, led.on ? '•' : '·', led.on ? led.cls : 'c-off'));
+            // The room on the left, its blinking lights and any scene effects
+            room.art.forEach(a => draw(a.x, a.y, a.lines, a.cls));
+            leds.forEach(led => put(led.x, led.y, led.on ? room.blink.on : room.blink.off, led.on ? led.cls : 'c-off'));
+            if (room.draw) room.draw();
 
-            // Window: crescent moon and twinkling stars
-            draw(WIN_X, WIN_Y, WINDOW, 'c-dim');
-            put(WIN_X + 9, WIN_Y + 1, '☾', 'c-hi');
-            stars.forEach(s => {
-                const v = Math.sin(state.t / 9 + s.phase);
-                if (v > -0.2) put(WIN_X + s.x, WIN_Y + s.y, v > 0.7 ? '*' : '.', v > 0.7 ? 'c-fg' : 'c-dim');
-            });
+            drawWindow();
 
             // Desk
             for (let x = DESK_X; x < W; x++) put(x, DESK_Y, '=', 'c-wood');
@@ -511,9 +744,36 @@
             draw(KB_X, KB_Y, ['[:::::::]'], 'c-dim');
             if (state.keysLit > 0) put(KB_X + 1 + Math.floor(Math.random() * 7), KB_Y, ':', 'c-hi');
 
-            // UPS for the cat to sit on
-            draw(UPS_X, UPS_Y, UPS, 'c-dim');
-            put(UPS_X + 6, UPS_Y + 1, '•', state.t % 30 < 28 ? 'c-ok' : 'c-off');
+            // Perch for the cat to sit on
+            draw(UPS_X, UPS_Y, room.perchLines, 'c-dim');
+            if (room.perchLed) put(UPS_X + 6, UPS_Y + 1, '•', state.t % 30 < 28 ? 'c-ok' : 'c-off');
+        }
+
+        // Window interior spans x1-12 and rows 1, 2, 4, 5 (row 3 is the mullion)
+        function drawWindow() {
+            draw(WIN_X, WIN_Y, WINDOW, state.flash > 0 ? 'c-hi' : 'c-dim');
+            if (state.weather === 'clear') {
+                put(WIN_X + 9, WIN_Y + 1, '☾', 'c-hi');
+                stars.forEach(s => {
+                    const v = Math.sin(state.t / 9 + s.phase);
+                    if (v > -0.2) put(WIN_X + s.x, WIN_Y + s.y, v > 0.7 ? '*' : '.', v > 0.7 ? 'c-fg' : 'c-dim');
+                });
+                return;
+            }
+            if (state.weather === 'dawn') {
+                put(WIN_X + 3, WIN_Y + 1, '.', 'c-dim');
+                put(WIN_X + 10, WIN_Y + 2, '*', 'c-fg');
+                draw(WIN_X + 6, WIN_Y + 4, ['\\|/'], 'c-amber');
+                put(WIN_X + 7, WIN_Y + 5, state.t % 20 < 10 ? 'O' : '0', 'c-amber');
+                return;
+            }
+            const rain = state.weather === 'rain';
+            for (let x = 1; x <= 12; x++) {
+                const p = (Math.floor(state.t / (rain ? 2 : 5)) + x * 7) % 9;
+                if (p < 1 || p > 5 || p === 3) continue;
+                if (rain) put(WIN_X + x, WIN_Y + p, '/', 'c-alt');
+                else put(WIN_X + x, WIN_Y + p, x % 2 ? '*' : '.', 'c-fg');
+            }
         }
 
         const STEAM = [[' (', '  )'], ['  )', ' ('], [' )', '(']];
@@ -567,7 +827,7 @@
                 // Reaches back over the chair; the hand strokes between the ears
                 const stroke = Math.floor(state.t / 5) % 2;
                 const handX = CAT_X + 2 + stroke;
-                draw(handX + 2, 9, ['/'.padEnd(38 - handX - 2, '-') + "'"], 'c-robe');
+                draw(handX + 2, 9, ['/'.padEnd(CHAIR_X + 1 - handX - 2, '-') + "'"], 'c-robe');
                 draw(handX, 10, ['ww'], 'c-skin');
             }
 
@@ -605,8 +865,7 @@
 
         function drawThought() {
             if (state.action !== 'look') return;
-            const amber = leds.some(l => l.on && l.cls === 'c-amber');
-            const text = amber ? "amber? ...it's fine" : 'all green. nice.';
+            const text = room.thought(state.thoughtPick);
             draw(2, 0, [`( ${text} )`.replace(/ /g, '`')], 'c-fg');
             put(27, 1, 'o', 'c-dim');
             put(30, 2, 'o', 'c-dim');
@@ -634,6 +893,10 @@
             leds.forEach(l => {
                 if (Math.random() < l.rate) l.on = !l.on;
             });
+
+            if (room.tick) room.tick();
+            if (state.flash > 0) state.flash--;
+            else if (state.weather === 'rain' && Math.random() < 0.004) state.flash = 3;
 
             if (state.blink > 0) state.blink--;
             else if (Math.random() < 0.02) state.blink = 2;
@@ -691,9 +954,8 @@
             paintScene();
 
             const catMood = state.action === 'pet' ? 'purring' : state.catBlink > 0 ? 'dozing' : 'loafing';
-            const amberCount = leds.filter(l => l.on && l.cls === 'c-amber').length;
-            const racks = amberCount > 2 ? `${amberCount} amber` : 'all green';
-            const status = `wizard: ${ACTION_LABEL[state.action]} · cat: ${catMood} · racks: ${racks}`;
+            const doing = state.action === 'look' ? room.lookLabel : ACTION_LABEL[state.action];
+            const status = `wizard: ${doing} · cat: ${catMood} · ${room.watch()}`;
             if (status !== lastStatus) { statusEl.textContent = status; lastStatus = status; }
         }
 
@@ -708,7 +970,7 @@
         const music = { get on() { return radio.isOn(); } };   // the scene only reads music.on
         const nowPlayingEl = document.getElementById('now-playing');
         const musicBtn = document.getElementById('btn-music');
-        const stationKeys = [...document.querySelectorAll('.preset')];
+        const stationKeys = [...document.querySelectorAll('.radio-left > .presets .preset')];
         function stationLabel() { return radio.stations[radio.station()].label; }
 
         radio.onChange(() => {
@@ -764,6 +1026,102 @@
             if (state.paused) render();
         }
 
+        // ---------- Scene and sky pickers ----------
+        const sceneKeys = [...document.querySelectorAll('#scene-keys .preset')];
+        const skyKeys = [...document.querySelectorAll('#sky-keys .preset')];
+
+        // Same arrow-key behavior as the station keys: a radio group with one tab stop
+        function wireGroup(keys, onPick) {
+            keys.forEach((k, i) => {
+                k.addEventListener('click', () => onPick(i));
+                k.addEventListener('keydown', e => {
+                    const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+                    if (!dir) return;
+                    e.preventDefault();
+                    const next = (i + dir + keys.length) % keys.length;
+                    keys[next].focus();
+                    onPick(next);
+                });
+            });
+        }
+        function markGroup(keys, active) {
+            keys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === active));
+                k.tabIndex = j === active ? 0 : -1;
+            });
+        }
+
+        const viewKeys = [...document.querySelectorAll('#view-keys .preset')];
+        const matchBox = document.getElementById('match-music');
+        const narrowMq = window.matchMedia('(max-width: 600px)');
+        let viewSide = 0;
+        function applyView() {
+            viewW = narrowMq.matches ? 58 : W;
+            viewX = narrowMq.matches && viewSide ? W - viewW : 0;
+            rowHtml.fill(null);
+            lastSize = 0;
+            render();
+            fitScene();
+        }
+        wireGroup(viewKeys, i => { viewSide = i; markGroup(viewKeys, i); applyView(); });
+        narrowMq.addEventListener('change', applyView);
+
+        let sceneIndex = 0, skyIndex = 0;
+        function describeScene() {
+            sceneEl.setAttribute('aria-label',
+                `ASCII art scene ${state.weather === 'dawn' ? 'at dawn' : 'at night'}. A wizard in a pointed hat and headphones sits at a desk typing commands into a terminal. ` +
+                `${room.desc} His cat sits on ${room.perchDesc} beside him. A mug of coffee steams on the desk, and ${SKIES[skyIndex].aria} ` +
+                `Every so often he sips the coffee, reaches back to pet the cat, or ${room.lookAria}.`);
+        }
+        // The hash makes a look shareable: #tavern-snow. Only a user action rewrites it.
+        function saveLook(userAction) {
+            StorageUtils.save('lofi-wizard', { scene: sceneIndex, sky: skyIndex, match: matchBox.checked });
+            if (userAction) history.replaceState(null, '', `#${room.id}-${SKIES[skyIndex].id}`);
+        }
+        function readHash() {
+            const [a, b] = location.hash.slice(1).split('-');
+            return { scene: SCENES.findIndex(sc => sc.id === a), sky: SKIES.findIndex(k => k.id === b) };
+        }
+
+        function setScene(i, announce) {
+            sceneIndex = i;
+            room = SCENES[i];
+            leds = buildLeds(room);
+            bubbles = [];
+            script = room.script;
+            screenLines = [''];
+            scriptLine = 0; scriptCol = 0; typeDelay = 0;
+            for (let n = 0; n < 600; n++) typeStep();   // start with a screen full of history
+            markGroup(sceneKeys, i);
+            describeScene();
+            saveLook(announce);
+            lastStatus = '';
+            render();
+            if (announce && matchBox.checked) radio.setStation(SCENE_STATION[room.id]);
+            if (announce) A11yUtils.announce(`Scene: ${room.label}`, 'polite');
+        }
+        function setSky(i, announce) {
+            skyIndex = i;
+            state.weather = SKIES[i].id;
+            state.flash = 0;
+            markGroup(skyKeys, i);
+            describeScene();
+            saveLook(announce);
+            render();
+            if (announce) A11yUtils.announce(`Sky: ${SKIES[i].id}`, 'polite');
+        }
+        matchBox.addEventListener('change', () => {
+            saveLook(false);
+            if (matchBox.checked) radio.setStation(SCENE_STATION[room.id]);
+        });
+        window.addEventListener('hashchange', () => {
+            const h = readHash();
+            if (h.sky >= 0) setSky(h.sky, false);
+            if (h.scene >= 0) setScene(h.scene, false);
+        });
+        wireGroup(sceneKeys, i => setScene(i, true));
+        wireGroup(skyKeys, i => setSky(i, true));
+
         const stage = document.getElementById('stage');
         const fullBtn = document.getElementById('btn-full');
         function toggleFullscreen() {
@@ -795,7 +1153,9 @@
             const availW = stage.clientWidth - padX;
             const top = document.fullscreenElement ? 0 : Math.max(stage.getBoundingClientRect().top + window.scrollY, 0);
             const availH = window.innerHeight - top - padY - siblingsHeight(sceneEl) - 4;
-            const size = Math.max(5, Math.min(availW / (W * measureCellW()), availH / (H * 1.12), 28));
+            // On a phone the controls are taller than the screen, so size by width and let the page scroll
+            const byHeight = narrowMq.matches && !document.fullscreenElement ? Infinity : availH / (H * 1.12);
+            const size = Math.max(5, Math.min(availW / (viewW * measureCellW()), byHeight, 28));
             // Snap to 0.5px and skip no-op writes: a scrollbar or overlay badge
             // toggling in a remote/isolated browser must not make the font oscillate.
             const snapped = Math.round(size * 2) / 2;
@@ -850,6 +1210,10 @@
                 musicBtn.click();
             } else if (key === 'f') {
                 toggleFullscreen();
+            } else if (key === 's') {
+                setScene((sceneIndex + 1) % SCENES.length, true);
+            } else if (key === 'w') {
+                setSky((skyIndex + 1) % SKIES.length, true);
             } else if (key === 'c') {
                 nudge('sip');
             } else if (key === 'p') {
@@ -871,9 +1235,13 @@
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         setPaused(reduceMotion);
         if (reduceMotion) document.getElementById('motion-note').hidden = false;
-        for (let i = 0; i < 600; i++) typeStep();   // start with a screen full of history
-        render();
-        fitScene();
+        const saved = StorageUtils.load('lofi-wizard', {}) || {};
+        const validIndex = (v, list) => Number.isInteger(v) && v >= 0 && v < list.length;
+        const hashed = readHash();
+        matchBox.checked = saved.match === true;
+        setSky(hashed.sky >= 0 ? hashed.sky : validIndex(saved.sky, SKIES) ? saved.sky : 0, false);
+        setScene(hashed.scene >= 0 ? hashed.scene : validIndex(saved.scene, SCENES) ? saved.scene : 0, false);
+        applyView();
     })();
     </script>
 </body>
