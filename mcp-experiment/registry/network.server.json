@@ -1,14 +1,31 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.palthainon/oldweb-network",
+  "title": "OldWeb Network",
   "description": "Inspect IPv4/IPv6 subnets, allocate labeled prefixes and detect overlaps with exact address counts.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "url": "https://github.com/palthainon/oldwebtech",
     "source": "github",
     "subfolder": "mcp-experiment"
   },
   "websiteUrl": "https://oldweb.tech/mcp.html#network-heading",
+  "icons": [
+    {
+      "src": "https://oldweb.tech/logo/logo.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "569x569"
+      ]
+    },
+    {
+      "src": "https://oldweb.tech/logo/favicon-32x32.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "32x32"
+      ]
+    }
+  ],
   "remotes": [
     {
       "type": "streamable-http",
