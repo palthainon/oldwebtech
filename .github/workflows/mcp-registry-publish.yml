@@ -1,0 +1,89 @@
+name: Publish MCP registry listings
+
+# Publishes mcp-experiment/registry/*.server.json to the official MCP Registry.
+# Runs after a successful "Deploy MCP experiment" on main, so a listing never
+# describes code the live servers are not running, or by manual dispatch on main.
+# A manifest whose name and version are already in the registry is skipped,
+# so a redeploy without a version bump publishes nothing.
+on:
+  workflow_run:
+    workflows: ['Deploy MCP experiment']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # GitHub OIDC login to the registry (io.github.palthainon namespace)
+
+concurrency:
+  group: mcp-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    env:
+      MCP_PUBLISHER_VERSION: v1.8.1
+      REGISTRY: https://registry.modelcontextprotocol.io
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Publish the manifests from the commit that was deployed.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Download and verify mcp-publisher
+        run: |
+          set -euo pipefail
+          archive="mcp-publisher_linux_amd64.tar.gz"
+          base_url="https://github.com/modelcontextprotocol/registry/releases/download/${MCP_PUBLISHER_VERSION}"
+          curl --fail --location --silent --show-error --output "$archive" "$base_url/$archive"
+          curl --fail --location --silent --show-error --output "$archive.sigstore.json" "$base_url/$archive.sigstore.json"
+          cosign verify-blob \
+            --bundle "$archive.sigstore.json" \
+            --certificate-identity "https://github.com/modelcontextprotocol/registry/.github/workflows/release.yml@refs/tags/${MCP_PUBLISHER_VERSION}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$archive"
+          tar xzf "$archive" mcp-publisher
+          rm -f "$archive" "$archive.sigstore.json"
+
+      - name: Validate manifests
+        run: |
+          set -euo pipefail
+          for f in mcp-experiment/registry/*.server.json; do ./mcp-publisher validate "$f"; done
+
+      - name: Publish new versions
+        run: |
+          set -euo pipefail
+          mkdir -p publication
+          logged_in=false
+          for f in mcp-experiment/registry/*.server.json; do
+            name=$(jq -r .name "$f"); version=$(jq -r .version "$f")
+            url="$REGISTRY/v0.1/servers/$(jq -rn --arg n "$name" '$n|@uri')/versions/$version"
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' "$url")
+            if [ "$code" = "200" ]; then
+              echo "$name $version is already published; skipping."
+              echo "- \`$name\` $version: already published, skipped" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            if [ "$code" != "404" ]; then echo "Registry returned HTTP $code for $url"; exit 1; fi
+            if [ "$logged_in" = false ]; then ./mcp-publisher login github-oidc; logged_in=true; fi
+            ./mcp-publisher publish "$f"
+            curl --fail --silent --show-error "$url" > "publication/$(basename "$f" .server.json).json"
+            published=$(jq -r '._meta["io.modelcontextprotocol.registry/official"].publishedAt' "publication/$(basename "$f" .server.json).json")
+            echo "- \`$name\` $version: published $published ($url)" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      # Evidence for experiment-status.json: the registry's record of each new
+      # version, including publishedAt. Copy the timestamps in by hand.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: registry-publication
+          path: publication/
+          if-no-files-found: ignore
