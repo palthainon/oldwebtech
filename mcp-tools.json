@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "services": {
     "diagnostics": {
       "url": "https://mcp.oldweb.tech/diagnostics/mcp",
@@ -20,6 +20,7 @@
               },
               "type": {
                 "default": "A",
+                "description": "DNS record type to look up. Default A.",
                 "type": "string",
                 "enum": [
                   "A",
@@ -110,10 +111,12 @@
               "headers": {
                 "type": "string",
                 "minLength": 1,
-                "maxLength": 262144
+                "maxLength": 262144,
+                "description": "Raw email headers as pasted text, including Received and Authentication-Results lines. Message body is ignored."
               },
               "deliveryLog": {
                 "default": "",
+                "description": "Optional SMTP delivery or MTA log text for the same message. Leave empty if you have none.",
                 "type": "string",
                 "maxLength": 262144
               },
@@ -158,6 +161,7 @@
               },
               "format": {
                 "default": "auto",
+                "description": "Log format of the text. Default auto detects the format; set one to force a single parser.",
                 "type": "string",
                 "enum": [
                   "auto",
@@ -201,6 +205,7 @@
               },
               "format": {
                 "default": "auto",
+                "description": "Log format of the text. Default auto detects the format; set one to force a single parser.",
                 "type": "string",
                 "enum": [
                   "auto",
@@ -231,7 +236,8 @@
               "text": {
                 "type": "string",
                 "minLength": 1,
-                "maxLength": 262144
+                "maxLength": 262144,
+                "description": "CI or build log text, up to 256 KiB and 1,000 lines. Redact secrets first."
               }
             },
             "required": [
@@ -257,24 +263,29 @@
                     "method": {
                       "type": "string",
                       "minLength": 1,
-                      "maxLength": 20
+                      "maxLength": 20,
+                      "description": "HTTP method, for example GET or POST."
                     },
                     "url": {
                       "type": "string",
                       "minLength": 1,
-                      "maxLength": 4096
+                      "maxLength": 4096,
+                      "description": "Request URL. Query strings and userinfo are dropped from the output."
                     },
                     "status": {
                       "type": "integer",
                       "minimum": 0,
-                      "maximum": 599
+                      "maximum": 599,
+                      "description": "HTTP response status code; use 0 for a request that got no response."
                     },
                     "durationMs": {
+                      "description": "Optional total request time in milliseconds.",
                       "type": "number",
                       "minimum": 0,
                       "maximum": 86400000
                     },
                     "responseHeaders": {
+                      "description": "Optional response headers as name-to-value pairs. Sensitive headers are omitted from the output.",
                       "type": "object",
                       "propertyNames": {
                         "type": "string",
@@ -291,8 +302,10 @@
                     "url",
                     "status"
                   ],
-                  "additionalProperties": false
-                }
+                  "additionalProperties": false,
+                  "description": "One captured HTTP request and its response."
+                },
+                "description": "Captured HTTP requests in order, 1 to 100 entries, for example exported from a HAR file."
               }
             },
             "required": [
@@ -311,9 +324,11 @@
               "text": {
                 "type": "string",
                 "minLength": 1,
-                "maxLength": 262144
+                "maxLength": 262144,
+                "description": "JSON document to validate, as text, up to 256 KiB and 1,000 lines."
               },
               "schema": {
+                "description": "JSON Schema object to validate against, limited to the supported subset listed in the tool description.",
                 "$ref": "#/$defs/__schema0"
               }
             },
@@ -394,7 +409,7 @@
                 "type": "string",
                 "minLength": 3,
                 "maxLength": 64,
-                "description": "IPv4 or IPv6 CIDR, for example 192.0.2.0/24 or 2001:db8::/48."
+                "description": "Parent IPv4 or IPv6 CIDR block to allocate from, for example 10.0.0.0/16."
               },
               "requests": {
                 "minItems": 1,
@@ -405,20 +420,24 @@
                   "properties": {
                     "label": {
                       "type": "string",
-                      "maxLength": 80
+                      "maxLength": 80,
+                      "description": "Name for this allocation, for example a site or VLAN, up to 80 characters."
                     },
                     "prefix": {
                       "type": "integer",
                       "minimum": 0,
-                      "maximum": 128
+                      "maximum": 128,
+                      "description": "Requested prefix length, for example 24 for a /24. Must be at least as long as the parent prefix."
                     }
                   },
                   "required": [
                     "label",
                     "prefix"
                   ],
-                  "additionalProperties": false
-                }
+                  "additionalProperties": false,
+                  "description": "One labeled subnet request."
+                },
+                "description": "Subnets to allocate, 1 to 100 requests. Largest blocks are placed first."
               }
             },
             "required": [
@@ -444,7 +463,8 @@
                   "minLength": 3,
                   "maxLength": 64,
                   "description": "IPv4 or IPv6 CIDR, for example 192.0.2.0/24 or 2001:db8::/48."
-                }
+                },
+                "description": "CIDRs to compare, 1 to 100 entries. IPv4 and IPv6 can be mixed."
               }
             },
             "required": [
