@@ -1,14 +1,31 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.palthainon/oldweb-diagnostics",
+  "title": "OldWeb Diagnostics",
   "description": "Public DNS, HTTPS and deployment checks, plus offline email header and delivery-log tracing.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "url": "https://github.com/palthainon/oldwebtech",
     "source": "github",
     "subfolder": "mcp-experiment"
   },
   "websiteUrl": "https://oldweb.tech/mcp.html#diagnostics-heading",
+  "icons": [
+    {
+      "src": "https://oldweb.tech/logo/logo.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "569x569"
+      ]
+    },
+    {
+      "src": "https://oldweb.tech/logo/favicon-32x32.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "32x32"
+      ]
+    }
+  ],
   "remotes": [
     {
       "type": "streamable-http",
