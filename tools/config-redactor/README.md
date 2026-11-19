@@ -1,17 +1,17 @@
 # Browser configuration redactor
 
-The Network tools page uses the Lawson Cyber redactor rules for eight vendor and format profiles. Configuration processing runs in a browser worker. The page requires review before copy or download because unsupported sensitive values can remain.
+The Network tools page uses the Lawson Cyber redactor rules for ten vendor and format profiles. Configuration processing runs in a browser worker. The page requires review before copy or download because unsupported sensitive values can remain.
 
 Source: https://github.com/palthainon/lawson-config-redactor
-Version: 0.4.0 local source
+Version: 0.5.2
 Source hashes: vendor/source.json
 License: [MIT](../../nettools/config-redactor/LICENSE.txt)
 
-The vendor directory retains seven TypeScript files from the extension. Run the sync script with the extension repository path before rebuilding. The synchronization manifest records normalized source hashes. The build script replaces Node address validation with strict browser validation. It replaces Node cryptography with Web Crypto. Address allocation uses the same keyed SHA-256 operation. The source extension stays unchanged.
+The vendor directory retains eight TypeScript files from the extension. Run the sync script with the extension repository path before rebuilding. The synchronization manifest records normalized source hashes. The build script replaces Node address validation with strict browser validation. It replaces Node cryptography with Web Crypto. Address allocation uses the same keyed SHA-256 operation. The source extension stays unchanged.
 
 ## Profiles
 
-The selector includes Cisco IOS and IOS-XE, Palo Alto PAN-OS set commands and XML, Junos set commands and hierarchy, and Dell OS6, OS9, and OS10. A profile change clears manual masks and requires a new review. XML mode masks values conservatively. Unsupported formats and unknown sensitive fields block export.
+The selector includes general JSON and XML, Cisco IOS and IOS-XE, Palo Alto PAN-OS set commands and XML, Junos set commands and hierarchy, and Dell OS6, OS9, and OS10. A profile change clears manual masks and requires a new review. XML mode masks values conservatively. Unsupported formats and unknown sensitive fields block export.
 
 Vendor sources: [VENDOR-SOURCES.md](test/fixtures/VENDOR-SOURCES.md).
 
@@ -27,6 +27,10 @@ From the repository root:
 The page has no runtime package dependency. The static deployment includes the generated JavaScript files.
 
 For browser checks, install Playwright in a test environment. Set `PLAYWRIGHT_MODULE` to its package path if it is not available through Node resolution. Set `TEST_BROWSER` to `chrome` or `msedge`. Run `node tools/config-redactor/test/browser.mjs`. The harness uses a temporary loopback server. It uses synthetic configurations only. Screenshots go to the repository's tmp directory.
+
+## Verification on 2026-11-19
+
+Synced to extension 0.5.2. The sync and build now include `structured.ts`, which holds the general JSON and XML profiles. The page still opens on Cisco IOS. All 39 core tests passed, and the generated-file check passed. All fifteen browser check groups passed in Chromium 157. Firefox and Safari remain untested.
 
 ## Verification on 2026-10-23
 

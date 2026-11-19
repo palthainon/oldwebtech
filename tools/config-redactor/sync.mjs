@@ -6,7 +6,7 @@ if(!process.argv[2])throw new Error('Pass the lawson-config-redactor source dire
 const manifest=JSON.parse(fs.readFileSync(path.join(source,'package.json'),'utf8'));
 if(manifest.name!=='lawson-config-redactor')throw new Error('Choose the redactor repository.');
 const base=new URL('./',import.meta.url),hashes={};
-for(const name of ['types','scanner','cisco','profiles','vendors','addresses','replacements']) {
+for(const name of ['types','structured','scanner','cisco','profiles','vendors','addresses','replacements']) {
  const content=fs.readFileSync(path.join(source,'src',name+'.ts'));
  fs.writeFileSync(new URL('vendor/'+name+'.ts',base),content);
  hashes[name+'.ts']=createHash('sha256').update(content.toString('utf8').replaceAll('\r\n','\n')).digest('hex');
