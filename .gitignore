@@ -4,3 +4,6 @@ tickets/
 .site-dist/
 # Local research copies of third-party certification source PDFs.
 oldwebtech_plans/research/certifications/**/*.pdf
+# Windows Event Viewer logs and exports. Removed from history on 2026-11-19.
+*.evtx
+windowsapp.csv
