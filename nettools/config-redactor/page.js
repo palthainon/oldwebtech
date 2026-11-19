@@ -3,6 +3,7 @@ import {LIMIT} from './types.js';
 const ids = ['profile','source','output','file','mode','scan','cancel','mask','clear','demo','status','error','summary','findings','reviewed','copy','download'];
 const el = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
 for (const profile of PROFILES) {const option=document.createElement('option');option.value=profile.id;option.textContent=profile.label;el.profile.append(option);}
+el.profile.value = 'cisco-ios'; // Keep Cisco as the default; JSON and XML come first in the list.
 let worker, ready = false, busy = false, id = 0, fileRead = 0;
 let result, selections = [], resetKey = true;
 const demo = 'hostname CLIENT-A\nusername DEMO-USER secret 9 DEMO-HASH\ninterface GigabitEthernet0/1\n description DEMO-LINK\n ip address 192.0.2.10 255.255.255.0\n!\nip route 0.0.0.0 0.0.0.0 192.0.2.1\n';

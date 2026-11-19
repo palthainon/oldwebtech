@@ -5,7 +5,7 @@ function change(text, from, to) {
   if (!text.includes(from)) throw new Error('Upstream source changed: ' + from);
   return text.replace(from, to);
 }
-for (const name of ['types', 'scanner', 'cisco', 'profiles', 'vendors', 'addresses', 'replacements']) {
+for (const name of ['types', 'structured', 'scanner', 'cisco', 'profiles', 'vendors', 'addresses', 'replacements']) {
   let source = fs.readFileSync(new URL('vendor/' + name + '.ts', base), 'utf8');
   source = source.replace(/from '(\.\/[^']+)'/g, (_, name) => "from '" + name + ".js'").replaceAll("from 'node:net'", "from './runtime.js'");
   if (name === 'scanner' || name === 'cisco') source = change(source, 'Buffer.byteLength(source)', 'new TextEncoder().encode(source).byteLength');
