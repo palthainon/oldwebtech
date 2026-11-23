@@ -49,3 +49,13 @@ Each card limits its claim to the cited behavior. No source PDF was added.
 - [Forecast future values](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane): evidence sections are recorded in `cards/pl300-forecast-line-visual.md`.
 
 The refresh card covers pure Import mode. The forecasting card tests future estimates. The theme card limits reset to the affected formatting section. No source PDF was added.
+
+## Report-control sources checked October 21, 2026
+
+- [Selection pane layer order](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-gridlines-snap-to-grid): exact claim locators are recorded in `cards/pl300-selection-layer-order.md`.
+- [Per-visual personalization override](https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-personalize-visuals): exact claim locators are recorded in `cards/pl300-personalization-visual-override.md`.
+- [Summarized-only export setting](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-export-data): exact claim locators are recorded in `cards/pl300-export-summarized-setting.md`.
+- [Report filter scope](https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-report-add-filter): exact claim locators are recorded in `cards/pl300-report-filter-all-pages.md`.
+- [Analyze previous-point comparison](https://learn.microsoft.com/en-us/power-bi/explore-reports/end-user-analyze-visuals): exact claim locators are recorded in `cards/pl300-analyze-previous-point.md`.
+
+Analyze is limited to a supported visual and compares the previous point. Export settings remain subject to administrator settings. No source PDF was added.

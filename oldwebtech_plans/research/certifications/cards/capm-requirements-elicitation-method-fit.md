@@ -3,26 +3,26 @@ card_id: capm-requirements-elicitation-method-fit
 certification_id: capm
 exam_version: "2023-eco-current-2026-10"
 objective_ids: ["Domain 4, Task 1", "Domain 4, Task 3"]
-status: draft
-reviewed_on:
+status: verified
+reviewed_on: 2026-10-14
 ---
 
 ## Behavior
 
-- Choose a requirements-gathering technique that fits the situation: interviews are the more formal approach, while discussion groups offer a less formal way for several stakeholders to contribute.
-- Identify the stakeholder roles whose needs are being gathered before selecting the technique.
+- For a requirements-gathering scenario, match the tool or approach to the scenario. The CAPM outline names stakeholder interviews, surveys, workshops, and lessons learned as examples.
+- Identify the stakeholder roles involved in the scenario, including whether they are internal or external.
 
 ## Defaults or baseline
 
-- No single elicitation technique is the default for every situation; match the method to the information needed and the people involved.
+- Match the requirements-gathering tool or approach to the scenario.
 
 ## Gotchas
 
-- Selecting a method for convenience can miss a needed perspective or leave conflicting requirements unresolved, creating rework during validation.
+- Do not substitute a tool because it is familiar: CAPM asks candidates to match the tool or approach to the scenario.
 
 ## Verify
 
-- Check that the chosen method can reach the stakeholders who hold the needed information and can produce the requirement detail required by the scenario.
+- Identify the scenario's stakeholder roles, then select the requirements-gathering approach described by the scenario.
 
 ## Applies to
 
@@ -33,13 +33,8 @@ reviewed_on:
 ```yaml
 evidence:
   - claim: the CAPM objective asks candidates to match gathering tools and techniques to a scenario and identify an appropriate approach
-    source: oldwebtech_plans/research/certifications/capm/pmi-capm-exam-content-outline-2023.pdf
-    locator: PDF page 11, printed page 10, Domain 4 Tasks 1 and 3
-    source_version: PMI CAPM Examination Content Outline, 2023
-    checked_on: 2026-10-12
-  - claim: interviews are described as a more formal elicitation method and discussion groups as a more informal method
-    source: oldwebtech_plans/research/certifications/capm/linker-brown-requirements-engineering-2021.pdf
-    locator: PDF page 24, printed page 16, chapter 4 Methods of elicitation
-    source_version: Linker and Brown, first edition, 2021, CC BY-SA 4.0
-    checked_on: 2026-10-12
+    source: https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/capm-exam-content-outline-english.pdf
+    locator: PDF page 10, Domain 4 "Business Analysis Frameworks," Task 1 and Task 3
+    source_version: PMI CAPM Examination Content Outline, 2023 Exam Update; current PMI CAPM certification page links to this ECO
+    checked_on: 2026-10-14
 ```

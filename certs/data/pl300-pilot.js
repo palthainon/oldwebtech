@@ -8,7 +8,7 @@ window.CERT_BANK = {
   "examVersion": "2026-04-20",
   "status": "reviewed",
   "objectivesUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
-  "scope": "Twenty-three narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
+  "scope": "Twenty-eight narrow behaviors. This pilot does not cover the full exam or predict exam readiness.",
   "domains": [
     {
       "id": "1",
@@ -837,6 +837,181 @@ window.CERT_BANK = {
           "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane",
           "locator": "Use the Analytics pane, feature table Forecast, Y-Axis constant line and Average line rows; Forecast; Anomalies, opening paragraph",
           "checkedOn": "2026-10-20"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-024",
+      "domain": "3",
+      "objective": "Group and layer visuals by using the Selection pane",
+      "type": "single",
+      "q": "Two visuals overlap on a report canvas. Their positions must stay fixed, but the author needs the rear visual in front. Which control directly changes this arrangement?",
+      "choices": [
+        "Align center on the Format ribbon",
+        "Layer order in the Selection pane",
+        "Distribute horizontally on the Format ribbon",
+        "Snap objects to grid"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "The Selection pane controls the front-to-back order of overlapping visuals.",
+      "why": [
+        "Align center changes alignment rather than layer order.",
+        "Correct. Reordering the visual in the Selection pane changes its front-to-back order.",
+        "Distribution changes spacing rather than layer order.",
+        "Snap to grid aligns moved or resized visuals to a grid. It does not select their layer order."
+      ],
+      "cardIds": [
+        "pl300-selection-layer-order"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-gridlines-snap-to-grid",
+          "locator": "Use z-order; Align and distribute visuals; Use snap-to-grid",
+          "checkedOn": "2026-10-21"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-025",
+      "domain": "3",
+      "objective": "Enable personalization in a report, including personalized visuals",
+      "type": "single",
+      "q": "An author enables Personalize visuals for a report. Readers should personalize the charts on a page except its one fixed comparison chart. Which change limits the exception to that chart?",
+      "choices": [
+        "Turn off Personalize visuals for the entire report",
+        "Turn off Personalize visual for the entire page",
+        "Select the comparison chart and turn off Personalize visual under its header icons",
+        "Leave personalization enabled on the comparison chart"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "After report enablement, the author can disable personalization for an individual visual.",
+      "why": [
+        "The report switch removes personalization more broadly than required.",
+        "The page switch also affects the other charts on that page.",
+        "Correct. The visual setting makes the exception specific to the comparison chart.",
+        "Leaving the visual enabled does not implement the required exception."
+      ],
+      "cardIds": [
+        "pl300-personalization-visual-override"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-personalize-visuals",
+          "locator": "Switch the feature on or off at a page or visual level; Personalize visual per visual",
+          "checkedOn": "2026-10-21"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-026",
+      "domain": "3",
+      "objective": "Configure export settings",
+      "type": "single",
+      "q": "The administrator settings permit data export. For one report, the author wants consumers to export summarized data but not underlying rows. Which report-level Export data setting matches the requirement?",
+      "choices": [
+        "Allow summarized and underlying data",
+        "Do not allow any data export",
+        "Change only the report title",
+        "Allow summarized data only"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "The summarized-only choice permits that export type without enabling underlying-data export in the report setting.",
+      "why": [
+        "This choice also enables underlying-data export, which exceeds the requirement.",
+        "This choice also prevents the required summarized export.",
+        "The title does not configure export options.",
+        "Correct. This is the report setting for summarized-only export."
+      ],
+      "cardIds": [
+        "pl300-export-summarized-setting"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-export-data",
+          "locator": "Admin and designer controls for exporting, opening list, steps 1-4 and final paragraph",
+          "checkedOn": "2026-10-21"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-027",
+      "domain": "3",
+      "objective": "Apply slicing and filtering",
+      "type": "single",
+      "q": "A report contains three pages that show data from the same related Region dimension. The author needs one Region selection to filter the report across all three pages. Which filter location gives the required scope?",
+      "choices": [
+        "Filters on all pages",
+        "Filters on this page on the first page only",
+        "Filters on this visual on one chart only",
+        "A visual filter on a second chart only"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "A report-level filter uses Filters on all pages and applies throughout the report.",
+      "why": [
+        "Correct. The report filter applies on every report page.",
+        "A page filter covers the selected page, not the other two pages.",
+        "A visual filter covers the selected chart, not the whole report.",
+        "Another visual filter still does not establish report-wide scope."
+      ],
+      "cardIds": [
+        "pl300-report-filter-all-pages"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-report-add-filter",
+          "locator": "Add a report-level filter for an entire report; Add a filter to an entire page; Filter with a field that's not in the visual",
+          "checkedOn": "2026-10-21"
+        }
+      ],
+      "examVersion": "2026-04-20",
+      "status": "reviewed"
+    },
+    {
+      "id": "pl300-pilot-028",
+      "domain": "3",
+      "objective": "Use the Analyze feature in Power BI",
+      "type": "single",
+      "q": "A supported Power BI service line chart shows January, February, March, and April in order. Analyze is available for the April point. The reader selects Explain the increase on April. Which point supplies the immediate comparison?",
+      "choices": [
+        "January",
+        "March",
+        "February",
+        "The average of all four months"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Analyze compares the selected point with the immediately previous data point.",
+      "why": [
+        "January is the first point, not the point immediately before April.",
+        "Correct. March immediately precedes April in the displayed sequence.",
+        "February is not the immediately previous point.",
+        "This Analyze comparison uses the previous point, not a whole-series average."
+      ],
+      "cardIds": [
+        "pl300-analyze-previous-point"
+      ],
+      "evidenceRefs": [
+        {
+          "url": "https://learn.microsoft.com/en-us/power-bi/explore-reports/end-user-analyze-visuals",
+          "locator": "Introduction, final paragraph before Which factors and categories are chosen; Considerations and limitations, opening paragraph",
+          "checkedOn": "2026-10-21"
         }
       ],
       "examVersion": "2026-04-20",

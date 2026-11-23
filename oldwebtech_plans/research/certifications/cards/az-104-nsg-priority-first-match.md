@@ -3,8 +3,8 @@ card_id: az-104-nsg-priority-first-match
 certification_id: az-104
 exam_version: "2026-04-17"
 objective_ids: ["Configure secure access to virtual networks: create and configure NSGs; evaluate effective security rules"]
-status: draft
-reviewed_on:
+status: verified
+reviewed_on: 2026-10-14
 ---
 
 ## Behavior
@@ -36,15 +36,15 @@ evidence:
     source: https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview
     locator: Security rules > Priority
     source_version: Microsoft Learn Azure NSG overview, live documentation
-    checked_on: 2026-10-12
+    checked_on: 2026-10-14
   - claim: NSG rule priority values range from 100 to 4096 and default rules have the lowest precedence
     source: https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview
     locator: Security rules > Priority
     source_version: Microsoft Learn Azure NSG overview, live documentation
-    checked_on: 2026-10-12
+    checked_on: 2026-10-14
   - claim: AZ-104 tests NSG creation/configuration and effective-rule evaluation
     source: https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104
     locator: Skills measured as of April 17, 2026 > Implement and manage virtual networking > Configure secure access to virtual networks
     source_version: AZ-104 study guide effective April 17, 2026
-    checked_on: 2026-10-12
+    checked_on: 2026-10-14
 ```

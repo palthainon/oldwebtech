@@ -1,0 +1,15 @@
+role,workflow,state,device,input,method,coverage,result,evidence,limitation
+Organizer,Initial comparison,Default,Chrome desktop,Read,Snapshot and screenshot,tested,Duplicate home zone,E1,One detected home zone
+Organizer,Add zone,Populated,Chrome desktop,Click,UI and reload,tested,Default Denver added and retained,E2,One added zone
+Organizer,Search recovery,Edited,Chrome desktop,Keyboard,UI,partially tested,Commit result uncertain,Audit report,Automation result needs manual confirmation
+Organizer,Timeline,Populated,Chrome 390x844,Resize and reload,Rendered DOM measurements,tested,Selected cell hidden or overlapped,E3,Not a real phone
+Organizer,Keyboard access,Populated,Chrome desktop,Tab,UI,partially tested,Copy focus visible,E4,Full process not tested
+Organizer,Table semantics,Populated,Chrome desktop,Read,DOM snapshot,tested,Pass sampled 1.3.1 headers,E1,Not screen-reader testing
+Organizer,Status meaning,Populated,Chrome desktop,Read,Snapshot,tested,Pass sampled 1.4.1 business text and symbols,E1,Other colors not assessed
+Organizer,Focus order 2.4.3,Populated,Chrome desktop,Keyboard,UI,partially tested,Not tested for full process,E2,No conformance verdict
+Organizer,Contrast 1.4.3,All,All,None,None,not tested,Not tested,,No ratio measurement
+Organizer,Reflow 1.4.10,All,All,None,None,not tested,Not tested,,Narrow viewport alone is insufficient
+Organizer,Screen reader and real touch,All,All,None,None,not tested,Not tested,,Devices unavailable
+Organizer,Offline and slow network,Error,All,None,None,not tested,Not tested,,No network simulation
+Organizer,Permissions and handoff,All,Local page,None,UI inventory,not applicable,No role workflow observed,E1,Single-user utility
+Participant,Research,All,All,None,None,not tested,Pending,,No participants supplied

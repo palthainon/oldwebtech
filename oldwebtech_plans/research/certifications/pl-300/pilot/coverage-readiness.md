@@ -1,6 +1,6 @@
 # PL-300 pilot coverage
 
-PL-300, the Power BI analyst exam, has twenty-three pilot questions in this checkout. Each question uses one verified behavior card. The first eighteen questions are published. Five report-design questions passed [independent review](report-design-independent-review.md). Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
+PL-300, the Power BI analyst exam, has twenty-eight pilot questions in this checkout. Each question uses one verified behavior card. The first eighteen questions are published. Five report-control questions passed [independent review](report-controls-independent-review.md). Five report-design questions passed [independent review](report-design-independent-review.md). Five analysis and navigation questions passed [independent review](analysis-navigation-independent-review.md). Four report-feature questions passed [independent review](report-features-independent-review.md). Five visualization questions passed [independent review](visualization-independent-review.md). See [the first review](independent-review.md).
 
 The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300) uses skills effective April 20, 2026. The author checked the guide and the technical sources on October 19, 2026. Each bank item records its source section.
 
@@ -8,20 +8,20 @@ The [Microsoft study guide](https://learn.microsoft.com/en-us/credentials/certif
 | --- | ---: | --- |
 | Prepare the data | 2 | Append column alignment; reference refresh execution |
 | Model the data | 1 | Simultaneous date roles |
-| Visualize and analyze the data | 19 | Time trends; interactions; drillthrough; bookmarks; keyboard order; formatting; tooltips; sorting; slicers; binning; anomaly sensitivity; reference lines; mobile formatting; page navigation; visual calculations; paginated printing; themes; automatic refresh; forecasting |
+| Visualize and analyze the data | 24 | Time trends; interactions; drillthrough; bookmarks; keyboard order; formatting; tooltips; sorting; slicers; binning; anomaly sensitivity; reference lines; mobile formatting; page navigation; visual calculations; paginated printing; themes; automatic refresh; forecasting; layers; personalization; export settings; report filters; Analyze comparison |
 | Manage and secure Power BI | 1 | Additive RLS roles |
 
 RLS means row-level security. Its question assumes a consumer to whom RLS applies. It does not assess a privacy policy or a legal duty.
 
-This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Twenty-three questions cannot estimate domain readiness.
+This pilot does not cover the full exam. Scores do not predict an exam result. The preview shows issuer weight midpoints, not pilot coverage. Twenty-eight questions cannot estimate domain readiness.
 
-The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should consider Selection pane layering, visual personalization, export settings, report filters, and the Analyze feature.
+The CALCULATE card remains draft on main. This pilot excludes that card. The pilot leaves most preparation, calculations, performance, reports, workspace management, and governance objectives uncovered. The next content pass should consider preparation and modeling gaps, such as unpivoting, merge joins, date tables, relationship cardinality, and Performance Analyzer.
 
 The pilot uses the existing quiz engine and a separate storage identifier. The canonical bank and public page live under `certs/`. The public catalog, navigation, and sitemap include the pilot. No live Power BI model was tested. No publisher practice questions or exam dumps were used.
 
 ## Release location
 
-The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-018 have published status. Questions 019-023 remain unpublished. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
+The public page is `certs/pl300-pilot.html`. The canonical bank is `certs/data/pl300-pilot.js`. Questions 001-018 have published status. Questions 019-028 remain unpublished in this checkout. See [production validation](../../publication-validation.md#production-deployment). Research notes and source PDFs stay outside the public staging directory.
 
 ## Visualization expansion
 
@@ -81,3 +81,15 @@ Five new cards cover four additional objective leaves and an additional forecast
 | pl300-pilot-021 | pl300-theme-manual-color-override | Apply and customize a theme |
 | pl300-pilot-022 | pl300-import-page-refresh-unavailable | Configure automatic page refresh |
 | pl300-pilot-023 | pl300-forecast-line-visual | Use reference lines, error bars, and forecasting |
+
+## Report-control expansion
+
+Five new cards cover five additional objective leaves. The author checked current Microsoft sources on October 21, 2026. These items do not establish complete objective coverage. The export item addresses a technical setting. No live Power BI report was tested.
+
+| Question | Behavior card | Objective |
+| --- | --- | --- |
+| pl300-pilot-024 | pl300-selection-layer-order | Group and layer visuals by using the Selection pane |
+| pl300-pilot-025 | pl300-personalization-visual-override | Enable personalization in a report, including personalized visuals |
+| pl300-pilot-026 | pl300-export-summarized-setting | Configure export settings |
+| pl300-pilot-027 | pl300-report-filter-all-pages | Apply slicing and filtering |
+| pl300-pilot-028 | pl300-analyze-previous-point | Use the Analyze feature in Power BI |
